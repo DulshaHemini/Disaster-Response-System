@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "disaster_management_db";
+$dbname = "DRCS";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);
@@ -26,15 +26,14 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    user_role ENUM('admin', 'affected', 'volunteer') NOT NULL,
+    user_role ENUM('admin', 'affected_people', 'volunteer') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
 
 //Create Admin table
 $sql = "CREATE TABLE IF NOT EXISTS admin (
-    admin_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT UNIQUE,
+    user_id INT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100),
     contact_no VARCHAR(15),
@@ -46,15 +45,12 @@ $conn->query($sql);
 
 //Create Affected people table
 $sql = "CREATE TABLE IF NOT EXISTS affected_people (
-    affected_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT UNIQUE,
+    user_id INT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
     contact_no VARCHAR(15),
-    address TEXT,
-    district VARCHAR(50),
     no_of_family_members INT,
-    urgent_level ENUM('low', 'medium', 'high'),
+    priority_level ENUM('low', 'medium', 'high'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -62,14 +58,11 @@ $sql = "CREATE TABLE IF NOT EXISTS affected_people (
 $conn->query($sql);
 
 //Create Volunteers table
-$sql = "CREATE TABLE IF NOT EXISTS volunteers (
-    volunteer_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT UNIQUE,
+$sql = "CREATE TABLE IF NOT EXISTS volunteer (
+    user_id INT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
     contact_no VARCHAR(15),
-    address TEXT,
-    district VARCHAR(50),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
