@@ -21,7 +21,7 @@ $conn->query($sql);
 // Select database
 $conn->select_db($dbname);
 
-// Create sers table
+// Create users table
 $sql = "CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -71,7 +71,39 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
 )";
 $conn->query($sql);
 
+$sql = "CREATE TABLE IF NOT EXISTS Location(
+    loc_id INT AUTO_INCREMENT PRIMARY KEY,
+    latitude DECIMAL (10,8),
+    longitude DECIMAL (10,8),
+    province VARCHAR (50) NOT NULL,
+    district VARCHAR (50) NOT NULL,
+    street VARCHAR (50) NOT NULL
+
+)";
+$conn->query($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS Request(
+    req_id INT PRIMARY KEY AUTO_INCREMENT,
+    req_name VARCHAR(255) NOT NULL,
+    req_type VARCHAR(50) NOT NULL,
+    description VARCHAR(256) ,
+    contact_number VARCHAR(20) NOT NULL,
+    priority VARCHAR(50) ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'Pending',
+    loc_id INT,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    ON UPDATE CASCADE
+    FOREIGN KEY (loc_id) REFERENCES Location(loc_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)";
+$conn->query($sql);
+
+
 echo "All tables created successfully!";
 
 $conn->close();
+
 ?>
