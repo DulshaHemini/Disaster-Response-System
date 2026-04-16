@@ -71,10 +71,11 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
 )";
 $conn->query($sql);
 
+//Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
     loc_id INT AUTO_INCREMENT PRIMARY KEY,
-    latitude DECIMAL (10,8),
-    longitude DECIMAL (10,8),
+    latitude DECIMAL (20,16),
+    longitude DECIMAL (20,16),
     province VARCHAR (50) NOT NULL,
     district VARCHAR (50) NOT NULL,
     street VARCHAR (50) NOT NULL
@@ -82,6 +83,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
 )";
 $conn->query($sql);
 
+//Create requests table
 $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
     req_name VARCHAR(255) NOT NULL,
