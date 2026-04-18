@@ -74,12 +74,15 @@ $conn->query($sql);
 //Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
     loc_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     latitude DECIMAL (20,16),
     longitude DECIMAL (20,16),
     province VARCHAR (50) NOT NULL,
     district VARCHAR (50) NOT NULL,
-    street VARCHAR (50) NOT NULL
-
+    street VARCHAR (50) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 )";
 $conn->query($sql);
 
@@ -88,15 +91,15 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
     req_name VARCHAR(255) NOT NULL,
     req_type VARCHAR(50) NOT NULL,
-    description VARCHAR(256) ,
+    description VARCHAR(256),
     contact_number VARCHAR(20) NOT NULL,
-    priority VARCHAR(50) ,
+    priority_level ENUM('low', 'medium', 'high'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
     loc_id INT,
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    ON UPDATE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON UPDATE CASCADE,
     FOREIGN KEY (loc_id) REFERENCES Location(loc_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
