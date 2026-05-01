@@ -39,7 +39,6 @@ $sql = "CREATE TABLE IF NOT EXISTS admin (
     contact_no VARCHAR(15),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
 )";
 $conn->query($sql);
 
@@ -53,7 +52,6 @@ $sql = "CREATE TABLE IF NOT EXISTS affected_people (
     priority_level ENUM('low', 'medium', 'high'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
 )";
 $conn->query($sql);
 
@@ -67,7 +65,6 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
 )";
 $conn->query($sql);
 
@@ -82,7 +79,6 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
     street VARCHAR (50) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
 )";
 $conn->query($sql);
 
@@ -102,10 +98,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     ON UPDATE CASCADE,
     FOREIGN KEY (loc_id) REFERENCES Location(loc_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
 )";
 $conn->query($sql);
-
 
 echo "All tables created successfully!";
 
