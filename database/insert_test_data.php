@@ -1,5 +1,7 @@
 <?php
 
+require_once "../config/config.php";
+
 // Users
 $conn->query("INSERT INTO users (username, password, user_role) VALUES
 ('admin1', 'hashed_pass1', 'admin'),
