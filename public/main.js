@@ -15,18 +15,30 @@ function scrollTo(id) {
 }
 
 /* ── LANGUAGE SWITCHER ── */
-const labels = {
-  en: { help: 'INSTANT HELP', signin: 'Sign In', signup: 'Sign Up' },
-  si: { help: 'ක්‍ෂණික සහාය', signin: 'පිවිසෙන්න', signup: 'ලියාපදිංචි' },
-  ta: { help: 'உடனடி உதவி', signin: 'உள்நுழை', signup: 'பதிவு செய்' }
-};
+let currentLang = localStorage.getItem('drcs_lang') || 'en';
+
 function setLang(l) {
+  currentLang = l;
+  localStorage.setItem('drcs_lang', l);
+  
+  // Update buttons
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.querySelector('.btn-help').textContent = '🚨 ' + labels[l].help;
-  document.querySelectorAll('.btn-outline')[0].textContent = labels[l].signin;
-  document.querySelector('.btn-fill').textContent = labels[l].signup;
+  const btn = document.querySelector(`.lang-btn[data-lang="${l}"]`);
+  if (btn) btn.classList.add('active');
+
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (window.translations && window.translations[l] && window.translations[l][key]) {
+      el.innerHTML = window.translations[l][key];
+    }
+  });
 }
+
+// Initialize on load
+document.addEventListener("DOMContentLoaded", () => {
+  setLang(currentLang);
+});
 
 /* ── MODAL HELPERS ── */
 function inputStyle() {
@@ -47,11 +59,12 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 
 /* ── INSTANT HELP ── */
 function instantHelp() {
+  const t = window.translations[currentLang];
   document.getElementById('modal-content').innerHTML = `
-    <h2 style="font-family:var(--font-hd);font-size:2rem;color:var(--accent);margin-bottom:.5rem;">🚨 INSTANT HELP</h2>
-    <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;">Emergency contacts — available 24 / 7</p>
+    <h2 style="font-family:var(--font-hd);font-size:2rem;color:var(--accent);margin-bottom:.5rem;">${t['modal-help-title']}</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;">${t['modal-help-sub']}</p>
     <div style="display:grid;gap:.75rem;">
-      ${[['🏥 Ambulance','110'],['🚒 Fire & Rescue','111'],['👮 Police Emergency','119'],['🌊 Disaster Hotline','1919'],['☎️ NDMA HQ','0112136136']].map(([l,n]) =>
+      ${[[t['modal-amb'],'110'],[t['modal-fire'],'111'],[t['modal-pol'],'119'],[t['modal-dis'],'1919'],[t['modal-ndma'],'0112136136']].map(([l,n]) =>
         `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;">
           <span style="font-size:.9rem;">${l}</span>
           <a href="tel:${n}" style="font-family:var(--font-mn);color:var(--accent);font-weight:700;text-decoration:none;">${n}</a>
@@ -62,32 +75,33 @@ function instantHelp() {
 
 /* ── SIGN IN / SIGN UP ── */
 function openModal(type) {
+  const t = window.translations[currentLang];
   if (type === 'signin') {
     document.getElementById('modal-content').innerHTML = `
-      <h2 style="font-family:var(--font-hd);font-size:2rem;margin-bottom:1.5rem;">Sign In</h2>
+      <h2 style="font-family:var(--font-hd);font-size:2rem;margin-bottom:1.5rem;">${t['modal-signin-title']}</h2>
       <div style="display:flex;flex-direction:column;gap:1rem;">
-        <input type="text"     placeholder="Username / Email" style="${inputStyle()}">
-        <input type="password" placeholder="Password"         style="${inputStyle()}">
-        <button style="${btnStyle('var(--accent)')}" onclick="alert('Login submitted')">Sign In</button>
-        <p style="text-align:center;font-size:.82rem;color:var(--muted);">Don't have an account?
-          <a href="#" onclick="openModal('signup');return false;" style="color:var(--accent)">Sign Up</a></p>
+        <input type="text"     placeholder="${t['modal-user']}" style="${inputStyle()}">
+        <input type="password" placeholder="${t['modal-pass']}"         style="${inputStyle()}">
+        <button style="${btnStyle('var(--accent)')}" onclick="alert('Login submitted')">${t['modal-signin-title']}</button>
+        <p style="text-align:center;font-size:.82rem;color:var(--muted);">${t['modal-noacc']}
+          <a href="#" onclick="openModal('signup');return false;" style="color:var(--accent)">${t['modal-signup-btn']}</a></p>
       </div>`;
   } else {
     document.getElementById('modal-content').innerHTML = `
-      <h2 style="font-family:var(--font-hd);font-size:2rem;margin-bottom:1.5rem;">Create Account</h2>
+      <h2 style="font-family:var(--font-hd);font-size:2rem;margin-bottom:1.5rem;">${t['modal-signup-title']}</h2>
       <div style="display:flex;flex-direction:column;gap:1rem;">
-        <input type="text"     placeholder="Full Name" style="${inputStyle()}">
-        <input type="email"    placeholder="Email"     style="${inputStyle()}">
-        <input type="password" placeholder="Password"  style="${inputStyle()}">
+        <input type="text"     placeholder="${t['modal-name']}" style="${inputStyle()}">
+        <input type="email"    placeholder="${t['modal-email']}"     style="${inputStyle()}">
+        <input type="password" placeholder="${t['modal-pass']}"  style="${inputStyle()}">
         <select style="${inputStyle()}">
-          <option value="">Select Role</option>
-          <option>First Responder</option>
-          <option>Field Coordinator</option>
-          <option>Government Agency</option>
-          <option>NGO / Volunteer</option>
-          <option>Public User</option>
+          <option value="">${t['modal-role']}</option>
+          <option>${t['modal-r1']}</option>
+          <option>${t['modal-r2']}</option>
+          <option>${t['modal-r3']}</option>
+          <option>${t['modal-r4']}</option>
+          <option>${t['modal-r5']}</option>
         </select>
-        <button style="${btnStyle('var(--accent)')}" onclick="alert('Registration submitted')">Create Account</button>
+        <button style="${btnStyle('var(--accent)')}" onclick="alert('Registration submitted')">${t['modal-create-btn']}</button>
       </div>`;
   }
   showModal();
