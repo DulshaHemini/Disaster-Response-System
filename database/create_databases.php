@@ -88,7 +88,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
     req_name VARCHAR(255) NOT NULL,
     req_type VARCHAR(50) NOT NULL,
-    resource_type ENUM('Medicals', 'Foods', 'Shelters', 'Cloths', 'Money') NOT NULL,
+    resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
     resource_count INT,
     no_of_affected_people INT,
     description VARCHAR(256),
