@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Name:</label><br>
         <input type="text" name="username" id="username" placeholder="Enter Your Name" required><br><br>
         
-        <label>Request Type</label><br>
+        <label>Request Name </label><br>
         <input type="text" name="req_type" placeholder="What is the issue"><br><br>
         
         <label>Description:</label><br>
@@ -37,13 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="affected_people" pattern="[0-9]+"><br><br>
 
         <label>Resource Count: </label>
-        <input type="text" name="resource_count" required><br><br>
+        <input type="text" name="resource_count" pattern="[0-9]+"><br><br>
 
         <label>Resource Type: </label>
         <input type="text" name="Resource_type" required><br> <br>
 
         <label>Contact Number: </label><br>
-        <input type="text" name="contact_number" id="contact_number" placeholder="Phone Number"><br><br>
+        <input type="text" name="contact_number" pattern="[0-9]+" id="contact_number" placeholder="Phone Number"><br><br>
 
         <label>E mail: </label><br>
         <input type="text" name="email" id="email" placeholder="email"><br><br>
