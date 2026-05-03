@@ -37,6 +37,8 @@ $sql = "CREATE TABLE IF NOT EXISTS admin (
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100),
     contact_no VARCHAR(15),
+    age int(2),
+    gender ENUM('male', 'female'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
@@ -48,6 +50,8 @@ $sql = "CREATE TABLE IF NOT EXISTS affected_people (
     full_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
     contact_no VARCHAR(15),
+    age int(2),
+    gender ENUM('male', 'female'),
     no_of_family_members INT,
     priority_level ENUM('low', 'medium', 'high'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -61,6 +65,8 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     full_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
     contact_no VARCHAR(15),
+    age int(2),
+    gender ENUM('male', 'female'),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
