@@ -87,11 +87,11 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
     req_name VARCHAR(255) NOT NULL,
-    req_type VARCHAR(50) NOT NULL,
+    req_type ENUM('tornadoes', 'tsunamis', 'landslides', 'avalanches', 'heat waves') NOT NULL,
     resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
     resource_count INT,
     no_of_affected_people INT,
-    description VARCHAR(256),
+    description VARCHAR(255),
     contact_number VARCHAR(20) NOT NULL,
     priority_level ENUM('low', 'medium', 'high'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
