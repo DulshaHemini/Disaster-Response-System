@@ -74,9 +74,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
     user_id INT,
     latitude DECIMAL (20,16),
     longitude DECIMAL (20,16),
-    province VARCHAR (50) NOT NULL,
-    district VARCHAR (50) NOT NULL,
-    street VARCHAR (50) NOT NULL,
+    district VARCHAR (50),
+    city VARCHAR (50),
+    street VARCHAR (50),
+    home_no VARCHAR (50),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
