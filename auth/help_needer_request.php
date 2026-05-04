@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <h1>Request Submission Form</h1>
         
-        <form method="POST" id="instantHelp">
+        <form method="POST" id="Helpneeder">
 
         <label>Name:</label><br>
         <input type="text" name="username" id="username" value="Dilmi" placeholder="Enter Your Name" required><br><br>
@@ -30,29 +30,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Request Type</label><br>
         <input type="text" name="req_type" placeholder="What is the issue"><br><br>
         
-        <label>Select District</label> <br>
-        <inputlist="districtlist" placeholder="Type or select province"></inputlist>
-            <datalist id="districtlist">
-                <option value=""></option>
-            </datalist>
+        <label>Select District</label><br>
+
+        <input type="text" name="district" list="districtlist" placeholder="Type or select district" required>
+
+        <datalist id="districtlist">
+            <option value="Ampara">
+            <option value="Anuradhapura">
+            <option value="Badulla">
+            <option value="Batticaloa">
+            <option value="Colombo">
+            <option value="Galle">
+            <option value="Gampaha">
+            <option value="Hambantota">
+            <option value="Jaffna">
+            <option value="Kalutara">
+            <option value="Kandy">
+            <option value="Kegalle">
+            <option value="Kilinochchi">
+            <option value="Kurunegala">
+            <option value="Mannar">
+            <option value="Matale">
+            <option value="Matara">
+            <option value="Monaragala">
+            <option value="Mullaitivu">
+            <option value="Nuwara Eliya">
+            <option value="Polonnaruwa">
+            <option value="Puttalam">
+            <option value="Ratnapura">
+            <option value="Trincomalee">
+            <option value="Vavuniya">
+        </datalist><br><br>
+
         <label>Description:</label><br>
         <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
 
         <label>Number Of affected People: </label>
         <input type="text" name="affected_people" pattern="[0-9]+"><br><br>
 
+        <label>Resource Type:</label><br>
+
+        <select name="resource_type" id="resource_type" onchange="showOtherField()" required>
+            <option value="">-- Select Resource Type --</option>
+            <option value="medicine">Medicine</option>
+            <option value="foods">Foods</option>
+            <option value="shelters">Shelters</option>
+            <option value="clothes">Clothes</option>
+            <option value="money">Money</option>
+            <option value="other">Other</option>
+        </select><br><br>
+
+        <div id="otherResourceDiv" style="display:none;">
+            <label>Enter Resource Type:</label><br>
+            <input type="text" name="other_resource_type" placeholder="Type resource type"><br><br>
+        </div>
+
+        <script>
+            function showOtherField() {
+                const resourceType = document.getElementById("resource_type").value;
+                const otherDiv = document.getElementById("otherResourceDiv");
+
+                if (resourceType === "other") {
+                    otherDiv.style.display = "block";
+                } else {
+                    otherDiv.style.display = "none";
+                }
+        }
+        </script>
+
         <label>Resource Count: </label>
         <input type="text" name="resource_count" required><br><br>
 
-        <label>Resource Type: </label>
-        <input type="text" name="Resource_type" required><br> <br>
-
         <label>Contact Number: </label><br>
-        <input type="text" name="contact_number" id="contact_number" placeholder="Phone Number"><br><br>
+        <input type="text" name="contact_number" id="contact_number" placeholder="Phone Number" required><br><br>
 
         <label>E mail: </label><br>
         <input type="text" name="email" id="email" placeholder="email"><br><br>
 
+        <label>City:</label>
+        <input type="text" name="city" id="city" placeholder="city"><br><br>
+
+        <label>Street:</label>
+        <input type="text" name="street" id="street" placeholder="street"><br><br>
+
+        <label>Home Number: </label>
+        <input type="text" name="home_number" id="home_number" placeholder="Home number"><br><br>
 
         <label>Priority:</label><br>
         <select name="priority_level" required >
