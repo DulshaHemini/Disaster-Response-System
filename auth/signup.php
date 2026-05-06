@@ -1,3 +1,4 @@
+
 <?php
 $lat = "";
 $lon = "";
@@ -15,51 +16,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <style>
     body {
-        font-family: Arial;
-        background: #f4f4f4;
-    }
-
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+    
     .container {
-        width: 500px;
-        margin: 40px auto;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-    }
+            width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
 
-    .step {
-        display: none;
-    }
-
-    .active {
-        display: block;
-    }
-
-    input, select {
-        width: 100%;
-        padding: 8px;
-        margin: 8px 0;
-    }
-
-    button {
-        padding: 10px;
-        width: 100%;
-        background: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    button:hover {
-        background: #0056b3;
-    }
+    h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
     label {
-        font-weight: bold;
-        display: block;
-        margin-top: 10px;
-    }
+            font-weight: bold;
+        }
+
+    input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+    button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    button:hover {
+            background: #0056b3;
+        }
+
+    .error {
+            color: red;
+            font-size: 14px;
+        }
 
     #map {
                 width: 500px;
@@ -74,94 +79,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="container">
+    <h2>User Registration</h2>
 
-<form id="regForm" method="POST" action="Controller/RegisterController.php">
+    <form action="submit.php" method="POST" onsubmit="return validateForm()">
 
-    <!-- STEP 1 -->
-    <div class="step active" id="step1">
-        <h3>User Registration</h3>
+        <label>Username:</label>
+        <input type="text" name="username" id="username" required>
 
-        <label>Username</label>
-        <input type="text" name="username" placeholder="Enter username" required>
+        <label>Password:</label>
+        <input type="password" name="password" id="password" required>
 
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter password" required>
-
-        <label>User Role</label>
-        <select name="user_role" id="role" required>
+        <label>User Role:</label>
+        <select name="user_role" id="user_role" required>
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="affected_people">Affected People</option>
             <option value="volunteer">Volunteer</option>
         </select>
 
-        <button type="button" onclick="nextStep()">Next</button>
-    </div>
-
-    <!-- ADMIN -->
-    <div class="step" id="adminForm">
-        <h3>Admin Details</h3>
-
-        <label>Full Name</label>
+        <label>Full Name:</label>
         <input type="text" name="full_name" required>
 
-        <label>Email</label>
-        <input type="email" name="email" placeholder="gamageparanavithana@gmail.com">
+        <label>Email:</label>
+        <input type="email" name="email" id="email" placeholder="kapugedara@gmail.com">
 
-        <label>Contact Number</label>
-        <input type="text" name="contact_no" placeholder="+94 xxxxxxxxx">
+        <label>Contact No:</label>
+        <input type="text" name="contact_no" id="contact_no" placeholder="+94 712345678">
 
-        <button type="submit">Register</button>
-    </div>
+        <label>Age:</label>
+        <input type="number" name="age" id="age" min="1" max="99">
 
-    <!-- AFFECTED PEOPLE -->
-    <div class="step" id="affectedForm">
-        <h3>Affected People Details</h3>
+        <label>Gender:</label>
+        <select name="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
 
-        <label>Full Name</label>
-        <input type="text" name="full_name" required>
+        <label>NIC:</label>
+        <input type="text" name="nic" id="nic">
 
-        <label>NIC</label>
-        <input type="text" name="nic">
-
-        <label>Contact Number</label>
-        <input type="text" name="contact_no" placeholder="+94 xxxxxxxxx">
-
-        <label>No of Family Members</label>
+        <label>No. of Family Members:</label>
         <input type="number" name="no_of_family_members">
 
-        <label>Priority Level</label>
+        <label>Priority Level:</label>
         <select name="priority_level">
-            <option value="">Select Priority Level</option>
+            <option value="">Select Priority</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
         </select>
 
-        <button type="submit">Register</button>
-    </div>
-
-    <!-- VOLUNTEER -->
-    <div class="step" id="volunteerForm">
-        <h3>Volunteer Details</h3>
-
-        <label>Full Name</label>
-        <input type="text" name="full_name" required>
-
-        <label>NIC</label>
-        <input type="text" name="nic">
-
-        <label>Contact Number</label>
-        <input type="text" name="contact_no" placeholder="+94 xxxxxxxxx">
-
-        <label>Availability Status</label>
+        <label>Availability Status:</label>
         <select name="availability_status">
             <option value="available" selected>Available</option>
             <option value="busy">Busy</option>
         </select>
 
-        <label>Organization Name</label>
+        <label>Organization Name:</label>
         <input type="text" name="organization_name">
+
+        <div id="errorMsg" class="error"></div>
 
         <button type="button" onclick="getLocation()">Get My Location</button><br><br>
         <iframe
@@ -179,33 +157,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>">
         </iframe>
 
+
         <button type="submit">Register</button>
-    </div>
 
-</form>
-
+    </form>
 </div>
 
+
 <script>
-function nextStep() {
-    let role = document.getElementById("role").value;
-
-    document.getElementById("step1").classList.remove("active");
-
-    if (role === "admin") {
-        document.getElementById("adminForm").classList.add("active");
-    } 
-    else if (role === "affected_people") {
-        document.getElementById("affectedForm").classList.add("active");
-    } 
-    else if (role === "volunteer") {
-        document.getElementById("volunteerForm").classList.add("active");
-    } 
-    else {
-        alert("Please select a role");
-        document.getElementById("step1").classList.add("active");
-    }
-}
 
 function getLocation() {
             if (navigator.geolocation) {
