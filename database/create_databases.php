@@ -98,7 +98,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     status VARCHAR(50) DEFAULT 'Pending',
     is_instant TINYINT(1) DEFAULT 0,
     loc_id INT,
-    user_id INT DE,
+    user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
     FOREIGN KEY (loc_id) REFERENCES Location(loc_id) ON UPDATE CASCADE
 )";
