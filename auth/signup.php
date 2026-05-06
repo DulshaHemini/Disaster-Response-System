@@ -203,6 +203,64 @@ function getLocation() {
             alert("Error getting location: " + error.message);
         }
         
+function validateForm() {
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let contact = document.getElementById("contact_no").value.trim();
+    let age = document.getElementById("age").value.trim();
+    let nic = document.getElementById("nic").value.trim();
+    let role = document.getElementById("user_role").value;
+
+    let errorMsg = "";
+
+    // Username validation
+    if (username.length < 4) {
+        errorMsg += "Username must be at least 4 characters long.<br>";
+    }
+
+    // Password validation
+    if (password.length < 6) {
+        errorMsg += "Password must be at least 6 characters long.<br>";
+    }
+
+    // Role validation
+    if (role === "") {
+        errorMsg += "Please select a user role.<br>";
+    }
+
+    // Email validation
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (email !== "" && !email.match(emailPattern)) {
+        errorMsg += "Invalid email format.<br>";
+    }
+
+    // Contact number validation (Sri Lanka format)
+    let phonePattern = /^(\+94|0)[0-9]{9}$/;
+    if (contact !== "" && !contact.match(phonePattern)) {
+        errorMsg += "Invalid contact number (use +947XXXXXXXX or 07XXXXXXXX).<br>";
+    }
+
+    // Age validation
+    if (age !== "" && (age < 1 || age > 99)) {
+        errorMsg += "Age must be between 1 and 99.<br>";
+    }
+
+    // NIC validation (old + new)
+    let nicPattern = /^([0-9]{9}[vVxX]|[0-9]{12})$/;
+    if (nic !== "" && !nic.match(nicPattern)) {
+        errorMsg += "Invalid NIC format.<br>";
+    }
+
+    // Show errors
+    if (errorMsg !== "") {
+        document.getElementById("errorMsg").innerHTML = errorMsg;
+        return false;
+    }
+
+    return true;
+}
+
 </script>
 
 </body>
