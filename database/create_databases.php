@@ -30,36 +30,47 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
+echo "Users People table created successfully!<br>";
 
 //Create Admin table
 $sql = "CREATE TABLE IF NOT EXISTS admin (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    age INT,
     email VARCHAR(100),
     contact_no VARCHAR(15),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Admin table created successfully!<br>";
 
 //Create Affected people table
 $sql = "CREATE TABLE IF NOT EXISTS affected_people (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL, 
+    last_name VARCHAR(100) NOT NULL, 
+    age INT,
+    no_of_family_members INT,
+    gender ENUM('Male', 'Female') NOT NULL,
+    priority_level ENUM('low', 'medium', 'high'),
     nic VARCHAR(20),
     contact_no VARCHAR(15),
-    no_of_family_members INT,
-    priority_level ENUM('low', 'medium', 'high'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Affected People table created successfully!<br>";
 
 //Create Volunteers table
 $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
+    gender ENUM('Male', 'Female') NOT NULL,
     contact_no VARCHAR(15),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
@@ -67,6 +78,7 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Volunteer table created successfully!<br>";
 
 //Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
@@ -82,10 +94,13 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
     ON DELETE CASCADE
 )";
 $conn->query($sql);
-
+echo "Location table created successfully!<br>";
+  
 //Create requests table
 $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
+    affected_people_id INT,
+    loc_id INT,
     req_name VARCHAR(255) NOT NULL,
     req_type ENUM('tornadoes', 'tsunamis', 'landslides', 'avalanches', 'heat waves') NOT NULL,
     resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
@@ -97,13 +112,11 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
     is_instant TINYINT(1) DEFAULT 0,
-    loc_id INT,
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (affected_people_id) REFERENCES affected_people(user_id) ON DELETE SET NULL,
     FOREIGN KEY (loc_id) REFERENCES Location(loc_id) ON UPDATE CASCADE
 )";
 $conn->query($sql);
-
+echo "Request table created successfully!<br>";
 
 $sql = "CREATE TABLE IF NOT EXISTS resourc(
     resource_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -116,7 +129,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resourc(
     ON DELETE CASCADE
 )";
 $conn->query($sql);
-
+echo "Resourc table created successfully!<br>";
 
 $sql = "CREATE TABLE IF NOT EXISTS assignment(
     assignment_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -131,19 +144,9 @@ $sql = "CREATE TABLE IF NOT EXISTS assignment(
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
 )";
 $conn->query($sql);
+echo "Assignment table created successfully!<br>";
 
 
-$sql = "CREATE TABLE IF NOT EXISTS money_allocation(
-    allocation_id INT PRIMARY KEY AUTO_INCREMENT,
-    admin_id INT NOT NULL,
-    req_id INT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    note TEXT,
-    allocated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (admin_id) REFERENCES admin(user_id),
-    FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE
-)";
-$conn->query($sql);
 
 
 echo "All tables created successfully!";
