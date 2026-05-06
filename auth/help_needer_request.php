@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <h1>Request Submission Form</h1>
         
-        <form method="POST" id="Helpneeder">
+        <form method="POST" id="helpNeeder" action="submit_request.php">
 
         <label>Name:</label><br>
         <input type="text" name="username" id="username" value="Dilmi" placeholder="Enter Your Name" required><br><br>
@@ -141,29 +141,107 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             ?>">
         </iframe>
+        <br><br>
 
         <button type="submit">Submit Request</button>
         </form>
 
         <script>
-            document.getElementById("instantHelp").addEventListener("submit", function(event){
-                    event.preventDefault();
 
+        document.getElementById("helpNeeder").addEventListener("submit", function(event){
 
-            });
-            function getLocation() {
+            let reqType = document.querySelector("input[name='req_type']").value.trim();
+            let district = document.querySelector("input[name='district']").value.trim();
+            let description = document.querySelector("textarea[name='description']").value.trim();
+            let affectedPeople = document.querySelector("input[name='affected_people']").value;
+            let resourceType = document.getElementById("resource_type").value;
+            let resourceCount = document.querySelector("input[name='resource_count']").value;
+            let contact = document.getElementById("contact_number").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let city = document.getElementById("city").value.trim();
+            let street = document.getElementById("street").value.trim();
+            let otherResource = document.querySelector("input[name='other_resource_type']").value.trim();
+
+            if(reqType === ""){
+                alert("Please enter request type");
+                event.preventDefault();
+                return;
+            }
+
+            if(district === ""){
+                alert("Please select district");
+                event.preventDefault();
+                return;
+            }
+
+            if(description === ""){
+                alert("Please enter description");
+                event.preventDefault();
+                return;
+            }
+
+            if(affectedPeople <= 0 || affectedPeople === ""){
+                alert("Enter valid affected people count");
+                event.preventDefault();
+                return;
+            }
+
+            if(resourceType === ""){
+                alert("Please select resource type");
+                event.preventDefault();
+                return;
+            }
+
+            if(resourceType === "other" && otherResource === ""){
+                alert("Please specify other resource type");
+                event.preventDefault();
+                return;
+            }
+
+            if(resourceCount <= 0 || resourceCount === ""){
+                alert("Enter valid resource count");
+                event.preventDefault();
+                return;
+            }
+
+            if(!/^07[0-9]{8}$/.test(contact)){
+                alert("Enter valid Sri Lankan contact number");
+                event.preventDefault();
+                return;
+            }
+
+            if(email !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+                alert("Enter valid email address");
+                event.preventDefault();
+                return;
+            }
+
+            if(city === ""){
+                alert("Please enter city");
+                event.preventDefault();
+                return;
+            }
+
+            if(street === ""){
+                alert("Please enter street");
+                event.preventDefault();
+                return;
+            }
+
+        });
+
+        function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(sendToPHP, showError);
             } else {
                 alert("Geolocation is not supported by your browser.");
             }
-            }
+        }
 
-            function sendToPHP(position) {
+        function sendToPHP(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
 
-            // Submit coordinates to PHP
             const form = document.createElement("form");
             form.method = "POST";
             form.action = "";
@@ -180,6 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             form.appendChild(latInput);
             form.appendChild(lonInput);
+
             document.body.appendChild(form);
             form.submit();
         }
@@ -187,7 +266,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         function showError(error) {
             alert("Error getting location: " + error.message);
         }
+
         </script>
+
     </body>
 </html>
 
