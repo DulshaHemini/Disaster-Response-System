@@ -118,7 +118,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
 $conn->query($sql);
 echo "Request table created successfully!<br>";
 
-$sql = "CREATE TABLE IF NOT EXISTS resourc(
+$sql = "CREATE TABLE IF NOT EXISTS resources(
     resource_id INT PRIMARY KEY AUTO_INCREMENT,
     volunteer_id INT,
     resource_name VARCHAR (100),
@@ -129,7 +129,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resourc(
     ON DELETE CASCADE
 )";
 $conn->query($sql);
-echo "Resourc table created successfully!<br>";
+echo "Resources table created successfully!<br>";
 
 $sql = "CREATE TABLE IF NOT EXISTS assignment(
     assignment_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -140,7 +140,7 @@ $sql = "CREATE TABLE IF NOT EXISTS assignment(
     description TEXT,
     status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
     FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resourc(resource_id),
+    FOREIGN KEY (resource_id) REFERENCES resources(resource_id),
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
 )";
 $conn->query($sql);
@@ -153,3 +153,4 @@ echo "All tables created successfully!";
 
 $conn->close();
 
+?>
