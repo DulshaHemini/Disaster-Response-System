@@ -36,8 +36,11 @@ $conn->query("CREATE TABLE IF NOT EXISTS admin (
     age INT,
     email VARCHAR(100),
     contact_no VARCHAR(15),
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-)");
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Admin table created successfully!<br>";
 
 // 3. Affected People Table
 $conn->query("CREATE TABLE IF NOT EXISTS affected_people (
@@ -61,7 +64,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS volunteer (
     nic VARCHAR(20),
     gender ENUM('Male', 'Female') NOT NULL,
     contact_no VARCHAR(15),
-    age INT,
+    age int(2),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
