@@ -1,128 +1,119 @@
 <?php
 $lat = "";
 $lon = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
 }
 ?>
-<html>
-    <head>
-        <title></title>
-        <style>
-            #map {
-                width: 500px;
-                height: 400px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: none;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Instant Help Request</h1>
-        
-        <form method="POST" id="instantHelp">
 
-        <label>Name:</label><br>
-        <input type="text" name="username" id="username" placeholder="Enter Your Name" required><br><br>
-        
-        <label>Request Type</label><br>
-        <input type="text" name="req_type" placeholder="What is the issue"><br><br>
-        
-        <label>Description:</label><br>
-        <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Help Request</title>
 
-        <label>Number Of affected People: </label>
-        <input type="text" name="affected_people" pattern="[0-9]+"><br><br>
+    <style>
+        #map {
+            width: 500px;
+            height: 400px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: none;
+        }
+    </style>
+</head>
 
-        <label>Resource Count: </label>
-        <input type="text" name="resource_count" required><br><br>
+<body>
 
-        <label>Resource Type: </label>
-        <input type="text" name="Resource_type" required><br> <br>
+<h1>Instant Help Request</h1>
 
-        <label>Contact Number: </label><br>
-        <input type="text" name="contact_number" id="contact_number" placeholder="Phone Number"><br><br>
+<form method="POST" id="instantHelp">
 
-        <label>E mail: </label><br>
-        <input type="text" name="email" id="email" placeholder="email"><br><br>
+    <label>Name:</label><br>
+    <input type="text" name="username" placeholder="Enter Your Name" required><br><br>
 
+    <label>Request Name:</label><br>
+    <input type="text" name="req_type" placeholder="What is the issue"><br><br>
 
-        <label>Priority:</label><br>
-        <select name="priority_level" required >
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-            <option value="high">High</option>
-        </select><br><br>
+    <label>Description:</label><br>
+    <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
 
-        <label>Location:</label><br>
-        
+    <label>Number Of affected People:</label><br>
+    <input type="number" name="affected_people" min="1"><br><br>
 
-        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
-        <iframe
-            id="map"
-            style="border:0; border-radius:8px;"
-            loading="lazy"
-            allowfullscreen
-            src="<?php
-                // Default = Sri Lanka, user location after POST
-                if ($lat && $lon) {
-                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-                } else {
-                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-                }
-            ?>">
-        </iframe>
+    <label>Resource Count:</label><br>
+    <input type="number" name="resource_count" min="1"><br><br>
 
-        <button type="submit">Submit Request</button>
-        </form>
+    <label>Resource Type:</label><br>
+    <input type="text" name="resource_type" required><br><br>
 
-        <script>
-            document.getElementById("instantHelp").addEventListener("submit", function(event){
-                    event.preventDefault();
+    <label>Contact Number:</label><br>
+    <input type="tel" name="contact_number" pattern="[0-9]{10}" placeholder="07XXXXXXXX" required><br><br>
 
+    <label>Email:</label><br>
+    <input type="email" name="email" placeholder="example@email.com" required><br><br>
 
-            });
-            function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendToPHP, showError);
+    <label>Priority:</label><br>
+    <select name="priority_level" required>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+        <option value="high">High</option>
+    </select><br><br>
+
+    <label>Location:</label><br>
+    <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+
+    <!-- Hidden inputs for lat/lon -->
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lon" id="lon">
+
+    <iframe
+        id="map"
+        loading="lazy"
+        allowfullscreen
+        src="<?php
+            if ($lat && $lon) {
+                echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
             } else {
-                alert("Geolocation is not supported by your browser.");
+                echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
             }
-            }
+        ?>">
+    </iframe>
 
-            function sendToPHP(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+    <br><br>
+    <button type="submit">Submit Request</button>
 
-            // Submit coordinates to PHP
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "";
+</form>
 
-            const latInput = document.createElement("input");
-            latInput.type = "hidden";
-            latInput.name = "lat";
-            latInput.value = lat;
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setLocation, showError);
+    } else {
+        alert("Geolocation is not supported by your browser.");
+    }
+}
 
-            const lonInput = document.createElement("input");
-            lonInput.type = "hidden";
-            lonInput.name = "lon";
-            lonInput.value = lon;
+function setLocation(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
 
-            form.appendChild(latInput);
-            form.appendChild(lonInput);
-            document.body.appendChild(form);
-            form.submit();
-        }
+    // Set hidden inputs
+    document.getElementById("lat").value = lat;
+    document.getElementById("lon").value = lon;
 
-        function showError(error) {
-            alert("Error getting location: " + error.message);
-        }
-        </script>
-    </body>
+    // Update map instantly
+    document.getElementById("map").src =
+        `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+}
+
+function showError(error) {
+    alert("Error getting location: " + error.message);
+}
+</script>
+
+</body>
 </html>
-
-
-
