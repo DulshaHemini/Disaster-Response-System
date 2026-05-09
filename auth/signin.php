@@ -1,30 +1,41 @@
+
 <?php
 require_once '../config/config.php';
 
 $message = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $name = $_POST['username'];
     $password = $_POST['password'];
 
-    // Get user by username
     $sql = "SELECT * FROM user WHERE name='$name'";
     $result = mysqli_query($conn, $sql);
 
     if ($row = mysqli_fetch_assoc($result)) {
-
-        // Verify hashed password
+        
         if (password_verify($password, $row['password'])) {
             $message = "Login Successful!";
-        } else {
-            $message = "Invalid Password!";
+            
+            if ($row['user_role']=== 'admin' ){
+                adminpage();
+            }elseif ($row['user_role']=== 'affected_people'){
+                affected_people();
+            }elseif ($row['user_role']=== 'volunteer'){
+                volunteer();
+            }else {
+               echo 'User Not Found!';
+            }
+
+            } else {
+                $message = "Invalid Password!";
+            }
         }
 
     } else {
         $message = "User Not Found!";
     }
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="submit" value="Submit">
 </form>
 
+<p>No account?<a href="signup.php">Sign up</a></p>
+
 <p style="color:red;"><?php echo $message; ?></p>
 
 <script>
@@ -54,7 +67,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     if (name === "" && pwd === "") {
         alert("Username and Password cannot be empty!");
         event.preventDefault();
-    } 
+    }
     else if (name === "") {
         alert("Username cannot be empty!");
         event.preventDefault();
@@ -64,6 +77,7 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
         event.preventDefault();
     }
 });
+
 </script>
 
 </body>
