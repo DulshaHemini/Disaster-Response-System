@@ -1,5 +1,7 @@
 <?php
 
+require_once "../config/config.php";
+
 // Users
 $conn->query("INSERT INTO users (username, password, user_role) VALUES
 ('admin1', 'hashed_pass1', 'admin'),
@@ -19,13 +21,13 @@ $conn->query("INSERT INTO affected_people (user_id, full_name, nic, contact_no, 
 (2, 'Sunil Fernando', '901234567V', '0722222222', 5, 'high'),
 (3, 'Kamal Silva', '880123456V', '0733333333', 3, 'medium')
 ");
-
+ 
 // Volunteers
 $conn->query("INSERT INTO volunteer (user_id, full_name, nic, contact_no, availability_status, organization_name) VALUES
 (4, 'Ruwan Jayasuriya', '850987654V', '0744444444', 'available', 'Red Cross'),
 (5, 'Saman Kumara', '920112233V', '0755555555', 'available', 'Local NGO')
 ");
-
+ 
 // Locations
 $conn->query("INSERT INTO Location (user_id, latitude, longitude, province, district, street) VALUES
 (2, 6.927079, 79.861244, 'Western', 'Colombo', 'Main Street'),
