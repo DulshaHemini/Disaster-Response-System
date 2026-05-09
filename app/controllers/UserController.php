@@ -1,6 +1,5 @@
 <?php
-
-require_once 'User.php';
+require_once __DIR__ . '/../models/User.php';
 
 class UserController {
 
@@ -8,8 +7,7 @@ class UserController {
         $model = new User();
         $users = $model->getUsers();
 
-        require 'user_view.php';
+        require __DIR__ . '/../views/user/list.php';
     }
 }
-
 ?>
