@@ -30,11 +30,15 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
+echo "Users People table created successfully!<br>";
 
 //Create Admin table
 $sql = "CREATE TABLE IF NOT EXISTS admin (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    age INT,
     email VARCHAR(100),
     contact_no VARCHAR(15),
     age int(2),
@@ -43,27 +47,32 @@ $sql = "CREATE TABLE IF NOT EXISTS admin (
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Admin table created successfully!<br>";
 
 //Create Affected people table
 $sql = "CREATE TABLE IF NOT EXISTS affected_people (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL, 
+    last_name VARCHAR(100) NOT NULL, 
+    age INT,
+    no_of_family_members INT,
+    gender ENUM('Male', 'Female') NOT NULL,
+    priority_level ENUM('low', 'medium', 'high'),
     nic VARCHAR(20),
     contact_no VARCHAR(15),
-    age int(2),
-    gender ENUM('male', 'female'),
-    no_of_family_members INT,
-    priority_level ENUM('low', 'medium', 'high'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Affected People table created successfully!<br>";
 
 //Create Volunteers table
 $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     user_id INT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
+    gender ENUM('Male', 'Female') NOT NULL,
     contact_no VARCHAR(15),
     age int(2),
     gender ENUM('male', 'female'),
@@ -73,6 +82,7 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Volunteer table created successfully!<br>";
 
 //Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
@@ -88,10 +98,13 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
     ON DELETE CASCADE
 )";
 $conn->query($sql);
-
+echo "Location table created successfully!<br>";
+  
 //Create requests table
 $sql = "CREATE TABLE IF NOT EXISTS Request(
     req_id INT PRIMARY KEY AUTO_INCREMENT,
+    affected_people_id INT,
+    loc_id INT,
     req_name VARCHAR(255) NOT NULL,
     req_type ENUM('tornadoes', 'tsunamis', 'landslides', 'avalanches', 'heat waves') NOT NULL,
     resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
@@ -103,12 +116,11 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
     is_instant TINYINT(1) DEFAULT 0,
-    loc_id INT,
-    user_id INT DE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (affected_people_id) REFERENCES affected_people(user_id) ON DELETE SET NULL,
     FOREIGN KEY (loc_id) REFERENCES Location(loc_id) ON UPDATE CASCADE
 )";
 $conn->query($sql);
+echo "Request table created successfully!<br>";
 
 
 $sql = "CREATE TABLE IF NOT EXISTS resourc(
@@ -122,6 +134,23 @@ $sql = "CREATE TABLE IF NOT EXISTS resourc(
     ON DELETE CASCADE
 )";
 $conn->query($sql);
+echo "Resourc table created successfully!<br>";
+
+
+$sql = "CREATE TABLE IF NOT EXISTS assignment(
+    assignment_id INT PRIMARY KEY AUTO_INCREMENT,
+    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    req_id INT NOT NULL,
+    resource_id INT,
+    volunteer_id INT,
+    description TEXT,
+    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
+    FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_id) REFERENCES resourc(resource_id),
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
+)";
+$conn->query($sql);
+echo "Assignment table created successfully!<br>";
 
 
 $sql = "CREATE TABLE IF NOT EXISTS assignment(

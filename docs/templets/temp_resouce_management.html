@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRCS · Volunteer Resource Inventory | Sri Lanka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --white: #ffffff;
+      --off: #f8f5f2;
+      --surface: #f2ede8;
+      --red: #c8102e;
+      --red-dk: #9b0b21;
+      --red-lt: #fbeaec;
+      --red-m: #f5c0c7;
+      --amber: #d97706;
+      --green: #15803d;
+      --blue: #1d4ed8;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --border: #e2ddd8;
+      --font-hd: 'Playfair Display', serif;
+      --font-bd: 'Outfit', sans-serif;
+      --font-mn: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+      --radius: 16px;
+    }
+
+    body {
+      background: var(--off);
+      font-family: var(--font-bd);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR (matching DRCS) */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 68px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg {
+      width: 22px;
+      fill: #fff;
+    }
+    .brand-text {
+      font-family: var(--font-hd);
+      font-size: 1.35rem;
+      color: var(--text);
+    }
+    .brand-text em {
+      color: var(--red);
+      font-style: normal;
+    }
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      color: var(--muted);
+      transition: 0.2s;
+    }
+    .nav-links a.active {
+      background: var(--red-lt);
+      color: var(--red);
+      font-weight: 600;
+    }
+    .nav-links a:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+    .volunteer-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      padding: 0.3rem 0.9rem 0.3rem 0.5rem;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-family: var(--font-mn);
+      font-size: 0.8rem;
+    }
+
+    /* main container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 3rem;
+    }
+
+    /* header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .title-section h1 {
+      font-family: var(--font-hd);
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+    }
+    .title-section p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+    .btn-primary {
+      background: var(--red);
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      font-family: var(--font-bd);
+      font-weight: 600;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85rem;
+    }
+    .btn-primary:hover {
+      background: var(--red-dk);
+      transform: translateY(-2px);
+    }
+
+    /* stat cards */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 1.2rem 1.5rem;
+      transition: 0.2s;
+    }
+    .stat-card:hover {
+      border-color: var(--red-m);
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .stat-number {
+      font-family: var(--font-hd);
+      font-size: 2.2rem;
+      line-height: 1;
+      color: var(--text);
+    }
+    .stat-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .stat-card.red .stat-number { color: var(--red); }
+    .stat-card.amber .stat-number { color: var(--amber); }
+    .stat-card.green .stat-number { color: var(--green); }
+
+    /* alert bar */
+    .alert-bar {
+      background: var(--red-lt);
+      border-left: 5px solid var(--red);
+      border-radius: 14px;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* filters + table wrapper */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .search-box {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 48px;
+      padding: 0.5rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 240px;
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: var(--font-bd);
+      font-size: 0.85rem;
+      width: 180px;
+    }
+    .filters {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    select {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      font-family: var(--font-bd);
+      font-size: 0.8rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .type-manager {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .type-manager input {
+      border: 1.5px solid var(--border);
+      border-radius: 40px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+    }
+    .btn-outline-sm {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline-sm:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .type-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+    .type-pill {
+      background: var(--surface);
+      border-radius: 30px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* table */
+    .table-wrapper {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th {
+      text-align: left;
+      padding: 1rem 1.2rem;
+      background: var(--off);
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mn);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .resource-name {
+      font-weight: 600;
+    }
+    .update-time {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .type-badge {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    .type-food { background: #e8f5e9; color: #2e7d32; }
+    .type-medicine { background: #fce4ec; color: #c2185b; }
+    .type-shelter { background: #e3f2fd; color: #1565c0; }
+    .type-transport { background: #fff3e0; color: #ef6c00; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .badge-stocked { background: #e0f2e9; color: #1a7a4a; }
+    .badge-low { background: #fff0db; color: #b45309; }
+    .badge-out { background: #fee2e2; color: #b91c1c; }
+    .qty-cell {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .action-icons {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      color: var(--muted);
+    }
+    .icon-btn:hover {
+      background: var(--surface);
+      color: var(--red);
+      border-color: var(--red-m);
+    }
+    .empty-row td {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--muted);
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-card {
+      background: white;
+      max-width: 480px;
+      width: 90%;
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-hd);
+      font-size: 1.2rem;
+    }
+    .modal-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .modal-body input, .modal-body select, .modal-body textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: var(--off);
+      font-family: var(--font-bd);
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1a1d23;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+      z-index: 1100;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg></div>
+    <span class="brand-text">DR<em>CS</em></span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Dashboard</a>
+    <a href="#" class="active">Inventory</a>
+    <a href="#">My Tasks</a>
+  </div>
+  <div class="volunteer-badge">
+    <div class="avatar">KV</div>
+    <span style="font-size:0.8rem;">Kavindi, Volunteer</span>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <div class="title-section">
+      <h1>📦 Volunteer Resource Inventory</h1>
+      <p>Track, manage & dispatch supplies for active disaster zones</p>
+    </div>
+    <button class="btn-primary" id="openAddModalBtn">+ Add Resource</button>
+  </div>
+
+  <!-- stats -->
+  <div class="stats-row" id="statsContainer"></div>
+
+  <!-- alert bar -->
+  <div class="alert-bar" id="alertBar" style="display: none;">
+    <span>⚠️</span> <span id="alertText"></span>
+  </div>
+
+  <!-- controls -->
+  <div class="action-bar">
+    <div class="search-box">
+      🔍 <input type="text" id="searchInput" placeholder="Search by name or type...">
+    </div>
+    <div class="filters">
+      <select id="typeFilter">
+        <option value="">All Types</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All Status</option>
+        <option value="Stocked">Stocked</option>
+        <option value="Running Low">Running Low</option>
+        <option value="Out of Stock">Out of Stock</option>
+      </select>
+    </div>
+  </div>
+  <div class="type-manager" style="margin-bottom: 1rem;">
+    <input type="text" id="newTypeInput" placeholder="New category (e.g., Hygiene)">
+    <button class="btn-outline-sm" id="addTypeBtn">+ Add Type</button>
+  </div>
+  <div id="typePillsContainer" class="type-pills"></div>
+
+  <!-- table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Resource</th><th>Category</th><th>Quantity</th><th>Unit</th><th>Status</th><th style="width:80px">Actions</th></tr>
+      </thead>
+      <tbody id="inventoryTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="resourceModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <span id="modalTitle">Add Resource</span>
+      <button style="background:none; border:none; font-size:1.3rem; cursor:pointer;" id="closeModalBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <input type="text" id="resName" placeholder="Resource name *">
+      <select id="resType"></select>
+      <input type="text" id="resUnit" placeholder="Unit (e.g., kg, kits, liters)">
+      <input type="number" id="resQty" placeholder="Current quantity *" min="0">
+      <input type="number" id="resMax" placeholder="Target capacity (max stock)" min="1" value="100">
+      <textarea id="resNotes" rows="2" placeholder="Notes: location, expiry, etc."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-sm" id="cancelModalBtn">Cancel</button>
+      <button class="btn-primary" id="saveResourceBtn" style="background: var(--red);">Save Resource</button>
+    </div>
+  </div>
+</div>
+<div id="toastMsg" class="toast"></div>
+
+<script>
+  // ---------- DATA ----------
+  let resources = [
+    { id: 1, name: 'Rice packets', type: 'Food', qty: 120, max: 150, unit: 'packets', notes: 'Warehouse B', updated: 'Today 09:00' },
+    { id: 2, name: 'Emergency med kits', type: 'Medicine', qty: 8, max: 30, unit: 'kits', notes: 'Check expiry', updated: 'Yesterday' },
+    { id: 3, name: 'Folding beds', type: 'Shelter', qty: 35, max: 50, unit: 'units', notes: '', updated: '2 days ago' },
+    { id: 4, name: 'Potable water', type: 'Food', qty: 0, max: 200, unit: 'bottles', notes: 'urgent restock', updated: 'Today 08:00' },
+    { id: 5, name: 'Blankets', type: 'Shelter', qty: 62, max: 100, unit: 'units', notes: '', updated: '3 days ago' },
+    { id: 6, name: 'ORS sachets', type: 'Medicine', qty: 5, max: 50, unit: 'sachets', notes: '', updated: 'Yesterday' },
+    { id: 7, name: 'Rescue boats (inflatable)', type: 'Transport', qty: 3, max: 10, unit: 'units', notes: 'Galle hub', updated: 'Today' }
+  ];
+  let resourceTypes = ['Food', 'Medicine', 'Shelter', 'Transport'];
+  let nextId = 8;
+
+  // helpers
+  function getStatus(qty, max) {
+    if (qty === 0) return 'Out of Stock';
+    if (max && qty / max < 0.25) return 'Running Low';
+    return 'Stocked';
+  }
+
+  function statusBadgeClass(status) {
+    if (status === 'Stocked') return 'badge-stocked';
+    if (status === 'Running Low') return 'badge-low';
+    return 'badge-out';
+  }
+
+  function getTypeClass(type) {
+    const map = { Food: 'type-food', Medicine: 'type-medicine', Shelter: 'type-shelter', Transport: 'type-transport' };
+    return map[type] || 'type-food';
+  }
+
+  function renderStats() {
+    const total = resources.length;
+    const stocked = resources.filter(r => getStatus(r.qty, r.max) === 'Stocked').length;
+    const low = resources.filter(r => getStatus(r.qty, r.max) === 'Running Low').length;
+    const out = resources.filter(r => getStatus(r.qty, r.max) === 'Out of Stock').length;
+    document.getElementById('statsContainer').innerHTML = `
+      <div class="stat-card"><div class="stat-label">Total Items</div><div class="stat-number">${total}</div><div class="stat-sub">resources</div></div>
+      <div class="stat-card green"><div class="stat-label">Stocked</div><div class="stat-number">${stocked}</div><div class="stat-sub">adequate</div></div>
+      <div class="stat-card amber"><div class="stat-label">Running Low</div><div class="stat-number">${low}</div><div class="stat-sub">needs attention</div></div>
+      <div class="stat-card red"><div class="stat-label">Out of Stock</div><div class="stat-number">${out}</div><div class="stat-sub">critical</div></div>
+    `;
+    // alert logic
+    const criticalItems = resources.filter(r => getStatus(r.qty, r.max) !== 'Stocked');
+    const alertBar = document.getElementById('alertBar');
+    if (criticalItems.length > 0) {
+      document.getElementById('alertText').innerHTML = `${criticalItems.length} resource(s) need action: ${criticalItems.slice(0,3).map(i=>i.name).join(', ')}${criticalItems.length>3?' + more':''}.`;
+      alertBar.style.display = 'flex';
+    } else {
+      alertBar.style.display = 'none';
+    }
+  }
+
+  function renderTable() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const typeFilter = document.getElementById('typeFilter').value;
+    const statusFilter = document.getElementById('statusFilter').value;
+    const filtered = resources.filter(r => {
+      const status = getStatus(r.qty, r.max);
+      const matchSearch = r.name.toLowerCase().includes(searchTerm) || r.type.toLowerCase().includes(searchTerm);
+      const matchType = !typeFilter || r.type === typeFilter;
+      const matchStatus = !statusFilter || status === statusFilter;
+      return matchSearch && matchType && matchStatus;
+    });
+    const tbody = document.getElementById('inventoryTableBody');
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">📭 No resources match your filters. Add some!<\/td><\/tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.map(r => {
+      const status = getStatus(r.qty, r.max);
+      const statusClass = statusBadgeClass(status);
+      const typeClass = getTypeClass(r.type);
+      return `<tr>
+        <td><div class="resource-name">${escapeHtml(r.name)}</div><div class="update-time">📅 ${r.updated}</div></td>
+        <td><span class="type-badge ${typeClass}">${escapeHtml(r.type)}</span></td>
+        <td class="qty-cell">${r.qty}</td>
+        <td>${escapeHtml(r.unit)}</td>
+        <td><span class="badge ${statusClass}">${status}</span></td>
+        <td><div class="action-icons">
+          <button class="icon-btn" onclick="editResource(${r.id})">✏️</button>
+          <button class="icon-btn" onclick="deleteResource(${r.id})">🗑️</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  function updateTypeSelectors() {
+    const typeFilter = document.getElementById('typeFilter');
+    const resTypeSelect = document.getElementById('resType');
+    const currentFilter = typeFilter.value;
+    const currentResType = resTypeSelect.value;
+    typeFilter.innerHTML = '<option value="">All Types</option>';
+    resTypeSelect.innerHTML = '';
+    resourceTypes.forEach(t => {
+      typeFilter.innerHTML += `<option value="${t}">${t}</option>`;
+      resTypeSelect.innerHTML += `<option value="${t}">${t}</option>`;
+    });
+    if (resourceTypes.includes(currentFilter)) typeFilter.value = currentFilter;
+    if (resourceTypes.includes(currentResType)) resTypeSelect.value = currentResType;
+    renderTypePills();
+  }
+
+  function renderTypePills() {
+    const container = document.getElementById('typePillsContainer');
+    container.innerHTML = resourceTypes.map(type => `
+      <span class="type-pill">${type} <button style="background:none; border:none; cursor:pointer; color:var(--red);" onclick="deleteType('${type}')">✕</button></span>
+    `).join('');
+  }
+
+  window.deleteType = function(type) {
+    if (resources.some(r => r.type === type)) {
+      showToast(`Cannot delete "${type}" — resources are using it.`);
+      return;
+    }
+    resourceTypes = resourceTypes.filter(t => t !== type);
+    updateTypeSelectors();
+    renderTable();
+    showToast(`Type "${type}" removed.`);
+  };
+
+  function addNewType() {
+    const input = document.getElementById('newTypeInput');
+    const val = input.value.trim();
+    if (!val) { showToast('Enter a type name'); return; }
+    if (resourceTypes.some(t => t.toLowerCase() === val.toLowerCase())) {
+      showToast('Type already exists');
+      return;
+    }
+    resourceTypes.push(val);
+    updateTypeSelectors();
+    input.value = '';
+    showToast(`"${val}" added`);
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastMsg');
+    toast.innerText = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+  }
+
+  // Modal logic
+  const modal = document.getElementById('resourceModal');
+  function openModal(editMode = false) {
+    modal.style.display = 'flex';
+  }
+  function closeModal() {
+    modal.style.display = 'none';
+    document.getElementById('editId').value = '';
+    document.getElementById('resName').value = '';
+    document.getElementById('resUnit').value = '';
+    document.getElementById('resQty').value = '';
+    document.getElementById('resMax').value = '100';
+    document.getElementById('resNotes').value = '';
+    document.getElementById('modalTitle').innerText = 'Add Resource';
+  }
+  window.editResource = function(id) {
+    const r = resources.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('editId').value = r.id;
+    document.getElementById('resName').value = r.name;
+    document.getElementById('resType').value = r.type;
+    document.getElementById('resUnit').value = r.unit;
+    document.getElementById('resQty').value = r.qty;
+    document.getElementById('resMax').value = r.max;
+    document.getElementById('resNotes').value = r.notes || '';
+    document.getElementById('modalTitle').innerText = 'Edit Resource';
+    openModal(true);
+  };
+  window.deleteResource = function(id) {
+    if (confirm('Permanently delete this resource?')) {
+      resources = resources.filter(r => r.id !== id);
+      renderTable();
+      renderStats();
+      showToast('Resource deleted');
+    }
+  };
+  function saveResource() {
+    const name = document.getElementById('resName').value.trim();
+    const type = document.getElementById('resType').value;
+    const unit = document.getElementById('resUnit').value.trim();
+    let qty = parseInt(document.getElementById('resQty').value) || 0;
+    let max = parseInt(document.getElementById('resMax').value) || 100;
+    const notes = document.getElementById('resNotes').value;
+    if (!name || !type || !unit) { showToast('Please fill name, category & unit'); return; }
+    const editId = parseInt(document.getElementById('editId').value);
+    const nowStr = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) + ' today';
+    if (editId) {
+      const idx = resources.findIndex(r => r.id === editId);
+      resources[idx] = { ...resources[idx], name, type, unit, qty, max, notes, updated: nowStr };
+      showToast('Resource updated');
+    } else {
+      resources.push({ id: nextId++, name, type, unit, qty, max, notes, updated: nowStr });
+      showToast('Resource added');
+    }
+    closeModal();
+    renderTable();
+    renderStats();
+  }
+
+  // event binding & filter listeners
+  document.getElementById('openAddModalBtn').onclick = () => { closeModal(); openModal(); };
+  document.getElementById('closeModalBtn').onclick = closeModal;
+  document.getElementById('cancelModalBtn').onclick = closeModal;
+  document.getElementById('saveResourceBtn').onclick = saveResource;
+  document.getElementById('addTypeBtn').onclick = addNewType;
+  document.getElementById('searchInput').addEventListener('input', () => renderTable());
+  document.getElementById('typeFilter').addEventListener('change', () => renderTable());
+  document.getElementById('statusFilter').addEventListener('change', () => renderTable());
+  window.onclick = function(e) { if (e.target === modal) closeModal(); };
+
+  // init
+  function init() {
+    updateTypeSelectors();
+    renderTable();
+    renderStats();
+  }
+  init();
+</script>
+</body>
+</html>
