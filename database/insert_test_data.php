@@ -85,7 +85,7 @@ $conn->query($sql);
 echo "Request data inserted successfully!<br>";
 
 // ========== 7. INSERT RESOURCES ==========
-$sql = "INSERT INTO resourc (volunteer_id, resource_name, resource_type, resource_count, description) VALUES
+$sql = "INSERT INTO resource (volunteer_id, resource_name, resource_type, resource_count, description) VALUES
     (3, 'Medical First Aid Kits', 'Medicals', 150, 'Complete first aid kits with bandages and antiseptics'),
     (3, 'Paracetamol Tablets', 'Medicals', 1000, '500mg tablets for fever and pain relief'),
     (4, 'Rice Packets', 'Foods', 2000, '5kg rice packets'),
