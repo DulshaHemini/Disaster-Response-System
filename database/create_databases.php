@@ -41,8 +41,6 @@ $sql = "CREATE TABLE IF NOT EXISTS admin (
     age INT,
     email VARCHAR(100),
     contact_no VARCHAR(15),
-    age int(2),
-    gender ENUM('male', 'female'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
@@ -75,7 +73,6 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     gender ENUM('Male', 'Female') NOT NULL,
     contact_no VARCHAR(15),
     age int(2),
-    gender ENUM('male', 'female'),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
