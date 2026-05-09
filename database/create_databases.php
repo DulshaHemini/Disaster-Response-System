@@ -41,6 +41,8 @@ $sql = "CREATE TABLE IF NOT EXISTS admin (
     age INT,
     email VARCHAR(100),
     contact_no VARCHAR(15),
+    age int(2),
+    gender ENUM('male', 'female'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
 )";
@@ -72,6 +74,8 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     nic VARCHAR(20),
     gender ENUM('Male', 'Female') NOT NULL,
     contact_no VARCHAR(15),
+    age int(2),
+    gender ENUM('male', 'female'),
     availability_status ENUM('available', 'busy') DEFAULT 'available',
     organization_name VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -118,6 +122,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Request(
 $conn->query($sql);
 echo "Request table created successfully!<br>";
 
+
 $sql = "CREATE TABLE IF NOT EXISTS resourc(
     resource_id INT PRIMARY KEY AUTO_INCREMENT,
     volunteer_id INT,
@@ -130,6 +135,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resourc(
 )";
 $conn->query($sql);
 echo "Resourc table created successfully!<br>";
+
 
 $sql = "CREATE TABLE IF NOT EXISTS assignment(
     assignment_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -147,6 +153,32 @@ $conn->query($sql);
 echo "Assignment table created successfully!<br>";
 
 
+$sql = "CREATE TABLE IF NOT EXISTS assignment(
+    assignment_id INT PRIMARY KEY AUTO_INCREMENT,
+    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    req_id INT NOT NULL,
+    resource_id INT,
+    volunteer_id INT,
+    description TEXT,
+    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
+    FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_id) REFERENCES resourc(resource_id),
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
+)";
+$conn->query($sql);
+
+
+$sql = "CREATE TABLE IF NOT EXISTS money_allocation(
+    allocation_id INT PRIMARY KEY AUTO_INCREMENT,
+    admin_id INT NOT NULL,
+    req_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    note TEXT,
+    allocated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES admin(user_id),
+    FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE
+)";
+$conn->query($sql);
 
 
 echo "All tables created successfully!";
