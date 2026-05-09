@@ -1,8 +1,4 @@
 <?php
-/**
- * TrackerController
- * Handles all tracker-related requests and logic
- */
 require_once APP_PATH . '/models/TrackerModel.php';
 require_once dirname(APP_PATH) . '/config/config.php';
 
@@ -16,9 +12,6 @@ class TrackerController
         $this->model = new TrackerModel($conn);
     }
     
-    /**
-     * Main tracker view - displays map and people list
-     */
     public function index(): void
     {
         $people = $this->model->getAllPeople();
@@ -29,16 +22,9 @@ class TrackerController
             'total_people' => $total_people,
         ]);
         
-        ob_start();
         require APP_PATH . '/views/tracker/tracker.php';
-        $content = ob_get_clean();
-        
-        require APP_PATH . '/views/layouts/main.php';
     }
     
-    /**
-     * Get person details via AJAX
-     */
     public function getPerson(): void
     {
         if (!isset($_GET['id'])) {
@@ -62,9 +48,6 @@ class TrackerController
         ]);
     }
     
-    /**
-     * Add activity log via AJAX
-     */
     public function addLog(): void
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
