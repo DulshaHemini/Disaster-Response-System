@@ -38,9 +38,7 @@ $conn->query("CREATE TABLE IF NOT EXISTS admin (
     contact_no VARCHAR(15),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE
-)";
-$conn->query($sql);
-echo "Admin table created successfully!<br>";
+)");
 
 // 3. Affected People Table
 $conn->query("CREATE TABLE IF NOT EXISTS affected_people (
