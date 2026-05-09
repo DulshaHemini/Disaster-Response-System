@@ -1,4 +1,7 @@
 <?php
+
+require_once '../../config/config.php';
+
 $lat = "";
 $lon = "";
 
@@ -23,10 +26,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 15px;
             border: none;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 460px;
+            padding: 2.4rem 2rem 2.8rem 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+         body {
+      background: var(--off);
+      font-family: var(--font-bd);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: var(--font-hd);
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
     </style>
 </head>
 
 <body>
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+
+    
+    <div class="auth-card">
+    <div class="logo-icon">
+    </div>
 
 <h1>Instant Help Request</h1>
 

@@ -246,7 +246,7 @@
     <span class="divider-line"></span>
   </div>
   <div class="signup-cta">
-    Don't have an account? <a href="#" id="goToSignupLink">Create an account</a>
+    Don't have an account? <a href="../../auth/signup.php" id="goToSignupLink">Create an account</a>
   </div>
 
     
@@ -266,8 +266,9 @@
   }
   document.getElementById('goToSignupLink')?.addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.href = 'drcs-signup.html';
+    window.location.href = '../../auth/signup.php';
   });
+  
 </script>
 </body>
 </html>

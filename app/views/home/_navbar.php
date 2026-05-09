@@ -18,7 +18,7 @@
   </div>
 
   <div class="nav-right">
-    <button class="btn-outline" onclick="openModal('signin')">Sign In</button>
-    <button class="btn-fill"    onclick="openModal('signup')">Sign Up</button>
-  </div>
+    <button class="btn-outline" onclick="window.location.href='../app/controllers/signin.php'">Sign In</button>
+    <button class="btn-fill" onclick="window.location.href='../app/controllers/signin.php'">Sign Up</button>
+</div>
 </nav>
