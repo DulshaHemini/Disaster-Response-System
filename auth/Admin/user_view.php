@@ -1,5 +1,5 @@
 <?php
-require_once("config.php");
+require_once '../../config/config.php';
 
 // Handle delete request
 if (isset($_GET['delete_id'])) {
