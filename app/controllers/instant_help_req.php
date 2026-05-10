@@ -85,28 +85,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form method="POST" id="instantHelp">
 
-    <label>Name:</label><br>
-    <input type="text" name="username" placeholder="Enter Your Name" required><br><br>
+    <label>Name:</label>*<br>
+    <input type="text" name="username" id="username" placeholder="Enter Your Name" required><br><br>
 
-    <label>Request Name:</label><br>
-    <input type="text" name="req_type" placeholder="What is the issue"><br><br>
+    <label>Request Name:</label>*<br>
+    <input type="text" name="req_type" placeholder="What is the issue" required><br><br>
 
     <label>Description:</label><br>
     <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
 
-    <label>Number Of affected People:</label><br>
+    <label>Number Of affected People:</label>*<br>
     <input type="number" name="affected_people" min="1"><br><br>
 
-    <label>Resource Count:</label><br>
+    <label>Resource Count:</label>*<br>
     <input type="number" name="resource_count" min="1"><br><br>
 
-    <label>Resource Type:</label><br>
-    <input type="text" name="resource_type" required><br><br>
+    <label>Resource Type:</label>*<br>
+    <select name="resource_type" required>
+    <option value="">Select Resource Type</option>
 
-    <label>Contact Number:</label><br>
-    <input type="tel" name="contact_number" pattern="[0-9]{10}" placeholder="07XXXXXXXX" required><br><br>
+    <option value="food">Food</option>
+    <option value="water">Water</option>
+    <option value="medical">Medical Supplies</option>
+    <option value="medicine">Medicine</option>
+    <option value="shelter">Shelter</option>
+    <option value="clothes">Clothes</option>
+    <option value="transport">Transport</option>
+    <option value="rescue">Rescue Team</option>
+    <option value="electricity">Electricity Support</option>
+    <option value="communication">Communication Support</option>
+    <option value="other">Other</option>
+</select>
 
-    <label>Email:</label><br>
+<br><br>
+
+    <label>Contact Number:</label>*<br>
+    <input type="tel" name="contact_number" id="contactnumber" pattern="^07[0-9]{8}$" placeholder="07XXXXXXXX" maxlength="10" required><br><br>
+    <span id="phoneError" style="color:red; font-size:14px;"></span>    
+
+    <label>Email:</label>*<br>
     <input type="email" name="email" placeholder="example@email.com" required><br><br>
 
     <label>Priority:</label><br>
@@ -116,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <option value="high">High</option>
     </select><br><br>
 
-    <label>Location:</label><br>
+    <label>Location:</label>*<br>
     <button type="button" onclick="getLocation()">Get My Location</button><br><br>
 
     <!-- Hidden inputs for lat/lon -->
@@ -142,6 +159,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <script>
+    document.getElementById("instanthelp").addEventListener("submit", function(event) {
+        const name = document.getElementById("username").value.trim();
+        const password = document.getElementById('password').value.trim();
+
+    });
+
+    document.getElementById("contactnumber").addEventListener("input",function(){
+        const phone = this.value;
+        const error = document.getElementById("phoneError");
+
+        this.value = this.value.replace(/\D/g, '');
+        if (phone.length === 0) {
+            error.textContent = "";
+        }
+        else if (!/^07[0-9]{8}$/.test(phone)) {
+            error.textContent = "Enter valid Sri Lankan mobile number";
+        }
+        else {
+            error.textContent = "";
+        }
+    });
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setLocation, showError);
@@ -154,11 +193,9 @@ function setLocation(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    // Set hidden inputs
     document.getElementById("lat").value = lat;
     document.getElementById("lon").value = lon;
 
-    // Update map instantly
     document.getElementById("map").src =
         `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
 }
