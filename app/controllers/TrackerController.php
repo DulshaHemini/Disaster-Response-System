@@ -25,53 +25,22 @@ class TrackerController
         require APP_PATH . '/views/tracker/tracker.php';
     }
     
-    public function getPerson(): void
+    // Simple function to get person details
+    public function getPerson($person_id)
     {
-        if (!isset($_GET['id'])) {
-            echo json_encode(['error' => 'Person ID not provided']);
-            return;
-        }
-        
-        $person_id = $_GET['id'];
-        $person = $this->model->getPersonById($person_id);
-        
-        if (!$person) {
-            echo json_encode(['error' => 'Person not found']);
-            return;
-        }
-        
-        $logs = $this->model->getLogsByPerson($person_id);
-        
-        echo json_encode([
-            'person' => $person,
-            'logs'   => $logs
-        ]);
+        return $this->model->getPersonById($person_id);
     }
     
-    public function addLog(): void
+    // Simple function to get logs for a person
+    public function getPersonLogs($person_id)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            echo json_encode(['error' => 'Invalid request method']);
-            return;
-        }
-        
-        $person_id = isset($_POST['person_id']) ? $_POST['person_id'] : '';
-        $log_type = isset($_POST['log_type']) ? $_POST['log_type'] : '';
-        $message = isset($_POST['message']) ? $_POST['message'] : '';
-        $created_by = isset($_POST['created_by']) ? $_POST['created_by'] : 'System';
-        
-        if (empty($person_id) || empty($log_type) || empty($message)) {
-            echo json_encode(['error' => 'Missing required fields']);
-            return;
-        }
-        
-        $result = $this->model->addActivityLog($person_id, $log_type, $message, $created_by);
-        
-        if ($result) {
-            echo json_encode(['success' => 'Log added successfully']);
-        } else {
-            echo json_encode(['error' => 'Failed to add log']);
-        }
+        return $this->model->getLogsByPerson($person_id);
+    }
+    
+    // Simple function to add activity log
+    public function addActivityLog($person_id, $log_type, $message, $created_by = 'System')
+    {
+        return $this->model->addActivityLog($person_id, $log_type, $message, $created_by);
     }
 }
 ?>

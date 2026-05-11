@@ -3,11 +3,11 @@
 define('BASE_PATH', dirname(__DIR__, 2));
 define('APP_PATH', BASE_PATH);
 
-require_once APP_PATH . '/models/TrackerModel.php';
+require_once APP_PATH . '/controllers/TrackerController.php';
 require_once dirname(BASE_PATH) . '/config/config.php';
 
-// Initialize model with global connection
-$model = new TrackerModel($conn);
+// Initialize controller
+$controller = new TrackerController();
 
 // Get person ID from URL
 $person_id = '';
@@ -20,16 +20,16 @@ if (empty($person_id)) {
     exit;
 }
 
-// Get person from database
-$person = $model->getPersonById($person_id);
+// Get person from database using simple function call
+$person = $controller->getPerson($person_id);
 
 if (!$person) {
     echo 'Error: Person not found';
     exit;
 }
 
-// Get activity logs for this person
-$logs = $model->getLogsByPerson($person_id);
+// Get activity logs for this person using simple function call
+$logs = $controller->getPersonLogs($person_id);
 $logs_count = count($logs);
 ?>
 <!DOCTYPE html>

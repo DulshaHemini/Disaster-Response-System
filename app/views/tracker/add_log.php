@@ -3,7 +3,7 @@
 define('BASE_PATH', dirname(__DIR__, 2));
 define('APP_PATH', BASE_PATH);
 
-require_once APP_PATH . '/models/TrackerModel.php';
+require_once APP_PATH . '/controllers/TrackerController.php';
 require_once dirname(BASE_PATH) . '/config/config.php';
 
 // Check if form was submitted
@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit;
 }
 
-// Initialize model with global connection
-$model = new TrackerModel($conn);
+// Initialize controller
+$controller = new TrackerController();
 
 // Get form data
 $person_id = '';
@@ -43,8 +43,8 @@ if (empty($person_id) || empty($log_type) || empty($message)) {
     exit;
 }
 
-// Add log to database
-$result = $model->addActivityLog($person_id, $log_type, $message, $created_by);
+// Add log to database using simple function call
+$result = $controller->addActivityLog($person_id, $log_type, $message, $created_by);
 
 if (!$result) {
     echo '<script>alert("Error adding log"); window.history.back();</script>';
