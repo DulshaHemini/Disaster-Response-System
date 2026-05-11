@@ -173,7 +173,7 @@ $sql = "CREATE TABLE IF NOT EXISTS assignment(
     volunteer_id INT,
     affected_people_id INT,
     description TEXT,
-    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
+    status ENUM('Assigned', 'Allocated', 'Received','Pending') NOT NULL,
     FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE,
     FOREIGN KEY (resource_id) REFERENCES resourc(resource_id),
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
