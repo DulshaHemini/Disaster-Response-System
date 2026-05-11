@@ -81,37 +81,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <h2>User Registration</h2>
 
-    <form action="submit.php" method="POST" onsubmit="return validateForm()">
+    <form method="POST" onsubmit="return validateForm()">
 
-        <label>Full Name:</label>
-        <input type="text" name="full_name" required>
+    <!--Common Data-->
+
+    <div class="box">
+
+        <label>First Name:</label>
+        <input type="text" name="first_name" required>
+
+        <label>Last Name:</label>
+        <input type="text" name="last_name" required>
+
+        <label>NIC:</label>
+        <input type="text" name="nic" id="nic" required>
 
         <label>Email:</label>
         <input type="email" name="email" id="email" placeholder="example@gmail.com">
+
+        <label>Contact No:</label>
+        <input type="text" name="contact_no" id="contact_no" placeholder="+94 712345678" required>
 
         <label>Username:</label>
         <input type="text" name="username" id="username" required>
 
         <label>Password:</label>
         <input type="password" name="password" id="password" required>
-
-        <label>User Role:</label>
-        <select name="user_role" id="user_role" required>
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="affected_people">Affected People</option>
-            <option value="volunteer">Volunteer</option>
-        </select>
-
-        
-
-        
-
-        <label>Contact No:</label>
-        <input type="text" name="contact_no" id="contact_no" placeholder="+94 712345678">
-
-        <label>Age:</label>
-        <input type="number" name="age" id="age" min="1" max="99">
 
         <label>Gender:</label>
         <select name="gender">
@@ -120,30 +115,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="female">Female</option>
         </select>
 
-        <label>NIC:</label>
-        <input type="text" name="nic" id="nic">
+        <label>Age:</label>
+        <input type="number" name="age" id="age" min="1" max="99">
 
+        <label>Home No:</label>
+        <input type="text" name="home_no">
+
+        <label>Street:</label>
+        <input type="text" name="street" required>
+
+        <label>City:</label>
+        <input type="text" name="city" required>
+        
+        <label>District:</label>
+        <input type="text" name="district" required>
+
+        <label>User Role:</label>
+        <select name="user_role" id="user_role" onchange="showRoleFields()" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="affected_people">Affected People</option>
+            <option value="volunteer">Volunteer</option>
+        </select>        
+    </div>
+
+    <!-- Affected People Fields -->
+    <div class="box" id="affected_box" style="display:none;">
         <label>No. of Family Members:</label>
         <input type="number" name="no_of_family_members">
 
-        <label>Priority Level:</label>
-        <select name="priority_level">
-            <option value="">Select Priority</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-        </select>
+        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+        
+        <iframe
+            id="map"
+            style="border:0; border-radius:8px;"
+            loading="lazy"
+            allowfullscreen
+            src="<?php
+                // Default = Sri Lanka, user location after POST
+                if ($lat && $lon) {
+                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
+                } else {
+                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
+                }
+            ?>">
+        </iframe>
+    </div>
 
+    <!-- Volunteer Fields -->
+    <div class="box" id="volunteer_box" style="display:none;">
         <label>Availability Status:</label>
         <select name="availability_status">
             <option value="available" selected>Available</option>
             <option value="busy">Busy</option>
         </select>
 
-        <label>Organization Name:</label>
-        <input type="text" name="organization_name">
+        <p>Select Type:</p>
 
-        <div id="errorMsg" class="error"></div>
+        <input type="radio" id="person" name="type" value="Person" onclick="showOrganizationField()">
+        <label for="person">Person</label><br>
+
+        <input type="radio" id="organization" name="type" value="Organization" onclick="showOrganizationField()">
+        <label for="organization">Organization</label><br><br>
+
+        <div id="organization_name_div" style="display:none;">
+            <label for="organization_name">Organization Name:</label><br>
+            <input type="text" id="organization_name" name="organization_name"><br><br>
+        </div>
+
+        <label for="resource_name">Resource Name:</label><br>
+        <input type="text" id="resource_name" name="resource_name"><br><br>
+
+        <label for="resource_type">Resource Type:</label><br>
+        <input type="text" id="resource_type" name="resource_type"><br><br>
+
+        <label for="resource_count">Resource Count:</label><br>
+        <input type="number" id="resource_count" name="resource_count"><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="30"></textarea><br><br>
 
         <button type="button" onclick="getLocation()">Get My Location</button><br><br>
         <iframe
@@ -160,9 +210,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             ?>">
         </iframe>
+    </div>
 
-
-        <button type="submit">Register</button>
+    <button type="submit">Register</button>
 
     </form>
 </div>
@@ -170,43 +220,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
 
-function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendToPHP, showError);
+    // SHOW BOXES BASED ON ROLE
+    function showRoleFields() {
+        var role = document.getElementById("user_role").value;
+
+        var affectedBox = document.getElementById("affected_box");
+        var volunteerBox = document.getElementById("volunteer_box");
+
+        affectedBox.style.display = "none";
+        volunteerBox.style.display = "none";
+
+        if (role === "affected_people") {
+            affectedBox.style.display = "block";
+        }
+
+        if (role === "volunteer") {
+            volunteerBox.style.display = "block";
+        }
+    }
+
+    // SHOW ORGANIZATION FIELD
+    function showOrganizationField() {
+            var organizationField = document.getElementById("organization_name_div");
+            var organizationRadio = document.getElementById("organization");
+
+            if (organizationRadio.checked) {
+                organizationField.style.display = "block";
             } else {
-                alert("Geolocation is not supported by your browser.");
+                organizationField.style.display = "none";
             }
-            }
-
-            function sendToPHP(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            // Submit coordinates to PHP
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "";
-
-            const latInput = document.createElement("input");
-            latInput.type = "hidden";
-            latInput.name = "lat";
-            latInput.value = lat;
-
-            const lonInput = document.createElement("input");
-            lonInput.type = "hidden";
-            lonInput.name = "lon";
-            lonInput.value = lon;
-
-            form.appendChild(latInput);
-            form.appendChild(lonInput);
-            document.body.appendChild(form);
-            form.submit();
         }
 
-        function showError(error) {
-            alert("Error getting location: " + error.message);
-        }
+    //GET LOCATION
+    function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(sendToPHP, showError);
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
+                }
+
+                function sendToPHP(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // Submit coordinates to PHP
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = "";
+
+                const latInput = document.createElement("input");
+                latInput.type = "hidden";
+                latInput.name = "lat";
+                latInput.value = lat;
+
+                const lonInput = document.createElement("input");
+                lonInput.type = "hidden";
+                lonInput.name = "lon";
+                lonInput.value = lon;
+
+                form.appendChild(latInput);
+                form.appendChild(lonInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function showError(error) {
+                alert("Error getting location: " + error.message);
+            }
         
+            /*
 function validateForm() {
     let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
@@ -264,6 +347,7 @@ function validateForm() {
 
     return true;
 }
+*/
 
 </script>
 
