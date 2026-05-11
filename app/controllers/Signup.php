@@ -170,18 +170,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="busy">Busy</option>
         </select>
 
-        <p>Select Type:</p>
+        <table>
+            <tr>
+                <td colspan="2">
+                    <p>Are you an organization or a person?</p>
+                </td>
+            </tr>
 
-        <input type="radio" id="person" name="type" value="Person" onclick="showOrganizationField()">
-        <label for="person">Person</label><br>
+            <tr>
+                <td>
+                    <label for="person">Person</label>
+                </td>
+                <td>
+                    <input type="radio" id="person" name="type" value="Person" onclick="showOrganizationField()">
+                </td>
+            </tr>
 
-        <input type="radio" id="organization" name="type" value="Organization" onclick="showOrganizationField()">
-        <label for="organization">Organization</label><br><br>
+            <tr>
+                <td>
+                    <label for="organization">Organization</label>
+                </td>
+                <td>
+                    <input type="radio" id="organization" name="type" value="Organization" onclick="showOrganizationField()">
+                </td>
+            </tr>
 
-        <div id="organization_name_div" style="display:none;">
-            <label for="organization_name">Organization Name:</label><br>
-            <input type="text" id="organization_name" name="organization_name"><br><br>
-        </div>
+            <tr id="organization_name_div" style="display:none;">
+                <td>
+                    <label for="organization_name">Organization Name:</label>
+                </td>
+                <td>
+                    <input type="text" id="organization_name" name="organization_name">
+                </td>
+            </tr>
+        </table>
 
         <label for="resource_name">Resource Name:</label><br>
         <input type="text" id="resource_name" name="resource_name"><br><br>
