@@ -5,6 +5,51 @@ $lon = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
+    $first_name = $_POST['first_name'] ?? '';
+    $last_name = $_POST['last_name'] ?? '';
+    $nic = $_POST['nic'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $contact_no = $_POST['contact_no'] ?? '';
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $age = $_POST['age'] ?? '';
+    $home_no = $_POST['home_no'] ?? '';
+    $street = $_POST['street'] ?? '';
+    $city = $_POST['city'] ?? '';
+    $district = $_POST['district'] ?? '';
+    $user_role = $_POST['user_role'] ?? '';
+    $no_of_family_members = $_POST['no_of_family_members'] ?? '';
+    $availability_status = $_POST['availability_status'] ?? '';
+    $type = $_POST['type'] ?? '';
+    $organization_name = $_POST['organization_name'] ?? '';
+    $resource_name = $_POST['resource_name'] ?? '';
+    $resource_type = $_POST['resource_type'] ?? '';
+    $resource_count = $_POST['resource_count'] ?? '';
+    $description = $_POST['description'] ?? '';
+
+    //insert into users table with user_id, username, password, user_role
+    $sql = "INSERT INTO users (username, password, user_role) VALUES ('$username', '$password', '$user_role')";
+    if ($conn->query($sql) === TRUE) {
+        $user_id = $conn->insert_id; // Get the generated user_id
+
+        // Insert into location table
+        $sql = "INSERT INTO Location (user_id, latitude, longitude, district, city, street, home_no) VALUES ('$user_id', '$lat', '$lon', '$district', '$city', '$street', '$home_no')";
+        $conn->query($sql);
+
+        if ($user_role == 'affected_people') {
+            // Insert into affected_people table
+            $sql = "INSERT INTO affected_people (user_id, first_name, last_name, age, no_of_family_members, availability_status) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members', '$availability_status')";
+            $conn->query($sql);
+        } elseif ($user_role == 'volunteer') {
+            // Insert into volunteer table
+            $sql = "INSERT INTO volunteer (user_id, first_name, last_name, nic, email, contact_no, organization_name, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$email', '$contact_no', '$organization_name', '$resource_name', '$resource_type', '$resource_count', '$description')";
+            $conn->query($sql);
+        }
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
 }
 ?>
 
@@ -15,116 +60,118 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <title>Registration Form</title>
 
 <style>
+
     body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #eef2f7, #f8fbff);
-    margin: 0;
-    padding: 0;
-}
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        margin: 0;
+        padding: 0;
+    }
 
-/* Main container */
-.container {
-    width: 600px;
-    margin: 40px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
+    /* Main container */
+    .container {
+        width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
 
-/* Heading */
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-}
+    /* Heading */
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
 
-/* Each section box */
-.box {
-    background: #f9fafc;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    border: 1px solid #e6e6e6;
-}
+    /* Each section box */
+    .box {
+        background: #f9fafc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+    }
 
-/* Labels */
-label {
-    font-weight: 600;
-    display: block;
-    margin-top: 10px;
-    color: #444;
-}
+    /* Labels */
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+        color: #444;
+    }
 
-/* Inputs */
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    outline: none;
-    transition: 0.2s;
-    box-sizing: border-box;
-}
+    /* Inputs */
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+        box-sizing: border-box;
+    }
 
-input:focus, select:focus, textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0,123,255,0.2);
-}
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
 
-/* Button */
-button {
-    width: 100%;
-    padding: 12px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    margin-top: 10px;
-    transition: 0.2s;
-}
+    /* Button */
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
 
-button:hover {
-    background: #0056b3;
-}
+    button:hover {
+        background: #0056b3;
+    }
 
-/* Error text */
-.error {
-    color: red;
-    font-size: 13px;
-}
+    /* Error text */
+    .error {
+        color: red;
+        font-size: 13px;
+    }
 
-/* Map styling */
-#map, iframe {
-    width: 100%;
-    height: 350px;
-    border-radius: 10px;
-    margin-top: 10px;
-    border: none;
-}
+    /* Map styling */
+    #map, iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: none;
+    }
 
-/* Radio + table alignment */
-table {
-    width: 50%;
-    margin-top: 10px;
-}
+    /* Radio + table alignment */
+    table {
+        width: 50%;
+        margin-top: 10px;
+    }
 
-td {
-    padding: 5px;
-}
+    td {
+        padding: 5px;
+    }
 
-/* Volunteer & affected boxes highlight */
-#affected_box {
-    border-left: 5px solid #28a745;
-}
+    /* Volunteer & affected boxes highlight */
+    #affected_box {
+        border-left: 5px solid #28a745;
+    }
 
-#volunteer_box {
-    border-left: 5px solid #007bff;
-}
+    #volunteer_box {
+        border-left: 5px solid #007bff;
+    }
+
 </style>
 </head>
 
@@ -362,67 +409,58 @@ td {
             function showError(error) {
                 alert("Error getting location: " + error.message);
             }
-        
-            /*
-function validateForm() {
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let contact = document.getElementById("contact_no").value.trim();
-    let age = document.getElementById("age").value.trim();
-    let nic = document.getElementById("nic").value.trim();
-    let role = document.getElementById("user_role").value;
 
-    let errorMsg = "";
+    function validateForm() {
+        let firstName = document.querySelector("input[name='first_name']");
+        let lastName = document.querySelector("input[name='last_name']");
+        var nic = document.getElementById("nic").value;
+        var contactNo = document.getElementById("contact_no").value;
+        var email = document.getElementById("email").value;
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var age = document.getElementById("age").value;
 
-    // Username validation
-    if (username.length < 4) {
-        errorMsg += "Username must be at least 4 characters long.<br>";
+        // NIC validation (10 or 12 characters, digits + optional 'V' at the end)
+        var nicPattern = /^(\d{9}[Vv]|\d{12})$/;
+        if (!nicPattern.test(nic)) {
+            alert("Invalid NIC format. It should be 10 or 12 characters long.");
+            return false;
+        }
+
+        // Contact number validation (starts with +94 followed by 9 digits)
+        var contactPattern = /^\+94\d{9}$/;
+        if (!contactPattern.test(contactNo)) {
+            alert("Invalid contact number format. It should start with +94 followed by 9 digits.");
+            return false;
+        }
+
+        // Email validation
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email && !emailPattern.test(email)) {
+            alert("Invalid email format.");
+            return false;
+        }
+
+        // Username validation (at least 4 characters)
+        if (username.length < 4) {
+            alert("Username must be at least 4 characters long.");
+            return false;
+        }
+
+        // Password validation (at least 6 characters)
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return false;
+        }
+
+        // Age validation (between 1 and 99)
+        if (age && (age < 1 || age > 99)) {
+            alert("Age must be between 1 and 99.");
+            return false;
+        }
+
+        return true; // All validations passed
     }
-
-    // Password validation
-    if (password.length < 6) {
-        errorMsg += "Password must be at least 6 characters long.<br>";
-    }
-
-    // Role validation
-    if (role === "") {
-        errorMsg += "Please select a user role.<br>";
-    }
-
-    // Email validation
-    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    if (email !== "" && !email.match(emailPattern)) {
-        errorMsg += "Invalid email format.<br>";
-    }
-
-    // Contact number validation (Sri Lanka format)
-    let phonePattern = /^(\+94|0)[0-9]{9}$/;
-    if (contact !== "" && !contact.match(phonePattern)) {
-        errorMsg += "Invalid contact number (use +947XXXXXXXX or 07XXXXXXXX).<br>";
-    }
-
-    // Age validation
-    if (age !== "" && (age < 1 || age > 99)) {
-        errorMsg += "Age must be between 1 and 99.<br>";
-    }
-
-    // NIC validation (old + new)
-    let nicPattern = /^([0-9]{9}[vVxX]|[0-9]{12})$/;
-    if (nic !== "" && !nic.match(nicPattern)) {
-        errorMsg += "Invalid NIC format.<br>";
-    }
-
-    // Show errors
-    if (errorMsg !== "") {
-        document.getElementById("errorMsg").innerHTML = errorMsg;
-        return false;
-    }
-
-    return true;
-}
-*/
-
 </script>
 
 </body>
