@@ -150,20 +150,6 @@ $conn->query($sql);
 echo "Assignment table created successfully!<br>";
 
 
-$sql = "CREATE TABLE IF NOT EXISTS assignment(
-    assignment_id INT PRIMARY KEY AUTO_INCREMENT,
-    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    req_id INT NOT NULL,
-    resource_id INT,
-    volunteer_id INT,
-    description TEXT,
-    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
-    FOREIGN KEY (req_id) REFERENCES Request(req_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resourc(resource_id),
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
-)";
-$conn->query($sql);
-
 
 $sql = "CREATE TABLE IF NOT EXISTS money_allocation(
     allocation_id INT PRIMARY KEY AUTO_INCREMENT,

@@ -8,6 +8,27 @@ $lon = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
+
+    $name = trim($_POST['name'] ?? '');
+    $req_name = trim($_POST['req_name'] ?? '');
+    $req_type = $_POST['req_type'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $num_aff_pp = $_POST['aff_pp'] ?? '';
+    $res_count = $_POST['resource_count'] ?? '';
+    $res_type = $_POST['resource_type'] ?? '' ;
+    $contact_number = $_POST['contact_number'] ?? '';
+    $email = $_POST['email'] ?? '' ;
+    $priority = $_POST['priority'] ?? '';
+
+
+
+    $sql = "INSERT INTO users VALUES
+        ($name,  )";
+
+
+
+
+    $sql = "";
 }
 ?>
 
@@ -74,36 +95,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+    <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
 
-    
-    <div class="auth-card">
-    <div class="logo-icon">
-    </div>
+    <div class="auth-card"><div>
+    <div class="logo-icon"></div>
 
 <h1>Instant Help Request</h1>
 
 <form method="POST" id="instantHelp">
 
     <label>Name:</label>*<br>
-    <input type="text" name="username" id="username" placeholder="Enter Your Name" required><br><br>
+    <input type="text" name="name" id="name" placeholder="Enter Your Name" required><br><br>
 
     <label>Request Name:</label>*<br>
-    <input type="text" name="req_type" placeholder="What is the issue" required><br><br>
+    <input type="text" name="req_name" placeholder="What is the issue" required><br><br>
+
+    <label>Request Type:</label>
+    <select name="req_type" id="req_type">
+        <option value="">Select Request Type</option>
+        <option value="tornados">Tornados</option>
+        <option value="tsunamis">Tsunamis</option>
+        <option value="landslides">Landslides</option>
+        <option value="avalanches">Avalanches</option>
+        <option value="heat_waves">Heat Waves</option>
+    </select> <br><br>
 
     <label>Description:</label><br>
     <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
 
     <label>Number Of affected People:</label>*<br>
-    <input type="number" name="affected_people" min="1"><br><br>
+    <input type="number" name="aff_pp" min="1"><br><br>
 
     <label>Resource Count:</label>*<br>
     <input type="number" name="resource_count" min="1"><br><br>
 
     <label>Resource Type:</label>*<br>
     <select name="resource_type" required>
-    <option value="">Select Resource Type</option>
 
+    <option value="">Select Resource Type</option>
     <option value="food">Food</option>
     <option value="water">Water</option>
     <option value="medical">Medical Supplies</option>
@@ -114,7 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <option value="rescue">Rescue Team</option>
     <option value="electricity">Electricity Support</option>
     <option value="communication">Communication Support</option>
-    <option value="other">Other</option>
 </select>
 
 <br><br>
@@ -136,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Location:</label>*<br>
     <button type="button" onclick="getLocation()">Get My Location</button><br><br>
 
-    <!-- Hidden inputs for lat/lon -->
+    
     <input type="hidden" name="lat" id="lat">
     <input type="hidden" name="lon" id="lon">
 
@@ -160,9 +188,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
     document.getElementById("instanthelp").addEventListener("submit", function(event) {
-        const name = document.getElementById("username").value.trim();
-        const password = document.getElementById('password').value.trim();
+        const name = document.getElementById("name").value.trim();
 
+        if (name === "" && pwd === "") {
+            alert("Username and Password cannot be empty!");
+            event.preventDefault();
+    }
     });
 
     document.getElementById("contactnumber").addEventListener("input",function(){
