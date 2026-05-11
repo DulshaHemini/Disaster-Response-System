@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="button" onclick="getLocation()">Get My Location</button><br><br>
         
         <iframe
-            id="map"
+            id="affected_map"
             style="border:0; border-radius:8px;"
             loading="lazy"
             allowfullscreen
@@ -219,7 +219,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button type="button" onclick="getLocation()">Get My Location</button><br><br>
         <iframe
-            id="map"
+            id="volunteer_map"
             style="border:0; border-radius:8px;"
             loading="lazy"
             allowfullscreen
