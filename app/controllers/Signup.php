@@ -16,63 +16,115 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <style>
     body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-        }
-    
-    .container {
-            width: 500px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #f8fbff);
+    margin: 0;
+    padding: 0;
+}
 
-    h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+/* Main container */
+.container {
+    width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
-    label {
-            font-weight: bold;
-        }
+/* Heading */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
 
-    input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+/* Each section box */
+.box {
+    background: #f9fafc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+}
 
-    button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+/* Labels */
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+    color: #444;
+}
 
-    button:hover {
-            background: #0056b3;
-        }
+/* Inputs */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.2s;
+    box-sizing: border-box;
+}
 
-    .error {
-            color: red;
-            font-size: 14px;
-        }
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.2);
+}
 
-    #map {
-                width: 500px;
-                height: 400px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: none;
-            }
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Error text */
+.error {
+    color: red;
+    font-size: 13px;
+}
+
+/* Map styling */
+#map, iframe {
+    width: 100%;
+    height: 350px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: none;
+}
+
+/* Radio + table alignment */
+table {
+    width: 50%;
+    margin-top: 10px;
+}
+
+td {
+    padding: 5px;
+}
+
+/* Volunteer & affected boxes highlight */
+#affected_box {
+    border-left: 5px solid #28a745;
+}
+
+#volunteer_box {
+    border-left: 5px solid #007bff;
+}
 </style>
 </head>
 
