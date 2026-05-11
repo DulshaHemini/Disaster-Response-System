@@ -22,45 +22,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <h1>Request Submission Form</h1>
         
-        <form method="POST" id="helpNeeder" action="submit_request.php">
+        <form method="POST" id="helpNeeder">
 
         <label>Name:</label><br>
         <input type="text" name="username" id="username" value="Dilmi" placeholder="Enter Your Name" required><br><br>
+
+        <label>Request Name</label><br>
+        <input type="text" name="request_name" reqiured><br><br>
         
         <label>Request Type</label><br>
         <input type="text" name="req_type" placeholder="What is the issue"><br><br>
-        
-        <label>Select District</label><br>
-
-        <input type="text" name="district" list="districtlist" placeholder="Type or select district" required>
-
-        <datalist id="districtlist">
-            <option value="Ampara">
-            <option value="Anuradhapura">
-            <option value="Badulla">
-            <option value="Batticaloa">
-            <option value="Colombo">
-            <option value="Galle">
-            <option value="Gampaha">
-            <option value="Hambantota">
-            <option value="Jaffna">
-            <option value="Kalutara">
-            <option value="Kandy">
-            <option value="Kegalle">
-            <option value="Kilinochchi">
-            <option value="Kurunegala">
-            <option value="Mannar">
-            <option value="Matale">
-            <option value="Matara">
-            <option value="Monaragala">
-            <option value="Mullaitivu">
-            <option value="Nuwara Eliya">
-            <option value="Polonnaruwa">
-            <option value="Puttalam">
-            <option value="Ratnapura">
-            <option value="Trincomalee">
-            <option value="Vavuniya">
-        </datalist><br><br>
 
         <label>Description:</label><br>
         <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
@@ -71,12 +42,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Resource Type:</label><br>
 
         <select name="resource_type" id="resource_type" onchange="showOtherField()" required>
-            <option value="">-- Select Resource Type --</option>
+            <option value="">Select Resource Type</option>
             <option value="medicine">Medicine</option>
             <option value="foods">Foods</option>
             <option value="shelters">Shelters</option>
             <option value="clothes">Clothes</option>
-            <option value="money">Money</option>
+            <option value="money">Water</option>
+            <option value="rescue">Rescue Team</option>
+            <option value="electricity">Electricity Support</option>
+            <option value="communication">Communication Suport</option>
             <option value="other">Other</option>
         </select><br><br>
 
@@ -122,6 +96,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="low">Low</option>
             <option value="high">High</option>
         </select><br><br>
+
+        <label>Select District</label><br>
+
+        <input type="text" name="district" list="districtlist" placeholder="Type or select district" required>
+
+        <datalist id="districtlist">
+            <option value="Ampara">
+            <option value="Anuradhapura">
+            <option value="Badulla">
+            <option value="Batticaloa">
+            <option value="Colombo">
+            <option value="Galle">
+            <option value="Gampaha">
+            <option value="Hambantota">
+            <option value="Jaffna">
+            <option value="Kalutara">
+            <option value="Kandy">
+            <option value="Kegalle">
+            <option value="Kilinochchi">
+            <option value="Kurunegala">
+            <option value="Mannar">
+            <option value="Matale">
+            <option value="Matara">
+            <option value="Monaragala">
+            <option value="Mullaitivu">
+            <option value="Nuwara Eliya">
+            <option value="Polonnaruwa">
+            <option value="Puttalam">
+            <option value="Ratnapura">
+            <option value="Trincomalee">
+            <option value="Vavuniya">
+        </datalist><br><br>
 
         <label>Location:</label><br>
         
@@ -227,6 +233,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 event.preventDefault();
                 return;
             }
+
+            this.reset();
 
         });
 
