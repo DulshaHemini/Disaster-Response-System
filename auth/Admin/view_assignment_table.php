@@ -1,8 +1,7 @@
 <?php
 require_once '../../config/config.php';
 
-// Retrieve assignments
-$sql = "SELECT * FROM assignment";
+$sql    = "SELECT * FROM assignment";
 $result = $conn->query($sql);
 ?>
 
@@ -11,127 +10,137 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Assignments</title>
-
+    <title>Assignments · DRCS Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
     <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    margin: 0;
-    padding: 20px;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Title */
-h2 {
-    text-align: center;
-    color: #333;
-}
+        :root {
+            --white: #ffffff;
+            --off: #f8f5f2;
+            --surface: #f2ede8;
+            --red: #c8102e;
+            --red-dk: #9b0b21;
+            --red-lt: #fbeaec;
+            --red-m: #f5c0c7;
+            --amber: #d97706;
+            --green: #15803d;
+            --blue: #1d4ed8;
+            --slate: #475569;
+            --text: #1a1a1a;
+            --muted: #6b6b6b;
+            --border: #e2ddd8;
+            --font-hd: 'Playfair Display', serif;
+            --font-bd: 'Outfit', sans-serif;
+            --font-mn: 'JetBrains Mono', monospace;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+        }
 
-/* Table styling */
-table {
-    width: 90%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+        body { background: var(--off); font-family: var(--font-bd); color: var(--text); overflow-x: hidden; }
 
-/* Table header */
-th {
-    background-color: #007bff;
-    color: white;
-    padding: 12px;
-    text-transform: uppercase;
-    font-size: 14px;
-}
+        .admin-nav {
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { width: 38px; height: 38px; background: var(--red); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon svg { width: 22px; fill: #fff; }
+        .brand-text { font-family: var(--font-hd); font-size: 1.3rem; }
+        .brand-text em { color: var(--red); font-style: normal; }
+        .admin-badge { background: var(--red-lt); padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.75rem; font-weight: 600; color: var(--red); font-family: var(--font-mn); }
+        .back-btn { background: transparent; border: 1.5px solid var(--border); padding: 0.4rem 1rem; border-radius: 40px; cursor: pointer; font-size: 0.75rem; font-family: var(--font-bd); }
+        .back-btn:hover { background: var(--surface); }
 
-/* Table rows */
-td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
+        .admin-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
 
-/* Zebra striping */
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
+        .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .section-header h2 { font-family: var(--font-hd); font-size: 1.6rem; }
 
-/* Hover effect */
-tr:hover {
-    background-color: #f1f1f1;
-}
+        .table-wrapper { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { text-align: left; padding: 1rem 1.2rem; background: var(--off); font-family: var(--font-mn); font-size: 0.7rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+        td { padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
 
-/* Remove button */
-button.removeBtn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-}
+        .badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .badge-pending  { background: #fff3e3; color: #b45309; }
+        .badge-progress { background: #e0f2fe; color: #0369a1; }
+        .badge-resolved { background: #e0f2e9; color: #15803d; }
 
-/* Button hover */
-button.removeBtn:hover {
-    background-color: #c82333;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    table {
-        width: 100%;
-    }
-
-    th, td {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    button.removeBtn {
-        padding: 6px 10px;
-    }
-}
-</style>
-
+        @media (max-width: 800px) {
+            .admin-nav { flex-wrap: wrap; height: auto; padding: 0.8rem; gap: 0.8rem; }
+        }
+    </style>
 </head>
 <body>
 
-<h2>Assignment Table</h2>
+<div class="admin-nav">
+    <div class="nav-brand">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg></div>
+        <span class="brand-text">DR<em>CS</em> · ADMIN</span>
+        <span class="admin-badge">📊 Assignments</span>
+    </div>
+    <button class="back-btn" onclick="window.location.href='admin.php'">← Back to Admin</button>
+</div>
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Assignment Date</th>
-        <th>Assignment ID</th>
-        <th>Request ID</th>
-        <th>Resource ID</th>
-        <th>Volunteer ID</th>
-        <th>Description</th>
-        <th>Status</th>
-    </tr>
+<div class="admin-container">
+    <div class="section-header">
+        <h2>📊 All Assignments</h2>
+    </div>
 
-<?php
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-?>
-    <tr>
-        <td><?php echo $row['assigned_date']; ?></td>
-        <td><?php echo $row['assignment_id']; ?></td>
-        <td><?php echo $row['req_id']; ?></td>
-        <td><?php echo $row['resource_id']; ?></td>
-        <td><?php echo $row['volunteer_id']; ?></td>
-        <td><?php echo $row['description']; ?></td>
-        <td><?php echo $row['status']; ?></td>
-    </tr>
-<?php
-    }
-} else {
-    echo "<tr><td colspan='7'>No assignments found</td></tr>";
-}
-?>
-
-</table>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Assignment Date</th>
+                    <th>Assignment ID</th>
+                    <th>Request ID</th>
+                    <th>Resource ID</th>
+                    <th>Volunteer ID</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result && $result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <?php
+                            $statusNorm = strtolower(trim($row['status']));
+                            $badgeClass = $statusNorm === 'pending'
+                                ? 'badge-pending'
+                                : ($statusNorm === 'in-progress' ? 'badge-progress' : 'badge-resolved');
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['assigned_date'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['assignment_id'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['req_id'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['resource_id'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['volunteer_id'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['description'], ENT_QUOTES); ?></td>
+                            <td>
+                                <span class="badge <?php echo $badgeClass; ?>">
+                                    <?php echo htmlspecialchars($row['status'], ENT_QUOTES); ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="7" style="text-align:center; color:var(--muted);">No assignments found</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>
