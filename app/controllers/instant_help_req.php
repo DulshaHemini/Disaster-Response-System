@@ -24,10 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "INSERT INTO users VALUES
         ($name,  )";
-
-
-
-
+        
     $sql = "";
 }
 ?>
