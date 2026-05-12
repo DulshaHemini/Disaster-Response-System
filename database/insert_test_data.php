@@ -6,107 +6,93 @@ $password = "";
 $dbname = "DRCS";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+$conn = new mysqli($servername, $username, $password, "", 3307);
 
 // Check connection
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Create database
-$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-$conn->query($sql);
-
 // Select database
 $conn->select_db($dbname);
 
-// ========== 1. INSERT USERS (Base users table) ==========
-$sql = "INSERT INTO users (username, password, user_role) VALUES
-    ('admin1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-    ('admin2', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-    ('volunteer1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'volunteer'),
-    ('volunteer2', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'volunteer'),
-    ('volunteer3', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'volunteer'),
-    ('affected1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'affected_people'),
-    ('affected2', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'affected_people'),
-    ('affected3', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'affected_people'),
-    ('affected4', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'affected_people'),
-    ('affected5', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'affected_people')";
+// ========== INSERT INTO users TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO users (user_id, username, password, user_role) VALUES 
+    (1, 'admin_john', MD5('admin123'), 'admin'),
+    (2, 'affected_mary', MD5('mary123'), 'affected_people'),
+    (3, 'affected_ahmed', MD5('ahmed123'), 'affected_people'),
+    (4, 'volunteer_sarah', MD5('sarah123'), 'volunteer'),
+    (5, 'volunteer_david', MD5('david123'), 'volunteer')";
 $conn->query($sql);
 echo "Users inserted successfully!<br>";
 
-// ========== 2. INSERT ADMIN TABLE ==========
-$sql = "INSERT INTO admin (user_id, first_name, last_name, gender, age, email, contact_no) VALUES
-    (1, 'John', 'Administrator', 'Male', 35, 'john.admin@drcs.org', '0712345678'),
-    (2, 'Sarah', 'Coordinator', 'Female', 29, 'sarah.coord@drcs.org', '0723456789')";
+// ========== INSERT INTO admin TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO admin (user_id, first_name, last_name, gender, age, email, contact_no) VALUES 
+    (1, 'John', 'Smith', 'Male', 35, 'john.smith@drcs.org', '0771234567')";
 $conn->query($sql);
-echo "Admin data inserted successfully!<br>";
+echo "Admin inserted successfully!<br>";
 
-// ========== 3. INSERT VOLUNTEER TABLE ==========
-$sql = "INSERT INTO volunteer (user_id, first_name, last_name, nic, gender, contact_no, availability_status, organization_name) VALUES
-    (3, 'Michael', 'Volunteer', '199012345678', 'Male', '0771234567', 'available', 'Red Cross Sri Lanka'),
-    (4, 'Emma', 'Rescue', '199112345678', 'Female', '0782345678', 'available', 'World Vision'),
-    (5, 'David', 'Helper', '199212345678', 'Male', '0763456789', 'busy', 'Save the Children')";
+// ========== INSERT INTO affected_people TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO affected_people (user_id, first_name, last_name, age, no_of_family_members, gender, nic, contact_no) VALUES 
+    (2, 'Mary', 'Johnson', 28, 4, 'Female', '198745632145', '0712345678'),
+    (3, 'Ahmed', 'Rashid', 42, 6, 'Male', '197812345678', '0723456789')";
 $conn->query($sql);
-echo "Volunteer data inserted successfully!<br>";
+echo "Affected people inserted successfully!<br>";
 
-// ========== 4. INSERT AFFECTED PEOPLE TABLE ==========
-$sql = "INSERT INTO affected_people (user_id, first_name, last_name, age, no_of_family_members, gender, nic, contact_no) VALUES
-    (6, 'Kasun', 'Perera', 32, 4, 'Male', '198912345678', '0711111111'),
-    (7, 'Priyani', 'Silva', 28, 3, 'Female', '199312345678', '0722222222'),
-    (8, 'Mohamed', 'Rizwan', 45, 6, 'Male', '198712345678', '0733333333'),
-    (9, 'Shanthi', 'Kumar', 35, 2, 'Female', '199512345678', '0744444444'),
-    (10, 'Nimal', 'Jayasinghe', 40, 5, 'Male', '199112345679', '0755555555')";
+// ========== INSERT INTO volunteer TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO volunteer (user_id, first_name, last_name, nic, gender, contact_no, age, availability_status, organization_name) VALUES 
+    (4, 'Sarah', 'Williams', '199034567890', 'Female', '0781234567', 26, 'available', 'Red Cross Society'),
+    (5, 'David', 'Brown', '198956789012', 'Male', '0792345678', 31, 'busy', 'UNICEF')";
 $conn->query($sql);
-echo "Affected people data inserted successfully!<br>";
+echo "Volunteers inserted successfully!<br>";
 
-// ========== 5. INSERT LOCATIONS ==========
-$sql = "INSERT INTO Location (user_id, latitude, longitude, district, city, street, home_no) VALUES
-    (6, 7.8730540000000000, 80.7717970000000000, 'Kandy', 'Kandy', 'Peradeniya Road', '45'),
-    (7, 6.9270790000000000, 79.8612430000000000, 'Colombo', 'Nugegoda', 'High Level Road', '123'),
-    (8, 8.3500000000000000, 80.3833330000000000, 'Anuradhapura', 'Anuradhapura', 'Main Street', '78'),
-    (9, 6.9344380000000000, 79.8436010000000000, 'Colombo', 'Bambalapitiya', 'Galle Road', '25/2'),
-    (10, 7.2905720000000000, 80.6334270000000000, 'Kandy', 'Gampola', 'Colombo Road', '10'),
-    (3, 6.9147200000000000, 79.9726900000000000, 'Colombo', 'Colombo', 'Union Place', '5'),
-    (4, 7.8730540000000000, 80.7717970000000000, 'Kandy', 'Kandy', 'Hill Street', '12')";
+// ========== INSERT INTO Location TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO Location (loc_id, user_id, latitude, longitude, district, city, street, home_no) VALUES 
+    (1, 2, 6.9271000000000000, 79.8612000000000000, 'Colombo', 'Colombo', 'Galle Road', '45'),
+    (2, 3, 7.2906000000000000, 80.6337000000000000, 'Kandy', 'Kandy', 'Peradeniya Road', '12'),
+    (3, 4, 6.0328000000000000, 80.2168000000000000, 'Galle', 'Galle', 'Light House Street', '78')";
 $conn->query($sql);
-echo "Location data inserted successfully!<br>";
+echo "Locations inserted successfully!<br>";
 
-// ========== 6. INSERT REQUESTS ==========
-$sql = "INSERT INTO Request (affected_people_id, loc_id, req_name, req_type, resource_type, resource_count, no_of_affected_people, contact_number, priority_level, status, is_instant) VALUES
-    (6, 1, 'Emergency Medical Supplies', 'landslides', 'Medicins', 500, 150, '0711111111', 'high', 'Pending', 1),
-    (7, 2, 'Food Distribution Request', 'tornadoes', 'Foods', 1000, 300, '0722222222', 'high', 'Approved', 0),
-    (8, 3, 'Temporary Shelter Setup', 'tsunamis', 'Shelters', 50, 200, '0733333333', 'medium', 'Assigned', 1),
-    (9, 4, 'Clothing for Displaced Families', 'heat waves', 'Clothes', 300, 120, '0744444444', 'medium', 'Pending', 0),
-    (10, 5, 'Financial Aid Request', 'avalanches', 'Money', 0, 80, '0755555555', 'high', 'In Progress', 1),
-    (6, 1, 'Emergency Medicines', 'landslides', 'Medicins', 200, 100, '0711111111', 'high', 'Pending', 1),
-    (7, 2, 'Dry Food Packets', 'tornadoes', 'Foods', 500, 250, '0722222222', 'medium', 'Approved', 0)";
+// ========== INSERT INTO requests TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO requests (request_id, request_type) VALUES 
+    (101, 'Instant_Request'),
+    (102, 'Instant_Request'),
+    (103, 'Logged_Request')";
 $conn->query($sql);
-echo "Request data inserted successfully!<br>";
+echo "Requests inserted successfully!<br>";
 
-// ========== 7. INSERT RESOURCES ==========
-$sql = "INSERT INTO resources (volunteer_id, resource_name, resource_type, resource_count, description) VALUES
-    (3, 'Medical First Aid Kits', 'Medicals', 150, 'Complete first aid kits with bandages and antiseptics'),
-    (3, 'Paracetamol Tablets', 'Medicals', 1000, '500mg tablets for fever and pain relief'),
-    (4, 'Rice Packets', 'Foods', 2000, '5kg rice packets'),
-    (4, 'Emergency Tents', 'Shelters', 30, 'Family size tents with rain cover'),
-    (5, 'Blankets', 'Cloths', 150, 'Warm blankets for cold nights'),
-    (5, 'School Uniforms', 'Cloths', 100, 'Children school uniforms assorted sizes'),
-    (3, 'Water Purification Tablets', 'Medicals', 500, 'For clean drinking water')";
+// ========== INSERT INTO Instant_Request TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO Instant_Request (req_id, user_id, loc_id, full_name, req_name, resource_type, resource_count, description, contact_number, status) VALUES 
+    (101, 2, 1, 'Mary Johnson', 'Emergency Medicine Supply', 'Medicins', 50, 'Need immediate medicine for fever and flu', '0712345678', 'Pending'),
+    (102, 3, 2, 'Ahmed Rashid', 'Food Packages for Flood Victims', 'Foods', 100, 'Need dry rations for 6 families', '0723456789', 'Pending')";
 $conn->query($sql);
-echo "Resource data inserted successfully!<br>";
+echo "Instant Requests inserted successfully!<br>";
 
-// ========== 8. INSERT ASSIGNMENTS ==========
-$sql = "INSERT INTO assignment (assigned_date, req_id, resource_id, volunteer_id, description, status) VALUES
-    (NOW(), 1, 1, 3, 'Medical supplies assigned to landslide victims', 'Assigned'),
-    (NOW(), 2, 3, 4, 'Food supplies allocated for tornado affected', 'Allocated'),
-    (NOW(), 3, 4, 4, 'Tents assigned for temporary shelter', 'Assigned'),
-    (DATE_SUB(NOW(), INTERVAL 2 DAY), 4, 5, 5, 'Clothing received and distributed', 'Received'),
-    (NOW(), 5, NULL, NULL, 'Awaiting resource allocation for financial aid', 'Assigned')";
+// ========== INSERT INTO Logged_Request TABLE (Single Insertion) ==========
+$sql = "INSERT INTO Logged_Request (req_id, affected_people_id, loc_id, user_id, req_name, req_type, resource_type, resource_count, no_of_affected_people, description, contact_number, priority_level, status) VALUES 
+    (103, 2, 1, 2, 'Landslide Relief Support', 'landslides', 'Shelters', 20, 150, 'Emergency shelter materials needed for landslide affected families', '0712345678', 'high', 'Pending')";
 $conn->query($sql);
-echo "Assignment data inserted successfully!<br>";
+echo "Logged Request inserted successfully!<br>";
 
-echo "<br><strong>All data inserted successfully!</strong>";
+// ========== INSERT INTO resource TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO resource (resource_id, volunteer_id, resource_name, resource_type, resource_count, description) VALUES 
+    (501, 4, 'Paracetamol Tablets', 'Medicals', 500, '500mg paracetamol tablets for fever relief'),
+    (502, 4, 'Rice Packets', 'Foods', 200, '5kg rice packets for distribution'),
+    (503, 5, 'Tents', 'Shelters', 50, 'Family size emergency tents'),
+    (504, 5, 'Blankets', 'Cloths', 150, 'Warm blankets for winter relief')";
+$conn->query($sql);
+echo "Resources inserted successfully!<br>";
+
+// ========== INSERT INTO assignment TABLE (Multiple Insertion) ==========
+$sql = "INSERT INTO assignment (assignment_id, assigned_date, req_id, resource_id, volunteer_id, affected_people_id, description, status) VALUES 
+    (1001, CURRENT_TIMESTAMP, 101, 501, 4, 2, 'Medicine supply assignment for Mary Johnson', 'Assigned'),
+    (1002, CURRENT_TIMESTAMP, 102, 502, 4, 3, 'Food supply assignment for Ahmed Rashid', 'Allocated'),
+    (1003, CURRENT_TIMESTAMP, 103, 503, 5, 2, 'Shelter materials assignment', 'Received')";
+$conn->query($sql);
+echo "Assignments inserted successfully!<br>";
+
+echo "<br>All test data inserted successfully!";
 
 $conn->close();
 ?>
