@@ -208,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="email" name="email" id="email" placeholder="example@gmail.com">
 
         <label>Contact No:</label>
-        <input type="text" name="contact_no" id="contact_no" placeholder="+94 712345678" required>
+        <input type="text" name="contact_no" id="contact_no" placeholder="0712345678" required>
 
         <label>Username:</label>
         <input type="text" name="username" id="username" required>
