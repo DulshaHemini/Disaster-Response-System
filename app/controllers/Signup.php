@@ -236,7 +236,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="city" required>
         
         <label>District:</label>
-        <input type="text" name="district" required>
+        <select name="district" required>
+            <option value="">Select District</option>
+            <option value="Ampara">Ampara</option>
+            <option value="Anuradhapura">Anuradhapura</option>
+            <option value="Badulla">Badulla</option>
+            <option value="Batticaloa">Batticaloa</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Galle">Galle</option>
+            <option value="Gampaha">Gampaha</option>
+            <option value="Hambantota">Hambantota</option>
+            <option value="Jaffna">Jaffna</option>
+            <option value="Kalutara">Kalutara</option>
+            <option value="Kandy">Kandy</option>
+            <option value="Kegalle">Kegalle</option>
+            <option value="Kilinochchi">Kilinochchi</option>
+            <option value="Kurunegala">Kurunegala</option>
+            <option value="Mannar">Mannar</option>
+            <option value="Matale">Matale</option>
+            <option value="Matara">Matara</option>
+            <option value="Monaragala">Monaragala</option>
+            <option value="Mullaitivu">Mullaitivu</option>
+            <option value="Nuwara Eliya">Nuwara Eliya</option>
+            <option value="Polonnaruwa">Polonnaruwa</option>
+            <option value="Puttalam">Puttalam</option>
+            <option value="Ratnapura">Ratnapura</option>
+            <option value="Trincomalee">Trincomalee</option>
+            <option value="Vavuniya">Vavuniya</option>
+        </select>
+
 
         <label>User Role:</label>
         <select name="user_role" id="user_role" onchange="showRoleFields()" required>
@@ -466,10 +494,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return false;
         }
 
-        // Contact number validation (starts with +94 followed by 9 digits)
-        var contactPattern = /^\+94\d{9}$/;
+        // Contact number validation (starts with 0 followed by 9 digits)
+        var contactPattern = /^0\d{9}$/;
         if (!contactPattern.test(contactNo)) {
-            alert("Invalid contact number format. It should start with +94 followed by 9 digits.");
+            alert("Invalid contact number format. It should start with 0 followed by 9 digits.");
             return false;
         }
 
@@ -486,11 +514,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return false;
         }
 
-        // Password validation (at least 6 characters)
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters long.");
+        // Password validation(at least 6 characters with at least one symbole and one number)
+        var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
+        if (!passwordPattern.test(password)) {
+            alert("Password must be at least 6 characters long and include at least one number and one special character.");
             return false;
-        }
+        }   
 
         // Age validation (between 1 and 99)
         if (age && (age < 1 || age > 99)) {
