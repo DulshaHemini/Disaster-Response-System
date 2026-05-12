@@ -1,9 +1,9 @@
-<?php require __DIR__ . '/_navbar.php'; ?>
-<?php require __DIR__ . '/_ticker.php'; ?>
-<?php require __DIR__ . '/_hero.php'; ?>
-<?php require __DIR__ . '/_dashboard.php'; ?>
-<?php require __DIR__ . '/_needs.php'; ?>
-<?php require __DIR__ . '/_analysis.php'; ?>
-<?php require __DIR__ . '/_vision.php'; ?>
-<?php require __DIR__ . '/_footer.php'; ?>
-<?php require __DIR__ . '/_modal.php'; ?>
+<?php require '_navbar.php'; ?>
+<?php require '_ticker.php'; ?>
+<?php require '_hero.php'; ?>
+<?php require '_dashboard.php'; ?>
+<?php require '_needs.php'; ?>
+<?php require '_analysis.php'; ?>
+<?php require '_vision.php'; ?>
+<?php require '_footer.php'; ?>
+<?php require '_modal.php'; ?>

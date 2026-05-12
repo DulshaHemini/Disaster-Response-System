@@ -1,33 +1,23 @@
 <?php
-/**
- * DRCS – Front Controller
- * All requests route through here.
- */
+// Simple Front Controller for Disaster Response System
 
+// Define paths
 define('BASE_PATH', dirname(__DIR__));
-define('APP_PATH',  BASE_PATH . '/app');
+define('APP_PATH', BASE_PATH . '/app');
 
-// Simple router: load the HomeController by default
+// Get the controller and action from URL, default to 'home'
 $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
-$action     = isset($_GET['action'])     ? $_GET['action']     : 'index';
+$action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
-// Sanitise inputs
-$controller = preg_replace('/[^a-zA-Z0-9_]/', '', $controller);
-$action     = preg_replace('/[^a-zA-Z0-9_]/', '', $action);
+// Build the file path
+$controllerFile = "../app/controllers/" . ucfirst($controller) . "Controller.php";
+$controllerClass = ucfirst($controller) . "Controller";
 
-$controllerFile  = APP_PATH . '/controllers/' . ucfirst($controller) . 'Controller.php';
-$controllerClass = ucfirst($controller) . 'Controller';
-
+// Load and run the controller
 if (file_exists($controllerFile)) {
     require_once $controllerFile;
     $ctrl = new $controllerClass();
-    if (method_exists($ctrl, $action)) {
-        $ctrl->$action();
-    } else {
-        http_response_code(404);
-        echo '404 – Action not found.';
-    }
+    $ctrl->$action();
 } else {
-    http_response_code(404);
-    echo '404 – Controller not found.';
+    echo "404 - Page not found";
 }
