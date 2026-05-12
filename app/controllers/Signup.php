@@ -252,21 +252,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>No. of Family Members:</label>
         <input type="number" name="no_of_family_members">
 
-        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
-        
+        <!-- Hidden Latitude & Longitude -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+
+        <!-- Location Preview Button -->
+        <button type="button" onclick="previewLocation()">
+            Show My Location
+        </button>
+
+        <br><br>
+
+        <!-- Google Map -->
         <iframe
             id="affected_map"
-            style="border:0; border-radius:8px;"
+            width="500"
+            height="300"
+            style="border:0; border-radius:10px;"
             loading="lazy"
             allowfullscreen
-            src="<?php
-                // Default = Sri Lanka, user location after POST
-                if ($lat && $lon) {
-                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-                } else {
-                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-                }
-            ?>">
+            src="https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7">
         </iframe>
     </div>
 
@@ -325,20 +330,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="description">Description:</label><br>
         <textarea id="description" name="description" rows="4" cols="30"></textarea><br><br>
 
-        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+        <!-- Hidden Latitude & Longitude -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+
+        <!-- Location Preview Button -->
+        <button type="button" onclick="previewLocation()">
+            Show My Location
+        </button>
+
+        <br><br>
+
+        <!-- Google Map -->
         <iframe
-            id="volunteer_map"
-            style="border:0; border-radius:8px;"
+            id="affected_map"
+            width="500"
+            height="300"
+            style="border:0; border-radius:10px;"
             loading="lazy"
             allowfullscreen
-            src="<?php
-                // Default = Sri Lanka, user location after POST
-                if ($lat && $lon) {
-                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-                } else {
-                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-                }
-            ?>">
+            src="https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7">
         </iframe>
     </div>
 
@@ -382,42 +393,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     //GET LOCATION
-    function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(sendToPHP, showError);
-                } else {
-                    alert("Geolocation is not supported by your browser.");
-                }
-                }
-
-                function sendToPHP(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                // Submit coordinates to PHP
-                const form = document.createElement("form");
-                form.method = "POST";
-                form.action = "";
-
-                const latInput = document.createElement("input");
-                latInput.type = "hidden";
-                latInput.name = "lat";
-                latInput.value = lat;
-
-                const lonInput = document.createElement("input");
-                lonInput.type = "hidden";
-                lonInput.name = "lon";
-                lonInput.value = lon;
-
-                form.appendChild(latInput);
-                form.appendChild(lonInput);
-                document.body.appendChild(form);
-                //form.submit();
+    function previewLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Save into hidden inputs
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update Google Map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
             }
-
-            function showError(error) {
-                alert("Error getting location: " + error.message);
             }
+            document.getElementById("affectedForm").addEventListener("submit", function(event) {
+            // Prevent immediate submit
+            event.preventDefault();
+            // If location already fetched
+            if (
+                document.getElementById("lat").value !== "" &&
+                document.getElementById("lon").value !== ""
+            ) {
+                this.submit();
+                return;
+            }
+            // Otherwise get location first
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Store values
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                        // Submit form AFTER getting location
+                        document.getElementById("affectedForm").submit();
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation not supported.");
+            }
+        });
 
     function validateForm() {
         let firstName = document.querySelector("input[name='first_name']");
