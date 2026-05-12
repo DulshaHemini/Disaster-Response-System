@@ -3,8 +3,49 @@ require_once '../../config/config.php';
 
 $embedded = defined('VIEW_REQUEST_EMBEDDED');
 
-$view_sql = "SELECT * FROM Request ORDER BY req_id DESC";
-$result   = $conn->query($view_sql);
+// UNION both request types into one result set.
+// Logged_Request has req_type, no_of_affected_people, priority_level.
+// Instant_Request does not — those columns are filled with NULLs.
+$view_sql = "
+    SELECT
+        lr.req_id,
+        lr.affected_people_id,
+        lr.loc_id,
+        lr.req_name,
+        lr.resource_type,
+        lr.req_type,
+        lr.resource_count,
+        lr.no_of_affected_people,
+        lr.description,
+        lr.contact_number,
+        lr.priority_level,
+        lr.created_at,
+        lr.status,
+        'No' AS is_instant
+    FROM Logged_Request lr
+
+    UNION ALL
+
+    SELECT
+        ir.req_id,
+        ir.user_id          AS affected_people_id,
+        ir.loc_id,
+        ir.req_name,
+        ir.resource_type,
+        NULL                AS req_type,
+        ir.resource_count,
+        NULL                AS no_of_affected_people,
+        ir.description,
+        ir.contact_number,
+        NULL                AS priority_level,
+        ir.created_at,
+        ir.status,
+        'Yes'               AS is_instant
+    FROM Instant_Request ir
+
+    ORDER BY req_id DESC
+";
+$result = $conn->query($view_sql);
 ?>
 
 <?php if (!$embedded): ?>

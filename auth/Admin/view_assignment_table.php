@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/config.php';
 
-$sql    = "SELECT * FROM assignment";
+$sql    = "SELECT * FROM assignments";
 $result = $conn->query($sql);
 ?>
 
@@ -73,9 +73,9 @@ $result = $conn->query($sql);
         td { padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
 
         .badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
-        .badge-pending  { background: #fff3e3; color: #b45309; }
-        .badge-progress { background: #e0f2fe; color: #0369a1; }
-        .badge-resolved { background: #e0f2e9; color: #15803d; }
+        .badge-assigned  { background: #e0f2fe; color: #0369a1; }
+        .badge-allocated { background: #fff3e3; color: #b45309; }
+        .badge-received  { background: #e0f2e9; color: #15803d; }
 
         @media (max-width: 800px) {
             .admin-nav { flex-wrap: wrap; height: auto; padding: 0.8rem; gap: 0.8rem; }
@@ -115,21 +115,25 @@ $result = $conn->query($sql);
                 <?php if ($result && $result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <?php
-                            $statusNorm = strtolower(trim($row['status']));
-                            $badgeClass = $statusNorm === 'pending'
-                                ? 'badge-pending'
-                                : ($statusNorm === 'in-progress' ? 'badge-progress' : 'badge-resolved');
+                            // Map actual ENUM values: Assigned / Allocated / Received
+                            $status     = $row['status'];
+                            $badgeClass = match($status) {
+                                'Assigned'  => 'badge-assigned',
+                                'Allocated' => 'badge-allocated',
+                                'Received'  => 'badge-received',
+                                default     => 'badge-assigned',
+                            };
                         ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['assigned_date'], ENT_QUOTES); ?></td>
                             <td><?php echo htmlspecialchars($row['assignment_id'], ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($row['req_id'], ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($row['resource_id'], ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($row['volunteer_id'], ENT_QUOTES); ?></td>
-                            <td><?php echo htmlspecialchars($row['description'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['request_id'], ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['resource_id'] ?? '—', ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['volunteer_id'] ?? '—', ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['description'] ?? '—', ENT_QUOTES); ?></td>
                             <td>
                                 <span class="badge <?php echo $badgeClass; ?>">
-                                    <?php echo htmlspecialchars($row['status'], ENT_QUOTES); ?>
+                                    <?php echo htmlspecialchars($status, ENT_QUOTES); ?>
                                 </span>
                             </td>
                         </tr>

@@ -17,10 +17,16 @@ if (isset($_POST['action']) && $_POST['action'] === 'update_request_status') {
     $status = $_POST['status'];
     $allowed = ['pending', 'in-progress', 'resolved'];
     if (!in_array($status, $allowed)) { echo json_encode(['ok' => false]); exit; }
-    $stmt = $conn->prepare("UPDATE Request SET status = ? WHERE req_id = ?");
+    // Update in both tables; only one will match the req_id
+    $stmt = $conn->prepare("UPDATE Logged_Request SET status = ? WHERE req_id = ?");
     $stmt->bind_param("si", $status, $id);
-    echo json_encode(['ok' => $stmt->execute()]);
+    $stmt->execute();
     $stmt->close();
+    $stmt = $conn->prepare("UPDATE Instant_Request SET status = ? WHERE req_id = ?");
+    $stmt->bind_param("si", $status, $id);
+    $stmt->execute();
+    $stmt->close();
+    echo json_encode(['ok' => true]);
     exit;
 }
 
@@ -28,14 +34,18 @@ if (isset($_POST['action']) && $_POST['action'] === 'update_request_status') {
 if (isset($_POST['action']) && $_POST['action'] === 'assign_volunteer') {
     $req_id       = intval($_POST['req_id']);
     $volunteer_id = intval($_POST['volunteer_id']);
-    // Update request status to in-progress
-    $stmt = $conn->prepare("UPDATE Request SET status = 'in-progress' WHERE req_id = ? AND status = 'pending'");
+    // Update status to in-progress in both tables; only one will match
+    $stmt = $conn->prepare("UPDATE Logged_Request SET status = 'in-progress' WHERE req_id = ? AND status = 'Pending'");
     $stmt->bind_param("i", $req_id);
     $stmt->execute();
     $stmt->close();
-    // Insert or update assignment
+    $stmt = $conn->prepare("UPDATE Instant_Request SET status = 'in-progress' WHERE req_id = ? AND status = 'Pending'");
+    $stmt->bind_param("i", $req_id);
+    $stmt->execute();
+    $stmt->close();
+    // Insert or update assignment (request_id is the FK to requests.request_id)
     $stmt = $conn->prepare(
-        "INSERT INTO assignment (req_id, volunteer_id, assigned_date, status)
+        "INSERT INTO assignments (request_id, volunteer_id, assigned_date, status)
          VALUES (?, ?, CURDATE(), 'Assigned')
          ON DUPLICATE KEY UPDATE volunteer_id = VALUES(volunteer_id), status = 'Assigned'"
     );
@@ -47,16 +57,19 @@ if (isset($_POST['action']) && $_POST['action'] === 'assign_volunteer') {
 
 // ── Fetch volunteers (for assign dropdown) ────────────────────────────────
 $volResult = $conn->query(
-    "SELECT user_id, username FROM users WHERE user_role = 'volunteer' ORDER BY username"
+    "SELECT v.volunteer_id, u.username
+     FROM volunteer v
+     JOIN users u ON v.volunteer_id = u.user_id
+     ORDER BY u.username"
 );
 $volunteers = [];
 while ($row = $volResult->fetch_assoc()) $volunteers[] = $row;
 
-// ── Fetch current assignments (req_id → volunteer_id map) ─────────────────
-$assignResult = $conn->query("SELECT req_id, volunteer_id FROM assignment");
+// ── Fetch current assignments (request_id → volunteer_id map) ─────────────
+$assignResult = $conn->query("SELECT request_id, volunteer_id FROM assignments");
 $assignments  = [];
 while ($row = $assignResult->fetch_assoc()) {
-    $assignments[$row['req_id']] = $row['volunteer_id'];
+    $assignments[$row['request_id']] = $row['volunteer_id'];
 }
 ?>
 <!DOCTYPE html>
@@ -240,7 +253,7 @@ while ($row = $assignResult->fetch_assoc()) {
   <!-- REQUESTS TAB -->
   <div id="requestsTab" class="tab-content">
     <div class="section-header">
-      <h2>📋 Citizen & Field Requests</h2>
+      <h2>📋 All Help Requests</h2>
       <select id="filterRequestStatus">
         <option value="all">All requests</option>
         <option value="pending">Pending</option>
@@ -295,11 +308,14 @@ while ($row = $assignResult->fetch_assoc()) {
         </thead>
         <tbody>
           <?php
+            // Fetch open requests from both tables
             $openReqResult = $conn->query(
-                "SELECT r.req_id, r.req_type, r.resource_type, r.loc_id, r.status
-                 FROM Request r
-                 WHERE LOWER(TRIM(r.status)) != 'resolved'
-                 ORDER BY r.req_id DESC"
+                "SELECT req_id, req_type, resource_type, loc_id, status FROM Logged_Request
+                 WHERE LOWER(TRIM(status)) != 'resolved'
+                 UNION ALL
+                 SELECT req_id, NULL AS req_type, resource_type, loc_id, status FROM Instant_Request
+                 WHERE LOWER(TRIM(status)) != 'resolved'
+                 ORDER BY req_id DESC"
             );
             $openRequests = [];
             while ($oRow = $openReqResult->fetch_assoc()) $openRequests[] = $oRow;
@@ -308,11 +324,12 @@ while ($row = $assignResult->fetch_assoc()) {
             <?php foreach ($openRequests as $oRow): ?>
               <?php
                 $statusNorm   = strtolower(trim($oRow['status']));
+                // $assignments is keyed by request_id (FK in assignments table)
                 $currentVolId = $assignments[$oRow['req_id']] ?? null;
               ?>
               <tr>
                 <td>#<?php echo htmlspecialchars($oRow['req_id'], ENT_QUOTES); ?></td>
-                <td><?php echo htmlspecialchars($oRow['req_type'], ENT_QUOTES); ?></td>
+                <td><?php echo htmlspecialchars($oRow['req_type'] ?? '—', ENT_QUOTES); ?></td>
                 <td><?php echo htmlspecialchars($oRow['resource_type'], ENT_QUOTES); ?></td>
                 <td><?php echo htmlspecialchars($oRow['loc_id'], ENT_QUOTES); ?></td>
                 <td><span class="badge badge-progress"><?php echo htmlspecialchars($oRow['status'], ENT_QUOTES); ?></span></td>
@@ -320,8 +337,8 @@ while ($row = $assignResult->fetch_assoc()) {
                   <select id="assignSelect_<?php echo $oRow['req_id']; ?>">
                     <option value="">— assign volunteer —</option>
                     <?php foreach ($volunteers as $v): ?>
-                      <option value="<?php echo $v['user_id']; ?>"
-                        <?php echo $currentVolId == $v['user_id'] ? 'selected' : ''; ?>>
+                      <option value="<?php echo $v['volunteer_id']; ?>"
+                        <?php echo $currentVolId == $v['volunteer_id'] ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($v['username'], ENT_QUOTES); ?>
                       </option>
                     <?php endforeach; ?>

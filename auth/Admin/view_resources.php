@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/config.php';
 
-$view_sql = "SELECT * FROM resources";
+$view_sql = "SELECT * FROM resource";
 $result = $conn->query($view_sql);
 ?>
 
