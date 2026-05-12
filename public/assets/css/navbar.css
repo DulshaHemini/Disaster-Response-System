@@ -1,5 +1,7 @@
 /* ============================================================
    DRCS – Navbar Component Styles
+   ============================================================
+   NOTE: Import theme.css before this file for colors & common styles
    ============================================================ */
 
 /* ── NAVBAR ── */
@@ -120,17 +122,6 @@ nav {
   height: 7px;
   background: #fff;
   border-radius: 50%;
-  animation: pdot 1.4s ease-in-out infinite;
-}
-
-@keyframes pdot {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
 }
 
 .btn-outline {
