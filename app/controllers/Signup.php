@@ -1,10 +1,68 @@
 
 <?php
+
+require_once '../../config/config.php';
+
 $lat = "";
 $lon = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //get location data from hidden inputs
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
+
+    //get other form data
+    $first_name = $_POST['first_name'] ?? '';
+    $last_name = $_POST['last_name'] ?? '';
+    $nic = $_POST['nic'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $contact_no = $_POST['contact_no'] ?? '';
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $age = $_POST['age'] ?? '';
+    $home_no = $_POST['home_no'] ?? '';
+    $street = $_POST['street'] ?? '';
+    $city = $_POST['city'] ?? '';
+    $district = $_POST['district'] ?? '';
+    $user_role = $_POST['user_role'] ?? '';
+    $no_of_family_members = $_POST['no_of_family_members'] ?? '';
+    $availability_status = $_POST['availability_status'] ?? '';
+    $type = $_POST['type'] ?? '';
+    $organization_name = $_POST['organization_name'] ?? '';
+    $resource_name = $_POST['resource_name'] ?? '';
+    $resource_type = $_POST['resource_type'] ?? '';
+    $resource_count = $_POST['resource_count'] ?? '';
+    $description = $_POST['description'] ?? '';
+
+    //insert into users table with user_id, username, password, user_role
+    $sql = "INSERT INTO users (username, password, user_role) VALUES ('$username', '$password', '$user_role')";
+    if ($conn->query($sql) === TRUE) {
+        $user_id = $conn->insert_id; // Get the generated user_id
+
+        // Insert into location table
+        $sql = "INSERT INTO Location (user_id, latitude, longitude, district, city, street, home_no) VALUES ('$user_id', '$lat', '$lon', '$district', '$city', '$street', '$home_no')";
+        $conn->query($sql);
+
+        if ($user_role == 'affected_people') {
+            // Insert into affected_people table
+            $sql = "INSERT INTO affected_people (affected_people_id, first_name, last_name, age, no_of_family_members, availability_status) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members', '$availability_status')";
+            $conn->query($sql);
+        } elseif ($user_role == 'volunteer') {
+            // Insert into volunteer table
+            $sql = "INSERT INTO volunteer (volunteer_id, first_name, last_name, nic, email, contact_no, organization_name, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$email', '$contact_no', '$organization_name', '$resource_name', '$resource_type', '$resource_count', '$description')";
+            $conn->query($sql);
+        } elseif ($user_role == 'admin') {
+            // Insert into admin table
+            $sql = "INSERT INTO admin (user_id, first_name, last_name, gender, age, email, contact_no) VALUES ('$user_id', '$first_name', '$last_name', '$gender', '$age', '$email', '$contact_no')";
+            $conn->query($sql);
+        }
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    //redirect to home page after registration
+    header("Location: ../../index.php");
+
 }
 ?>
 
@@ -15,64 +73,122 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <title>Registration Form</title>
 
 <style>
+
     body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-        }
-    
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Main container */
     .container {
-            width: 500px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+        width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border-top: 3px solid #c8102e;
+        border-bottom: 3px solid #c8102e;
+    }
 
+    /* Heading */
     h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
 
+    /* Each section box */
+    .box {
+        background: #f9fafc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+    }
+
+    /* Labels */
     label {
-            font-weight: bold;
-        }
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+        color: #444;
+    }
 
-    input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+    /* Inputs */
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+        box-sizing: border-box;
+    }
 
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
+
+    /* Button */
     button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
 
     button:hover {
-            background: #0056b3;
-        }
+        background: #0056b3;
+    }
 
+    /* Error text */
     .error {
-            color: red;
-            font-size: 14px;
-        }
+        color: red;
+        font-size: 13px;
+    }
 
-    #map {
-                width: 500px;
-                height: 400px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: none;
-            }
+    /* Map styling */
+    #map, iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: none;
+    }
+
+    /* Radio + table alignment */
+    table {
+        width: 50%;
+        margin-top: 10px;
+    }
+
+    td {
+        padding: 5px;
+    }
+
+    /* Volunteer & affected boxes highlight */
+    #affected_box {
+        border-top: 3px solid #28a745;
+        border-bottom: 3px solid #28a745;
+    }
+
+    #volunteer_box {
+        border-top: 3px solid #007bff;
+        border-bottom: 3px solid #007bff;
+    }
+
 </style>
 </head>
 
@@ -81,37 +197,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <h2>User Registration</h2>
 
-    <form action="submit.php" method="POST" onsubmit="return validateForm()">
+    <form method="POST" onsubmit="return validateForm()">
 
-        <label>Full Name:</label>
-        <input type="text" name="full_name" required>
+    <!--Common Data-->
+
+    <div class="box">
+
+        <label>First Name:</label>
+        <input type="text" name="first_name" required>
+
+        <label>Last Name:</label>
+        <input type="text" name="last_name" required>
+
+        <label>NIC:</label>
+        <input type="text" name="nic" id="nic" required>
 
         <label>Email:</label>
         <input type="email" name="email" id="email" placeholder="example@gmail.com">
+
+        <label>Contact No:</label>
+        <input type="text" name="contact_no" id="contact_no" placeholder="0712345678" required>
 
         <label>Username:</label>
         <input type="text" name="username" id="username" required>
 
         <label>Password:</label>
         <input type="password" name="password" id="password" required>
-
-        <label>User Role:</label>
-        <select name="user_role" id="user_role" required>
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="affected_people">Affected People</option>
-            <option value="volunteer">Volunteer</option>
-        </select>
-
-        
-
-        
-
-        <label>Contact No:</label>
-        <input type="text" name="contact_no" id="contact_no" placeholder="+94 712345678">
-
-        <label>Age:</label>
-        <input type="number" name="age" id="age" min="1" max="99">
 
         <label>Gender:</label>
         <select name="gender">
@@ -120,49 +231,165 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="female">Female</option>
         </select>
 
-        <label>NIC:</label>
-        <input type="text" name="nic" id="nic">
+        <label>Age:</label>
+        <input type="number" name="age" id="age" min="1" max="99">
 
+        <label>Home No:</label>
+        <input type="text" name="home_no">
+
+        <label>Street:</label>
+        <input type="text" name="street" required>
+
+        <label>City:</label>
+        <input type="text" name="city" required>
+        
+        <label>District:</label>
+        <select name="district" required>
+            <option value="">Select District</option>
+            <option value="Ampara">Ampara</option>
+            <option value="Anuradhapura">Anuradhapura</option>
+            <option value="Badulla">Badulla</option>
+            <option value="Batticaloa">Batticaloa</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Galle">Galle</option>
+            <option value="Gampaha">Gampaha</option>
+            <option value="Hambantota">Hambantota</option>
+            <option value="Jaffna">Jaffna</option>
+            <option value="Kalutara">Kalutara</option>
+            <option value="Kandy">Kandy</option>
+            <option value="Kegalle">Kegalle</option>
+            <option value="Kilinochchi">Kilinochchi</option>
+            <option value="Kurunegala">Kurunegala</option>
+            <option value="Mannar">Mannar</option>
+            <option value="Matale">Matale</option>
+            <option value="Matara">Matara</option>
+            <option value="Monaragala">Monaragala</option>
+            <option value="Mullaitivu">Mullaitivu</option>
+            <option value="Nuwara Eliya">Nuwara Eliya</option>
+            <option value="Polonnaruwa">Polonnaruwa</option>
+            <option value="Puttalam">Puttalam</option>
+            <option value="Ratnapura">Ratnapura</option>
+            <option value="Trincomalee">Trincomalee</option>
+            <option value="Vavuniya">Vavuniya</option>
+        </select>
+
+
+        <label>User Role:</label>
+        <select name="user_role" id="user_role" onchange="showRoleFields()" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="affected_people">Affected People</option>
+            <option value="volunteer">Volunteer</option>
+        </select>        
+    </div>
+
+    <!-- Affected People Fields -->
+    <div class="box" id="affected_box" style="display:none;">
         <label>No. of Family Members:</label>
         <input type="number" name="no_of_family_members">
 
-        <label>Priority Level:</label>
-        <select name="priority_level">
-            <option value="">Select Priority</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-        </select>
+        <!-- Hidden Latitude & Longitude -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
 
+        <!-- Location Preview Button -->
+        <button type="button" onclick="previewLocation()">
+            Show My Location
+        </button>
+
+        <br><br>
+
+        <!-- Google Map -->
+        <iframe
+            id="affected_map"
+            width="500"
+            height="300"
+            style="border:0; border-radius:10px;"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7">
+        </iframe>
+    </div>
+
+    <!-- Volunteer Fields -->
+    <div class="box" id="volunteer_box" style="display:none;">
         <label>Availability Status:</label>
         <select name="availability_status">
             <option value="available" selected>Available</option>
             <option value="busy">Busy</option>
         </select>
 
-        <label>Organization Name:</label>
-        <input type="text" name="organization_name">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <p>Are you an organization or a person?</p>
+                </td>
+            </tr>
 
-        <div id="errorMsg" class="error"></div>
+            <tr>
+                <td>
+                    <label for="person">Person</label>
+                </td>
+                <td>
+                    <input type="radio" id="person" name="type" value="Person" onclick="showOrganizationField()">
+                </td>
+            </tr>
 
-        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+            <tr>
+                <td>
+                    <label for="organization">Organization</label>
+                </td>
+                <td>
+                    <input type="radio" id="organization" name="type" value="Organization" onclick="showOrganizationField()">
+                </td>
+            </tr>
+
+            <tr id="organization_name_div" style="display:none;">
+                <td>
+                    <label for="organization_name">Organization Name:</label>
+                </td>
+                <td>
+                    <input type="text" id="organization_name" name="organization_name">
+                </td>
+            </tr>
+        </table>
+
+        <label for="resource_name">Resource Name:</label><br>
+        <input type="text" id="resource_name" name="resource_name"><br><br>
+
+        <label for="resource_type">Resource Type:</label><br>
+        <input type="text" id="resource_type" name="resource_type"><br><br>
+
+        <label for="resource_count">Resource Count:</label><br>
+        <input type="number" id="resource_count" name="resource_count"><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="30"></textarea><br><br>
+
+        <!-- Hidden Latitude & Longitude -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+
+        <!-- Location Preview Button -->
+        <button type="button" onclick="previewLocation()">
+            Show My Location
+        </button>
+
+        <br><br>
+
+        <!-- Google Map -->
         <iframe
-            id="map"
-            style="border:0; border-radius:8px;"
+            id="affected_map"
+            width="500"
+            height="300"
+            style="border:0; border-radius:10px;"
             loading="lazy"
             allowfullscreen
-            src="<?php
-                // Default = Sri Lanka, user location after POST
-                if ($lat && $lon) {
-                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-                } else {
-                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-                }
-            ?>">
+            src="https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7">
         </iframe>
+    </div>
 
-
-        <button type="submit">Register</button>
+    <button type="submit">Register</button>
 
     </form>
 </div>
@@ -170,101 +397,155 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
 
-function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendToPHP, showError);
+    // SHOW BOXES BASED ON ROLE
+    function showRoleFields() {
+        var role = document.getElementById("user_role").value;
+
+        var affectedBox = document.getElementById("affected_box");
+        var volunteerBox = document.getElementById("volunteer_box");
+
+        affectedBox.style.display = "none";
+        volunteerBox.style.display = "none";
+
+        if (role === "affected_people") {
+            affectedBox.style.display = "block";
+        }
+
+        if (role === "volunteer") {
+            volunteerBox.style.display = "block";
+        }
+    }
+
+    // SHOW ORGANIZATION FIELD
+    function showOrganizationField() {
+            var organizationField = document.getElementById("organization_name_div");
+            var organizationRadio = document.getElementById("organization");
+
+            if (organizationRadio.checked) {
+                organizationField.style.display = "block";
             } else {
-                alert("Geolocation is not supported by your browser.");
+                organizationField.style.display = "none";
             }
-            }
-
-            function sendToPHP(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            // Submit coordinates to PHP
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "";
-
-            const latInput = document.createElement("input");
-            latInput.type = "hidden";
-            latInput.name = "lat";
-            latInput.value = lat;
-
-            const lonInput = document.createElement("input");
-            lonInput.type = "hidden";
-            lonInput.name = "lon";
-            lonInput.value = lon;
-
-            form.appendChild(latInput);
-            form.appendChild(lonInput);
-            document.body.appendChild(form);
-            form.submit();
         }
 
-        function showError(error) {
-            alert("Error getting location: " + error.message);
+    //GET LOCATION
+    function previewLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Save into hidden inputs
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update Google Map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+            }
+            document.getElementById("affectedForm").addEventListener("submit", function(event) {
+            // Prevent immediate submit
+            event.preventDefault();
+            // If location already fetched
+            if (
+                document.getElementById("lat").value !== "" &&
+                document.getElementById("lon").value !== ""
+            ) {
+                this.submit();
+                return;
+            }
+            // Otherwise get location first
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Store values
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                        // Submit form AFTER getting location
+                        document.getElementById("affectedForm").submit();
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation not supported.");
+            }
+        });
+
+    function validateForm() {
+        let firstName = document.querySelector("input[name='first_name']");
+        let lastName = document.querySelector("input[name='last_name']");
+        var nic = document.getElementById("nic").value;
+        var contactNo = document.getElementById("contact_no").value;
+        var email = document.getElementById("email").value;
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var age = document.getElementById("age").value;
+
+        // NIC validation (10 or 12 characters, digits + optional 'V' at the end)
+        var nicPattern = /^(\d{9}[Vv]|\d{12})$/;
+        if (!nicPattern.test(nic)) {
+            alert("Invalid NIC format. It should be 10 or 12 characters long.");
+            return false;
         }
-        
-function validateForm() {
-    let username = document.getElementById("username").value.trim();
-    let password = document.getElementById("password").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let contact = document.getElementById("contact_no").value.trim();
-    let age = document.getElementById("age").value.trim();
-    let nic = document.getElementById("nic").value.trim();
-    let role = document.getElementById("user_role").value;
 
-    let errorMsg = "";
+        // Contact number validation (starts with 0 followed by 9 digits)
+        var contactPattern = /^0\d{9}$/;
+        if (!contactPattern.test(contactNo)) {
+            alert("Invalid contact number format. It should start with 0 followed by 9 digits.");
+            return false;
+        }
 
-    // Username validation
-    if (username.length < 4) {
-        errorMsg += "Username must be at least 4 characters long.<br>";
+        // Email validation
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email && !emailPattern.test(email)) {
+            alert("Invalid email format.");
+            return false;
+        }
+
+        // Username validation (at least 4 characters)
+        if (username.length < 4) {
+            alert("Username must be at least 4 characters long.");
+            return false;
+        }
+
+        // Password validation(at least 6 characters with at least one symbole and one number)
+        var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
+        if (!passwordPattern.test(password)) {
+            alert("Password must be at least 6 characters long and include at least one number and one special character.");
+            return false;
+        }   
+
+        // Age validation (between 1 and 99)
+        if (age && (age < 1 || age > 99)) {
+            alert("Age must be between 1 and 99.");
+            return false;
+        }
+
+        //home no validation(, or / allowed)
+        var homeNoPattern = /^[\w\s\/,]+$/;
+        var homeNo = document.getElementById("home_no").value;
+        if (homeNo && !homeNoPattern.test(homeNo)) {
+            alert("Home No can only contain letters, numbers, spaces, commas, and slashes.");
+            return false;
+        }
+
+
+        return true; // All validations passed
     }
-
-    // Password validation
-    if (password.length < 6) {
-        errorMsg += "Password must be at least 6 characters long.<br>";
-    }
-
-    // Role validation
-    if (role === "") {
-        errorMsg += "Please select a user role.<br>";
-    }
-
-    // Email validation
-    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    if (email !== "" && !email.match(emailPattern)) {
-        errorMsg += "Invalid email format.<br>";
-    }
-
-    // Contact number validation (Sri Lanka format)
-    let phonePattern = /^(\+94|0)[0-9]{9}$/;
-    if (contact !== "" && !contact.match(phonePattern)) {
-        errorMsg += "Invalid contact number (use +947XXXXXXXX or 07XXXXXXXX).<br>";
-    }
-
-    // Age validation
-    if (age !== "" && (age < 1 || age > 99)) {
-        errorMsg += "Age must be between 1 and 99.<br>";
-    }
-
-    // NIC validation (old + new)
-    let nicPattern = /^([0-9]{9}[vVxX]|[0-9]{12})$/;
-    if (nic !== "" && !nic.match(nicPattern)) {
-        errorMsg += "Invalid NIC format.<br>";
-    }
-
-    // Show errors
-    if (errorMsg !== "") {
-        document.getElementById("errorMsg").innerHTML = errorMsg;
-        return false;
-    }
-
-    return true;
-}
-
 </script>
 
 </body>

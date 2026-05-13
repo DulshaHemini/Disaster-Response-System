@@ -67,18 +67,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <style>
     body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        margin: 0;
+        padding: 0;
         }
     
     .container {
-            width: 500px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border-top: 3px solid #c8102e;
+        border-bottom: 3px solid #c8102e;
         }
+
+    .box {
+        background: #f9fafc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+    }
 
     .back-home{
             align-self: flex-start;
@@ -103,22 +115,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+        box-sizing: border-box;
         }
 
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
+
     button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: 0.2s;
         }
 
     button:hover {
@@ -130,26 +153,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 14px;
         }
 
-    #map {
-                width: 500px;
-                height: 400px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: none;
-            }
+    #map, iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: none;
+    }
 </style>
 </head>
 
 <body>
     <div class="container">
-        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
 
         <h1 class="top-text">🚨 Instant Help Request</h1>
 
-        <div class="data-form">
+        <div class="box">
             <form method="POST" id="instantHelp">
 
-                <label>Name</label>
+                <label id="nameLabel">Name</label>
                 <input type="text" name="name" id="name" placeholder="Enter Your Name" required>
 
                 <label>Request Name</label>
@@ -170,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </select>
                     <label>Number Of affected People</label>
-                    <input type="number" name="aff_pp" min="1">
+                    <input type="number" name="aff_pp" min="1" value="1">
 
                     <label>Resource Type</label>
                     <select name="resource_type" required>
@@ -187,11 +210,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
 
                 <label>Resource Count</label>
-                <input type="number" name="resource_count" min="1">
+                <input type="number" name="resource_count" min="1" value="1">
 
                 <label>Contact Number</label>
                 <input type="tel" name="contact_number" id="contactnumber" pattern="^07[0-9]{8}$" placeholder="07XXXXXXXX" maxlength="10" required>
-                <span id="phoneError" style="color:red; font-size:14px;"></span>    
+                <span id="phoneError" style="color:red; font-size:14px;"></span>  <br>  
 
                 <label>Email</label>
                 <input type="email" name="email" placeholder="example@email.com" >
@@ -235,7 +258,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     document.getElementById("instantHelp").addEventListener("submit", function(event) {
     const name = document.getElementById("name").value.trim();
     if (name === "") {
-        alert("Name cannot be empty");
+        //alert("Name cannot be empty");
+        document.getElementById("nameLabel").innerHTML = "<span style='color:red;'>Name cannot be empty</span>";
         event.preventDefault();
     }
 });

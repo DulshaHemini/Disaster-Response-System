@@ -11,45 +11,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // SQL Query
     $sql = "SELECT * FROM users WHERE username='$name'";
     $result = mysqli_query($conn, $sql);
-
     // Check if user exists
     if (mysqli_num_rows($result) > 0) {
-
         $row = mysqli_fetch_assoc($result);
-
         // Verify password
         if (password_verify($password, $row['password'])) {
-
             $message = "Login Successful!";
-
             // Redirect based on role
             if ($row['user_role'] === 'admin') {
-
                 header("Location: adminpage.php");
                 exit();
-
             } elseif ($row['user_role'] === 'affected_people') {
-
                 header("Location: affected_people.php");
                 exit();
-
             } elseif ($row['user_role'] === 'volunteer') {
-
                 header("Location: volunteer.php");
                 exit();
-
             } else {
-
                 $message = "Invalid User Role!";
             }
-
         } else {
-
             $message = "Invalid Password!";
         }
-
     } else {
-
         $message = "User Not Found!";
     }
 }
@@ -133,11 +117,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         margin-bottom: 0.5rem;
         line-height: 1.2;
         }
+
+        .username-lable, .password-label {
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .submit-button{
+            background-color: #c3102e;
+            color: white;
+        }
+
+        .submit-button:hover {
+            background-color: #a00b1e;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
         <br>
         <h1 class="signin-text">Sign In</h1><br>
         <div class="auth-card">                     
@@ -145,10 +144,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <form id="userForm" method="POST">
                 <input type="text" name="username" id="username" placeholder="Username">
                 <input type="password" name="password" id="password" placeholder="Password">
-                <input type="submit" value="Submit">
+                <p style="color:red; font-family: sans-serif; font-size: 14px;"><?php echo $message; ?></p>
+                <input class="submit-button" type="submit" value="Submit">
             </form>
-            <p>No account? <a href='signup.php'>Sign Up</p>
-            <p style="color:red;"><?php echo $message; ?></p>
+            <p style="font-family: sans-serif; font-size: 14px;">No account ? <a href='signup.php' style="text-decoration: none;">Sign Up</a></p>
         </div>
     </div>
 
@@ -159,15 +158,13 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     const pwd = document.getElementById("password").value.trim();
 
     if (name === "" && pwd === "") {
-        alert("Username and Password cannot be empty!");
+        <p style="color:red; font-family: sans-serif; font-size: 14px;"><?php echo $message; ?></p>
         event.preventDefault();
     }
     else if (name === "") {
-        alert("Username cannot be empty!");
         event.preventDefault();
     } 
     else if (pwd === "") {
-        alert("Password cannot be empty!");
         event.preventDefault();
     }
 });
