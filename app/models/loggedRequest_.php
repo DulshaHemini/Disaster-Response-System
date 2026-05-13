@@ -1,8 +1,11 @@
-<?php
-function insertData(){
-    require_once __DIR__ . "../../config/config.php";
+/*<?php
 
-    $username = $_POST['username'];
+    require_once __DIR__ . "../../config/config.php";
+//function insertData(){
+
+ // global $conn;
+  $user_id = 8;
+    
     $request_name = $_POST['request_name'];
     $request_type = $_POST['req_type'];
     $description = $_POST['description'];
@@ -10,59 +13,60 @@ function insertData(){
     $resource_type = $_POST['resource_type'];
     $resource_count = $_POST['resource_count'];
     $contact_number = $_POST['contact_number'];
-    $email = $_POST['email'];
+
+   
     $city = $_POST['city'];
     $street = $_POST['street'];
-    $home_no = $_POST['home_nummber'];
+    $home_no = $_POST['home_number'];
+
     $priority = $_POST['priority_level'];
     $district = $_POST['district'];
-    $location = $_POST['location'];
+
+    $latitude = $_POST['lat'];
+    $longitude = $_POST['lon'];
+
+  $sql_location = "UPDATE Location
+      SET
+          latitude = '$latitude',
+          longitude = '$longitude',
+          district = '$district',
+          city = '$city',
+          street = '$street',
+          home_no = '$home_no'
+      WHERE user_id = $user_id";
+
+  if ($conn->query($sql_location) === TRUE) {
+      echo "Location updated successfully."; 
+  } else {
+      echo "Error updating location: " . $conn->error;
+  }
+
 
     $sql = "INSERT INTO logged_Request(
-        username,
-        request_type,
-        description,
-        affected_people,
+        loc_id,
+        req_name,
+        req_type,
         resource_type,
         resource_count,
+        description,
+        No_of_affected_people,
         contact_number,
-        email,
-        city,
-        street,
-        home_no,
-        priority,
-        district,
-        location
-
-        )VALUES ('$username',
+        priority
+       
+        )
+        VALUES (
+        '$loc_id',
         '$request_name',
         '$request_type',
-        '$description',
-        '$affected_people',
         '$resource_type',
         '$resource_count',
+        '$affected_people',
+        '$description',
         '$contact_number',
-        '$email',
-        '$city',
-        '$street',
-        '$home_no',
-        '$priority',
-        '$district',
-        '$location')
+        '$priority'
     )";
 
   return mysqli_query($conn, $sql);
-    
-  // i want to update location table with the new location data
-  $sql_location = "INSERT INTO Location(
-    latitude,
-    longitude,
-    district,
-    city,
-    street,
-    home_no) VALUES ('$latitude', '$longitude', '$district', '$city', '$street', '$home_no')";
-  return mysqli_query($conn, $sql_location);
+//}
   
-}
-
 ?>
