@@ -42,11 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user_role == 'affected_people') {
             // Insert into affected_people table
-            $sql = "INSERT INTO affected_people (user_id, first_name, last_name, age, no_of_family_members, availability_status) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members', '$availability_status')";
+            $sql = "INSERT INTO affected_people (affected_people_id, first_name, last_name, age, no_of_family_members, availability_status) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members', '$availability_status')";
             $conn->query($sql);
         } elseif ($user_role == 'volunteer') {
             // Insert into volunteer table
-            $sql = "INSERT INTO volunteer (user_id, first_name, last_name, nic, email, contact_no, organization_name, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$email', '$contact_no', '$organization_name', '$resource_name', '$resource_type', '$resource_count', '$description')";
+            $sql = "INSERT INTO volunteer (volunteer_id, first_name, last_name, nic, email, contact_no, organization_name, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$email', '$contact_no', '$organization_name', '$resource_name', '$resource_type', '$resource_count', '$description')";
             $conn->query($sql);
         } elseif ($user_role == 'admin') {
             // Insert into admin table
