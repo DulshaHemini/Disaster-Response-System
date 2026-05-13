@@ -9,15 +9,127 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
     <head>
         <title></title>
-        <style>
-            #map {
-                width: 500px;
-                height: 400px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: none;
-            }
-        </style>
+       <style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        margin: 0;
+        padding: 20px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Main Form Container */
+    form {
+        width: 100%;
+        max-width: 700px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border-top: 3px solid #c8102e;
+        border-bottom: 3px solid #c8102e;
+    }
+
+    /* Heading */
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+        font-size: 32px;
+    }
+
+    /* Labels */
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #444;
+    }
+
+    /* Inputs */
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    /* Focus Effect */
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
+
+    /* Textarea */
+    textarea {
+        resize: vertical;
+    }
+
+    /* Buttons */
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    /* Map Styling */
+    #map,
+    iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+        margin-top: 10px;
+        border: none;
+    }
+
+    /* Other Resource Box */
+    #otherResourceDiv {
+        background: #f9fafc;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+        margin-bottom: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        form {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+    }
+
+    </style>
     </head>
     <body>
         <h1>Request Submission Form</h1>
@@ -30,8 +142,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Request Name</label><br>
         <input type="text" name="request_name" reqiured><br><br>
         
-        <label>Request Type</label><br>
-        <input type="text" name="req_type" placeholder="What is the issue"><br><br>
+        <label>Request Type:</label>
+        <select name="req_type" id="req_type" required>
+
+        <option value="">Select Request Type</option>
+
+        <option value="tornadoes">Tornadoes</option>
+        <option value="tsunamis">Tsunamis</option>
+        <option value="landslides">Landslides</option>
+        <option value="Flood">Flood</option>
+        <option value="heat waves">Heat Waves</option>
+        <option value="Droughts">Droughts</option>
+        <option value="Strong Winds and Cyclones">Strong Winds and Cyclones</option>
+
+
+    </select>
+    <br><br>
 
         <label>Description:</label><br>
         <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
@@ -132,20 +258,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Location:</label><br>
         
 
-        <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+         <!-- Hidden Latitude & Longitude -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+
+        <!-- Location Preview Button -->
+        <button type="button" onclick="previewLocation()">
+            Show My Location
+        </button>
+
+        <br><br>
+
+        <!-- Google Map -->
         <iframe
-            id="map"
-            style="border:0; border-radius:8px;"
+            id="affected_map"
+            width="500"
+            height="300"
+            style="border:0; border-radius:10px;"
             loading="lazy"
             allowfullscreen
-            src="<?php
-                // Default = Sri Lanka, user location after POST
-                if ($lat && $lon) {
-                    echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-                } else {
-                    echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-                }
-            ?>">
+            src="https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7">
         </iframe>
         <br><br>
 
@@ -238,42 +370,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         });
 
-        function getLocation() {
+        //GET LOCATION
+    function previewLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendToPHP, showError);
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Save into hidden inputs
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update Google Map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
             } else {
-                alert("Geolocation is not supported by your browser.");
+                alert("Geolocation is not supported by this browser.");
             }
-        }
-
-        function sendToPHP(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "";
-
-            const latInput = document.createElement("input");
-            latInput.type = "hidden";
-            latInput.name = "lat";
-            latInput.value = lat;
-
-            const lonInput = document.createElement("input");
-            lonInput.type = "hidden";
-            lonInput.name = "lon";
-            lonInput.value = lon;
-
-            form.appendChild(latInput);
-            form.appendChild(lonInput);
-
-            document.body.appendChild(form);
-            form.submit();
-        }
-
-        function showError(error) {
-            alert("Error getting location: " + error.message);
-        }
+            }
+            document.getElementById("affectedForm").addEventListener("submit", function(event) {
+            // Prevent immediate submit
+            event.preventDefault();
+            // If location already fetched
+            if (
+                document.getElementById("lat").value !== "" &&
+                document.getElementById("lon").value !== ""
+            ) {
+                this.submit();
+                return;
+            }
+            // Otherwise get location first
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        // Store values
+                        document.getElementById("lat").value = lat;
+                        document.getElementById("lon").value = lon;
+                        // Update map
+                        document.getElementById("affected_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                        // Submit form AFTER getting location
+                        document.getElementById("affectedForm").submit();
+                    },
+                    function(error) {
+                        alert(error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation not supported.");
+            }
+        });
 
         </script>
 
