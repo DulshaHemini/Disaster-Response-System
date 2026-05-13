@@ -85,6 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         padding: 30px;
         border-radius: 12px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border-top: 3px solid #c8102e;
+        border-bottom: 3px solid #c8102e;
     }
 
     /* Heading */
@@ -174,11 +176,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /* Volunteer & affected boxes highlight */
     #affected_box {
-        border-left: 5px solid #28a745;
+        border-top: 3px solid #28a745;
+        border-bottom: 3px solid #28a745;
     }
 
     #volunteer_box {
-        border-left: 5px solid #007bff;
+        border-top: 3px solid #007bff;
+        border-bottom: 3px solid #007bff;
     }
 
 </style>
