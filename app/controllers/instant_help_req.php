@@ -6,27 +6,45 @@ $lat = "";
 $lon = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //GET LOCATION
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
 
+    //GET FORM DATA
     $name = trim($_POST['name'] ?? '');
     $req_name = trim($_POST['req_name'] ?? '');
     $req_type = $_POST['req_type'] ?? '';
-    $description = $_POST['description'] ?? '';
     $num_aff_pp = $_POST['aff_pp'] ?? '';
-    $res_count = $_POST['resource_count'] ?? '';
     $res_type = $_POST['resource_type'] ?? '' ;
+    $res_count = $_POST['resource_count'] ?? '';
     $contact_number = $_POST['contact_number'] ?? '';
     $email = $_POST['email'] ?? '' ;
     $priority = $_POST['priority'] ?? '';
 
+    // phone validation
+    if (!preg_match('/^07[0-9]{8}$/', $contact_number)) {
+        die("Invalid Sri Lankan mobile number");
+    }
 
+    // email validation
+    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Invalid email address");
+    }
 
-    $sql = "INSERT INTO users VALUES
-        ($name,  )";
-        
-    $sql = "";
-}
+    //INSERT FORM DATA
+
+    $sql = "INSERT INTO Instant_Request (full_name, req_name, req_type, no_of_affected_people, resource_type, resource_count, contact_number, email, priority_level ) 
+            VALUES('$name', '$req_name', '$req_type', '$num_aff_pp','$res_type', '$res_count', '$contact_number', '$email', '$priority'  )";
+    }
+
+    $loc_sql = "INSERT INTO Location(latitude, longitude)
+                VALUES ( $lat, $lon )";
+    
+    //INSERT LOCATION
+
+    $loc_sql = "INSERT INTO Location(latitude, longitude)
+                VALUES ($lat, $lon )";
+
 ?>
 
 <!DOCTYPE html>
@@ -108,23 +126,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="text" name="req_name" placeholder="What is the issue" required><br><br>
 
     <label>Request Type:</label>
-    <select name="req_type" id="req_type">
-        <option value="">Select Request Type</option>
-        <option value="tornados">Tornados</option>
-        <option value="tsunamis">Tsunamis</option>
-        <option value="landslides">Landslides</option>
-        <option value="avalanches">Avalanches</option>
-        <option value="heat_waves">Heat Waves</option>
-    </select> <br><br>
+    <select name="req_type" id="req_type" required>
 
-    <label>Description:</label><br>
-    <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
+    <option value="">Select Request Type</option>
+
+    <option value="tornadoes">Tornadoes</option>
+    <option value="tsunamis">Tsunamis</option>
+    <option value="landslides">Landslides</option>
+    <option value="avalanches">Avalanches</option>
+    <option value="heat waves">Heat Waves</option>
+
+</select>
+    <br><br>
 
     <label>Number Of affected People:</label>*<br>
     <input type="number" name="aff_pp" min="1"><br><br>
-
-    <label>Resource Count:</label>*<br>
-    <input type="number" name="resource_count" min="1"><br><br>
 
     <label>Resource Type:</label>*<br>
     <select name="resource_type" required>
@@ -132,11 +148,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <option value="">Select Resource Type</option>
     <option value="food">Food</option>
     <option value="water">Water</option>
-    <option value="medical">Medical Supplies</option>
     <option value="medicine">Medicine</option>
     <option value="shelter">Shelter</option>
     <option value="clothes">Clothes</option>
-    <option value="transport">Transport</option>
     <option value="rescue">Rescue Team</option>
     <option value="electricity">Electricity Support</option>
     <option value="communication">Communication Support</option>
@@ -144,12 +158,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <br><br>
 
+    <label>Resource Count:</label>*<br>
+    <input type="number" name="resource_count" min="1"><br><br>
+
     <label>Contact Number:</label>*<br>
     <input type="tel" name="contact_number" id="contactnumber" pattern="^07[0-9]{8}$" placeholder="07XXXXXXXX" maxlength="10" required><br><br>
     <span id="phoneError" style="color:red; font-size:14px;"></span>    
 
-    <label>Email:</label>*<br>
-    <input type="email" name="email" placeholder="example@email.com" required><br><br>
+    <label>Email:</label><br>
+    <input type="email" name="email" placeholder="example@email.com" ><br><br>
 
     <label>Priority:</label><br>
     <select name="priority_level" required>
@@ -184,14 +201,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <script>
-    document.getElementById("instanthelp").addEventListener("submit", function(event) {
-        const name = document.getElementById("name").value.trim();
 
-        if (name === "" && pwd === "") {
-            alert("Username and Password cannot be empty!");
-            event.preventDefault();
+    document.getElementById("instantHelp").addEventListener("submit", function(event) {
+    const name = document.getElementById("name").value.trim();
+    if (name === "") {
+        alert("Name cannot be empty");
+        event.preventDefault();
     }
-    });
+});
 
     document.getElementById("contactnumber").addEventListener("input",function(){
         const phone = this.value;
