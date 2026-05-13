@@ -1,59 +1,6 @@
 <?php
 require_once '../../config/config.php';
 
-// Handle AJAX actions from tabs (they exit after handling)
-if (isset($_POST['action'])) {
-    // Users tab actions
-    if ($_POST['action'] === 'delete_user') {
-        $id = intval($_POST['user_id']);
-        $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
-        $stmt->bind_param("i", $id);
-        echo json_encode(['ok' => $stmt->execute()]);
-        $stmt->close();
-        exit;
-    }
-    
-    // Requests tab actions
-    if ($_POST['action'] === 'update_request_status') {
-        $id     = intval($_POST['req_id']);
-        $status = $_POST['status'];
-        $allowed = ['pending', 'in-progress', 'resolved'];
-        if (!in_array($status, $allowed)) { echo json_encode(['ok' => false]); exit; }
-        $stmt = $conn->prepare("UPDATE Logged_Request SET status = ? WHERE req_id = ?");
-        $stmt->bind_param("si", $status, $id);
-        $stmt->execute();
-        $stmt->close();
-        $stmt = $conn->prepare("UPDATE Instant_Request SET status = ? WHERE req_id = ?");
-        $stmt->bind_param("si", $status, $id);
-        $stmt->execute();
-        $stmt->close();
-        echo json_encode(['ok' => true]);
-        exit;
-    }
-    
-    // Assign tab actions
-    if ($_POST['action'] === 'assign_volunteer') {
-        $req_id       = intval($_POST['req_id']);
-        $volunteer_id = intval($_POST['volunteer_id']);
-        $stmt = $conn->prepare("UPDATE Logged_Request SET status = 'in-progress' WHERE req_id = ? AND status = 'Pending'");
-        $stmt->bind_param("i", $req_id);
-        $stmt->execute();
-        $stmt->close();
-        $stmt = $conn->prepare("UPDATE Instant_Request SET status = 'in-progress' WHERE req_id = ? AND status = 'Pending'");
-        $stmt->bind_param("i", $req_id);
-        $stmt->execute();
-        $stmt->close();
-        $stmt = $conn->prepare(
-            "INSERT INTO assignments (request_id, volunteer_id, assigned_date, status)
-             VALUES (?, ?, CURDATE(), 'Assigned')
-             ON DUPLICATE KEY UPDATE volunteer_id = VALUES(volunteer_id), status = 'Assigned'"
-        );
-        $stmt->bind_param("ii", $req_id, $volunteer_id);
-        echo json_encode(['ok' => $stmt->execute()]);
-        $stmt->close();
-        exit;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
