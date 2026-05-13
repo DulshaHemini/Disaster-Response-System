@@ -78,7 +78,7 @@ if (isset($_POST['action'])) {
         <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/>
       </svg>
     </div>
-    <span class="brand-text">DR<em>CS</em></span>
+    <span class="brand-text">DR<em>CS</em> | ADMIN</span>
   </a>
 
   <div class="nav-center">
@@ -88,6 +88,8 @@ if (isset($_POST['action'])) {
       <button class="tab-btn" data-tab="requests">📋 All Requests</button>
       <button class="tab-btn" data-tab="instantHelp">⚡ Instant Help</button>
       <button class="tab-btn" data-tab="assign">🔄 Assign Volunteers</button>
+      <button class="tab-btn" data-tab="resources">📦 Resource Management</button>
+      <button class="tab-btn" data-tab="locations">🗺️ Location Management</button>
     </div>
   </div>
 
@@ -104,6 +106,8 @@ if (isset($_POST['action'])) {
   <?php include 'tabs/requests_tab.php'; ?>
   <?php include 'tabs/instant_help_tab.php'; ?>
   <?php include 'tabs/assign_tab.php'; ?>
+  <?php include 'tabs/resources_tab.php'; ?>
+  <?php include 'tabs/locations_tab.php'; ?>
 </div>
 
 <!-- TOAST -->

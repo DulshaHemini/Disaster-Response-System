@@ -43,7 +43,9 @@ tabs.forEach(btn => {
       'users': 'usersTab',
       'requests': 'requestsTab',
       'instantHelp': 'instantHelpTab',
-      'assign': 'assignTab'
+      'assign': 'assignTab',
+      'resources': 'resourcesTab',
+      'locations': 'locationsTab'
     };
     const tabId = tabMap[targetTab];
     if (tabId) {
