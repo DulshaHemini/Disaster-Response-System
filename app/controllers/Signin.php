@@ -70,69 +70,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             box-sizing: border-box;
         }
 
-        .auth-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 28px;
-            width: 100%;
-            max-width: 460px;
-            padding: 2.4rem 2rem 2.8rem 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-
-        .brand-icon {
+        .container {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.8rem;
+            justify-content: center;
+            width: 100%;
+            max-width: 360px;
+            min-height: 400px;
+            background: var(--off);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-top: 3px solid #c3102e;
+            border-bottom: 3px solid #c3102e;
         }
-        
-    body {
-      background: var(--off);
-      font-family: var(--font-bd);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
 
-    h1 {
-      font-family: var(--font-hd);
-      font-size: 1.9rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
+        .auth-card {
+            border-radius: 12px;
+            width: 100%;
+            padding: 0;
+            margin: 0; 
+        }
+
+        body {
+        background: var(--off);
+        font-family: var(--font-bd);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        }
+
+        .back-home{
+            align-self: flex-start;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .signin-text{
+            font-family: sans-serif;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        h1 {
+        font-family: var(--font-hd);
+        font-size: 1.9rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+        }
     </style>
 </head>
 <body>
-    <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
-
-    <div class="auth-card">
-    <div class="brand-icon">
-    <div class="logo-icon">
+    <div class="container">
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+        <br>
+        <h1 class="signin-text">Sign In</h1><br>
+        <div class="auth-card">                     
+            <h2>Welcome back</h2><br>
+            <form id="userForm" method="POST">
+                <input type="text" name="username" id="username" placeholder="Username">
+                <input type="password" name="password" id="password" placeholder="Password">
+                <input type="submit" value="Submit">
+            </form>
+            <p>No account? <a href='signup.php'>Sign Up</p>
+            <p style="color:red;"><?php echo $message; ?></p>
+        </div>
     </div>
-  </div>
-      <h1>Welcome back</h1>
-        <div class="sub">Sign in to access the coordination dashboard</div>
-        
-                
 
-<h1>Sign In</h1>
-
-<form id="userForm" method="POST">
-    <input type="text" name="username" id="username" placeholder="Username"><br><br>
-    <input type="password" name="password" id="password" placeholder="Password"><br><br>
-    <input type="submit" value="Submit">
-</form>
-
-<p>No account? <a href='signup.php'>Sign Up</p>
-
-
-<p style="color:red;"><?php echo $message; ?></p>
 
 <script>
 document.getElementById("userForm").addEventListener("submit", function(event) {

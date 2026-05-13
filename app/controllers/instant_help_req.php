@@ -6,26 +6,55 @@ $lat = "";
 $lon = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // GET LOCATION
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
 
+    // GET FORM DATA
     $name = trim($_POST['name'] ?? '');
     $req_name = trim($_POST['req_name'] ?? '');
-    $req_type = $_POST['req_type'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $num_aff_pp = $_POST['aff_pp'] ?? '';
+    $res_type = $_POST['resource_type'] ?? '';
     $res_count = $_POST['resource_count'] ?? '';
-    $res_type = $_POST['resource_type'] ?? '' ;
     $contact_number = $_POST['contact_number'] ?? '';
-    $email = $_POST['email'] ?? '' ;
-    $priority = $_POST['priority'] ?? '';
 
+    // VALIDATION
 
+    if (!preg_match('/^07[0-9]{8}$/', $contact_number)) {
+        die("Invalid Sri Lankan mobile number");
+    }
 
-    $sql = "INSERT INTO users VALUES
-        ($name,  )";
-        
-    $sql = "";
+    $loc_sql = "INSERT INTO Location(latitude, longitude)
+                VALUES ('$lat', '$lon')";
+
+    if ($conn->query($loc_sql)) {
+
+        $loc_id = $conn->insert_id;
+
+        $req_sql = "INSERT INTO requests(request_type)
+                    VALUES('Instant_Request')";
+
+        if ($conn->query($req_sql)) {
+
+            $req_id = $conn->insert_id;
+
+            $instant_sql = "INSERT INTO Instant_Request
+            (req_id, loc_id, full_name, req_name,
+            resource_type, resource_count,
+            contact_number)
+            VALUES('$req_id', '$loc_id', '$name','$req_name', '$res_type','$res_count', '$contact_number')";
+
+            if ($conn->query($instant_sql)) {
+                echo "<script>alert('Request Submitted Successfully');</script>";
+            } else {
+                echo "Error inserting request: " . $conn->error;
+            }
+        } else {
+            echo "Error inserting request type: " . $conn->error;
+        }
+    } else {
+        echo "Error inserting location: " . $conn->error;
+    }
 }
 ?>
 
@@ -34,164 +63,182 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instant Help Request</title>
+    <title>🚨 Instant Help Request</title>
 
     <style>
-        #map {
+    body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+    
+    .container {
             width: 500px;
-            height: 400px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border: none;
+            margin: 40px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        * {
-            margin: 0;
+    .back-home{
+            align-self: flex-start;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+    .data-form{
+            width: 90%;
             padding: 0;
-            box-sizing: border-box;
+            margin: 0 ;
         }
 
-        .auth-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 28px;
+    .top-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    label {
+            font-weight: bold;
+        }
+
+    input, select {
             width: 100%;
-            max-width: 460px;
-            padding: 2.4rem 2rem 2.8rem 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
 
-        .brand-icon {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.8rem;
+    button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-         body {
-      background: var(--off);
-      font-family: var(--font-bd);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+    button:hover {
+            background: #0056b3;
+        }
 
-    h1 {
-      font-family: var(--font-hd);
-      font-size: 1.9rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
+    .error {
+            color: red;
+            font-size: 14px;
+        }
 
-    </style>
+    #map {
+                width: 500px;
+                height: 400px;
+                border-radius: 8px;
+                margin-top: 15px;
+                border: none;
+            }
+</style>
 </head>
 
 <body>
-    <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+    <div class="container">
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
 
-    <div class="auth-card"><div>
-    <div class="logo-icon"></div>
+        <h1 class="top-text">🚨 Instant Help Request</h1>
 
-<h1>Instant Help Request</h1>
+        <div class="data-form">
+            <form method="POST" id="instantHelp">
 
-<form method="POST" id="instantHelp">
+                <label>Name</label>
+                <input type="text" name="name" id="name" placeholder="Enter Your Name" required>
 
-    <label>Name:</label>*<br>
-    <input type="text" name="name" id="name" placeholder="Enter Your Name" required><br><br>
+                <label>Request Name</label>
+                <input type="text" name="req_name" placeholder="What is the issue" required>
 
-    <label>Request Name:</label>*<br>
-    <input type="text" name="req_name" placeholder="What is the issue" required><br><br>
+                <label>Request Type</label>
+                <select name="req_type" id="req_type" required>
 
-    <label>Request Type:</label>
-    <select name="req_type" id="req_type">
-        <option value="">Select Request Type</option>
-        <option value="tornados">Tornados</option>
-        <option value="tsunamis">Tsunamis</option>
-        <option value="landslides">Landslides</option>
-        <option value="avalanches">Avalanches</option>
-        <option value="heat_waves">Heat Waves</option>
-    </select> <br><br>
+                <option value="">Select Request Type</option>
 
-    <label>Description:</label><br>
-    <textarea name="description" rows="5" cols="40" placeholder="Describe your issue clearly..."></textarea><br><br>
+                <option value="tornadoes">Tornadoes</option>
+                <option value="tsunamis">Tsunamis</option>
+                <option value="landslides">Landslides</option>
+                <option value="Flood">Flood</option>
+                <option value="heat waves">Heat Waves</option>
+                <option value="Droughts">Droughts</option>
+                <option value="Strong Winds and Cyclones">Strong Winds and Cyclones</option>
 
-    <label>Number Of affected People:</label>*<br>
-    <input type="number" name="aff_pp" min="1"><br><br>
+                </select>
+                    <label>Number Of affected People</label>
+                    <input type="number" name="aff_pp" min="1">
 
-    <label>Resource Count:</label>*<br>
-    <input type="number" name="resource_count" min="1"><br><br>
+                    <label>Resource Type</label>
+                    <select name="resource_type" required>
 
-    <label>Resource Type:</label>*<br>
-    <select name="resource_type" required>
+                    <option value="">Select Resource Type</option>
+                    <option value="food">Food</option>
+                    <option value="water">Water</option>
+                    <option value="medicine">Medicine</option>
+                    <option value="shelter">Shelter</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="rescue">Rescue Team</option>
+                    <option value="electricity">Electricity Support</option>
+                    <option value="communication">Communication Support</option>
+                </select>
 
-    <option value="">Select Resource Type</option>
-    <option value="food">Food</option>
-    <option value="water">Water</option>
-    <option value="medical">Medical Supplies</option>
-    <option value="medicine">Medicine</option>
-    <option value="shelter">Shelter</option>
-    <option value="clothes">Clothes</option>
-    <option value="transport">Transport</option>
-    <option value="rescue">Rescue Team</option>
-    <option value="electricity">Electricity Support</option>
-    <option value="communication">Communication Support</option>
-</select>
+                <label>Resource Count</label>
+                <input type="number" name="resource_count" min="1">
 
-<br><br>
+                <label>Contact Number</label>
+                <input type="tel" name="contact_number" id="contactnumber" pattern="^07[0-9]{8}$" placeholder="07XXXXXXXX" maxlength="10" required>
+                <span id="phoneError" style="color:red; font-size:14px;"></span>    
 
-    <label>Contact Number:</label>*<br>
-    <input type="tel" name="contact_number" id="contactnumber" pattern="^07[0-9]{8}$" placeholder="07XXXXXXXX" maxlength="10" required><br><br>
-    <span id="phoneError" style="color:red; font-size:14px;"></span>    
+                <label>Email</label>
+                <input type="email" name="email" placeholder="example@email.com" >
 
-    <label>Email:</label>*<br>
-    <input type="email" name="email" placeholder="example@email.com" required><br><br>
+                <label>Priority</label>
+                <select name="priority_level" required>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                    <option value="high">High</option>
+                </select><br><br>
 
-    <label>Priority:</label><br>
-    <select name="priority_level" required>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
-        <option value="high">High</option>
-    </select><br><br>
+                <label>Location</label>
+                <button type="button" onclick="getLocation()">Get My Location</button>
 
-    <label>Location:</label>*<br>
-    <button type="button" onclick="getLocation()">Get My Location</button><br><br>
+                
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lon" id="lon">
 
-    
-    <input type="hidden" name="lat" id="lat">
-    <input type="hidden" name="lon" id="lon">
+                <iframe
+                    id="map"
+                    loading="lazy"
+                    allowfullscreen
+                    src="<?php
+                        if ($lat && $lon) {
+                            echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
+                        } else {
+                            echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
+                        }
+                    ?>">
+                </iframe>
 
-    <iframe
-        id="map"
-        loading="lazy"
-        allowfullscreen
-        src="<?php
-            if ($lat && $lon) {
-                echo "https://www.google.com/maps?q=$lat,$lon&output=embed&z=14";
-            } else {
-                echo "https://www.google.com/maps?q=7.8731,80.7718&output=embed&z=7";
-            }
-        ?>">
-    </iframe>
+                <br><br>
+                <button type="submit">Submit Request</button>
 
-    <br><br>
-    <button type="submit">Submit Request</button>
-
-</form>
+            </form>
+        </div>
+    </div>
 
 <script>
-    document.getElementById("instanthelp").addEventListener("submit", function(event) {
-        const name = document.getElementById("name").value.trim();
 
-        if (name === "" && pwd === "") {
-            alert("Username and Password cannot be empty!");
-            event.preventDefault();
+    document.getElementById("instantHelp").addEventListener("submit", function(event) {
+    const name = document.getElementById("name").value.trim();
+    if (name === "") {
+        alert("Name cannot be empty");
+        event.preventDefault();
     }
-    });
+});
 
     document.getElementById("contactnumber").addEventListener("input",function(){
         const phone = this.value;
