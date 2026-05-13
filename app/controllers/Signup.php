@@ -42,12 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user_role == 'affected_people') {
             // Insert into affected_people table
-            $sql = "INSERT INTO affected_people (affected_people_id, first_name, last_name, age, no_of_family_members, availability_status) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members', '$availability_status')";
+            $sql = "INSERT INTO affected_people (affected_people_id, first_name, last_name, age, no_of_family_members) VALUES ('$user_id', '$first_name', '$last_name', '$age', '$no_of_family_members')";
             $conn->query($sql);
         } elseif ($user_role == 'volunteer') {
             // Insert into volunteer table
-            $sql = "INSERT INTO volunteer (volunteer_id, first_name, last_name, nic, email, contact_no, organization_name, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$email', '$contact_no', '$organization_name', '$resource_name', '$resource_type', '$resource_count', '$description')";
+            $sql = "INSERT INTO volunteer (volunteer_id, first_name, last_name, nic, gender, contact_no, age, availability_status, organization_name) VALUES ('$user_id', '$first_name', '$last_name', '$nic', '$gender', '$contact_no', '$age', '$availability_status', '$organization_name')";
             $conn->query($sql);
+                // Insert into resource table if resource details are provided
+            if (!empty($resource_name) && !empty($resource_type) && !empty($resource_count)) {
+                $sql = "INSERT INTO resource (volunteer_id, resource_name, resource_type, resource_count, description) VALUES ('$user_id', '$resource_name', '$resource_type', '$resource_count', '$description')";
+                $conn->query($sql);
+            }
         } elseif ($user_role == 'admin') {
             // Insert into admin table
             $sql = "INSERT INTO admin (user_id, first_name, last_name, gender, age, email, contact_no) VALUES ('$user_id', '$first_name', '$last_name', '$gender', '$age', '$email', '$contact_no')";
@@ -57,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     //redirect to home page after registration
-    header("Location: ../../index.php");
+    header("Location: ../../public/");
 
 }
 ?>
@@ -135,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     button {
         width: 100%;
         padding: 12px;
-        background: #007bff;
+        background: #c3102e;
         color: white;
         border: none;
         border-radius: 6px;
@@ -146,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     button:hover {
-        background: #0056b3;
+        background: #a00b1e;
     }
 
     /* Error text */
@@ -185,13 +190,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-bottom: 3px solid #007bff;
     }
 
+    .back-home{
+            align-self: flex-start;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            font-size: 16px;
+        }
+    
+    .top-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h2>User Registration</h2>
+    <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
+    <h1 class="top-text">User Registration</h1>
 
     <form method="POST" onsubmit="return validateForm()">
 
@@ -199,48 +219,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="box">
 
-        <label>First Name:</label>
+        <label id="first_name_label">First Name</label>
         <input type="text" name="first_name" required>
 
-        <label>Last Name:</label>
+        <label id="last_name_label">Last Name</label>
         <input type="text" name="last_name" required>
 
-        <label>NIC:</label>
+        <label id="nic_label">NIC</label>
         <input type="text" name="nic" id="nic" required>
 
-        <label>Email:</label>
+        <label id="email_label">Email</label>
         <input type="email" name="email" id="email" placeholder="example@gmail.com">
 
-        <label>Contact No:</label>
+        <label id="contact_no_label">Contact No</label>
         <input type="text" name="contact_no" id="contact_no" placeholder="0712345678" required>
 
-        <label>Username:</label>
+        <label id="username_label">Username</label>
         <input type="text" name="username" id="username" required>
 
-        <label>Password:</label>
+        <label id="password_label">Password</label>
         <input type="password" name="password" id="password" required>
 
-        <label>Gender:</label>
+        <label>Gender</label>
         <select name="gender">
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select>
 
-        <label>Age:</label>
+        <label id="age_label">Age</label>
         <input type="number" name="age" id="age" min="1" max="99">
 
-        <label>Home No:</label>
-        <input type="text" name="home_no">
+        <label id="home_no_label">Home No</label>
+        <input type="text" name="home_no" id="home_no">
 
-        <label>Street:</label>
-        <input type="text" name="street" required>
+        <label id="street_label">Street</label>
+        <input type="text" name="street" id="street" required>
 
-        <label>City:</label>
-        <input type="text" name="city" required>
-        
-        <label>District:</label>
-        <select name="district" required>
+        <label id="city_label">City</label>
+        <input type="text" name="city" id="city" required>
+
+        <label>District</label>
+        <select name="district" id="district" required>
             <option value="">Select District</option>
             <option value="Ampara">Ampara</option>
             <option value="Anuradhapura">Anuradhapura</option>
@@ -270,7 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
 
 
-        <label>User Role:</label>
+        <label>User Role</label>
         <select name="user_role" id="user_role" onchange="showRoleFields()" required>
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
@@ -281,7 +301,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Affected People Fields -->
     <div class="box" id="affected_box" style="display:none;">
-        <label>No. of Family Members:</label>
+        <label>No. of Family Members</label>
         <input type="number" name="no_of_family_members">
 
         <!-- Hidden Latitude & Longitude -->
@@ -309,7 +329,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Volunteer Fields -->
     <div class="box" id="volunteer_box" style="display:none;">
-        <label>Availability Status:</label>
+        <label>Availability Status</label>
         <select name="availability_status">
             <option value="available" selected>Available</option>
             <option value="busy">Busy</option>
@@ -342,7 +362,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <tr id="organization_name_div" style="display:none;">
                 <td>
-                    <label for="organization_name">Organization Name:</label>
+                    <label for="organization_name" id="organization_name_label">Organization Name</label>
                 </td>
                 <td>
                     <input type="text" id="organization_name" name="organization_name">
@@ -350,16 +370,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
         </table>
 
-        <label for="resource_name">Resource Name:</label><br>
+        <label for="resource_name" id="resource_name_label">Resource Name</label><br>
         <input type="text" id="resource_name" name="resource_name"><br><br>
 
-        <label for="resource_type">Resource Type:</label><br>
-        <input type="text" id="resource_type" name="resource_type"><br><br>
+        <label for="resource_type">Resource Type</label><br>
 
-        <label for="resource_count">Resource Count:</label><br>
+        <select id="resource_type" name="resource_type">
+            <option value="">-- Select Resource Type --</option>
+            <option value="food">Food</option>
+            <option value="water">Water</option>
+            <option value="medicine">Medicine</option>
+            <option value="shelter">Shelter</option>
+            <option value="clothes">Clothes</option>
+            <option value="rescue">Rescue</option>
+            <option value="electricity">Electricity</option>
+            <option value="communication">Communication</option>
+        </select><br><br>
+
+        <label for="resource_count">Resource Count</label><br>
         <input type="number" id="resource_count" name="resource_count"><br><br>
 
-        <label for="description">Description:</label><br>
+        <label for="description" id="description_label">Description</label><br>
         <textarea id="description" name="description" rows="4" cols="30"></textarea><br><br>
 
         <!-- Hidden Latitude & Longitude -->
@@ -375,7 +406,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- Google Map -->
         <iframe
-            id="affected_map"
+            id="volunteer_map"
             width="500"
             height="300"
             style="border:0; border-radius:10px;"
@@ -437,6 +468,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Update Google Map
                         document.getElementById("affected_map").src =
                             `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
+                        document.getElementById("volunteer_map").src =
+                            `https://www.google.com/maps?q=${lat},${lon}&output=embed&z=14`;
                     },
                     function(error) {
                         alert(error.message);
@@ -491,43 +524,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var password = document.getElementById("password").value;
         var age = document.getElementById("age").value;
 
-        // NIC validation (10 or 12 characters, digits + optional 'V' at the end)
-        var nicPattern = /^(\d{9}[Vv]|\d{12})$/;
-        if (!nicPattern.test(nic)) {
-            alert("Invalid NIC format. It should be 10 or 12 characters long.");
+        //first name and last name validation (only letters allowed)
+        var namePattern = /^[A-Za-z]+$/;
+        if (!namePattern.test(firstName.value)) {
+            //alert("First name can only contain letters.");
+            document.getElementById("first_name").style.borderColor = "red";
+            document.getElementById("first_name").focus();
+            document.getElementById('first_name_label').innerHTML = "First name can only contain letters.";
+            document.getElementById('first_name_label').style.color = "red";
+            document.getElementById('first_name_label').style.fontSize = "12px";
             return false;
         }
 
-        // Contact number validation (starts with 0 followed by 9 digits)
-        var contactPattern = /^0\d{9}$/;
-        if (!contactPattern.test(contactNo)) {
-            alert("Invalid contact number format. It should start with 0 followed by 9 digits.");
+        if (!namePattern.test(lastName.value)) {
+            //alert("Last name can only contain letters.");
+            document.getElementById("last_name").style.borderColor = "red";
+            document.getElementById("last_name").focus();
+            document.getElementById('last_name_label').innerHTML = "Last name can only contain letters.";
+            document.getElementById('last_name_label').style.color = "red";
+            document.getElementById('last_name_label').style.fontSize = "12px";
+            return false;
+        }
+
+        // NIC validation (10 or 12 characters, digits + optional 'V' at the end)
+        var nicPattern = /^(\d{9}[Vv]|\d{12})$/;
+        if (!nicPattern.test(nic)) {
+            //alert("Invalid NIC format. It should be 10 or 12 characters long.");
+            document.getElementById("nic").style.borderColor = "red";
+            document.getElementById("nic").focus();
+            document.getElementById('nic_label').innerHTML = "Invalid NIC format. It should be 10 or 12 characters long.";
+            document.getElementById('nic_label').style.color = "red";
+            document.getElementById('nic_label').style.fontSize = "12px";
             return false;
         }
 
         // Email validation
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email && !emailPattern.test(email)) {
-            alert("Invalid email format.");
+            //alert("Invalid email format.");
+            document.getElementById("email").style.borderColor = "red";
+            document.getElementById("email").focus();
+            document.getElementById('email_label').innerHTML = "Invalid email format.";
+            document.getElementById('email_label').style.color = "red";
+            document.getElementById('email_label').style.fontSize = "12px";
+            return false;
+        }
+
+        // Contact number validation (starts with 0 followed by 9 digits)
+        var contactPattern = /^0\d{9}$/;
+        if (!contactPattern.test(contactNo)) {
+            //alert("Invalid contact number format. It should start with 0 followed by 9 digits.");
+            document.getElementById("contact_no").style.borderColor = "red";
+            document.getElementById("contact_no").focus();
+            document.getElementById('contact_no_label').innerHTML = "Invalid contact number format. It should start with 0 followed by 9 digits.";
+            document.getElementById('contact_no_label').style.color = "red";
+            document.getElementById('contact_no_label').style.fontSize = "12px";
             return false;
         }
 
         // Username validation (at least 4 characters)
         if (username.length < 4) {
-            alert("Username must be at least 4 characters long.");
+            //alert("Username must be at least 4 characters long.");
+            document.getElementById("username").style.borderColor = "red";
+            document.getElementById("username").focus();
+            document.getElementById('username_label').innerHTML = "Username must be at least 4 characters long.";
+            document.getElementById('username_label').style.color = "red";
+            document.getElementById('username_label').style.fontSize = "12px";
             return false;
         }
 
         // Password validation(at least 6 characters with at least one symbole and one number)
         var passwordPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
         if (!passwordPattern.test(password)) {
-            alert("Password must be at least 6 characters long and include at least one number and one special character.");
+            //alert("Password must be at least 6 characters long and include at least one number and one special character.");
+            document.getElementById("password").style.borderColor = "red";
+            document.getElementById("password").focus();
+            document.getElementById('password_label').innerHTML = "Password must contain at least 6 characters, including one number and one special character.";
+            document.getElementById('password_label').style.color = "red";
+            document.getElementById('password_label').style.fontSize = "12px";
             return false;
         }   
 
         // Age validation (between 1 and 99)
         if (age && (age < 1 || age > 99)) {
-            alert("Age must be between 1 and 99.");
+            //alert("Age must be between 1 and 99.");
+            document.getElementById("age").style.borderColor = "red";
+            document.getElementById("age").focus();
+            document.getElementById('age_label').innerHTML = "Age must be between 1 and 99.";
+            document.getElementById('age_label').style.color = "red";
+            document.getElementById('age_label').style.fontSize = "12px";
             return false;
         }
 
@@ -535,12 +620,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var homeNoPattern = /^[\w\s\/,]+$/;
         var homeNo = document.getElementById("home_no").value;
         if (homeNo && !homeNoPattern.test(homeNo)) {
-            alert("Home No can only contain letters, numbers, spaces, commas, and slashes.");
+            //alert("Home No can only contain letters, numbers, commas, and slashes.");
+            document.getElementById("home_no").style.borderColor = "red";
+            document.getElementById("home_no").focus();
+            document.getElementById('home_no_label').innerHTML = "Home No can only contain letters, numbers, commas, and slashes.";
+            document.getElementById('home_no_label').style.color = "red";
+            document.getElementById('home_no_label').style.fontSize = "12px";
             return false;
         }
 
+        // Street validation (only letters, numbers and spaces allowed)
+        var streetPattern = /^[A-Za-z0-9\s]+$/;
+        var street = document.getElementById("street").value;
+        if (street && !streetPattern.test(street)) {
+            //alert("Street can only contain letters, numbers, and spaces.");
+            document.getElementById("street").style.borderColor = "red";
+            document.getElementById("street").focus();
+            document.getElementById('street_label').innerHTML = "Street can only contain letters, numbers, and spaces.";
+            document.getElementById('street_label').style.color = "red";
+            document.getElementById('street_label').style.fontSize = "12px";
+            return false;
+        }
 
-        return true; // All validations passed
+        // City validation (only letters and spaces allowed)
+        var cityPattern = /^[A-Za-z\s]+$/;
+        var city = document.getElementById("city").value;
+        if (city && !cityPattern.test(city)) {
+            //alert("City can only contain letters and spaces.");
+            document.getElementById("city").style.borderColor = "red";
+            document.getElementById("city").focus();
+            document.getElementById('city_label').innerHTML = "City can only contain letters and spaces.";
+            document.getElementById('city_label').style.color = "red";
+            document.getElementById('city_label').style.fontSize = "12px";
+            return false;
+        }
+
+        //resource name validation (only letters, numbers and spaces allowed)
+        var resourceNamePattern = /^[A-Za-z0-9\s]+$/;
+        var resourceName = document.getElementById("resource_name").value;
+        if (resourceName && !resourceNamePattern.test(resourceName)) {
+            //alert("Resource Name can only contain letters, numbers, and spaces.");
+            document.getElementById("resource_name").style.borderColor = "red";
+            document.getElementById("resource_name").focus();
+            document.getElementById('resource_name_label').innerHTML = "Resource Name can only contain letters, numbers, and spaces.";
+            document.getElementById('resource_name_label').style.color = "red";
+            document.getElementById('resource_name_label').style.fontSize = "12px";
+            return false;
+        }
+
+        // Description validation (only letters, numbers, spaces and basic punctuation allowed)
+        var descriptionPattern = /^[A-Za-z0-9\s.,!?'"()-]+$/;
+        var description = document.getElementById("description").value;
+        if (description && !descriptionPattern.test(description)) {
+            //alert("Description can only contain letters, numbers, spaces, and basic punctuation.");
+            document.getElementById("description").style.borderColor = "red";
+            document.getElementById("description").focus();
+            document.getElementById('description_label').innerHTML = "Description can only contain letters, numbers, spaces, and basic punctuation.";
+            document.getElementById('description_label').style.color = "red";
+            document.getElementById('description_label').style.fontSize = "12px";
+            return false;
+        }
+
+        // If all validations pass, allow form submission
+        return true;
     }
 </script>
 
