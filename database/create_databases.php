@@ -119,17 +119,29 @@ $sql = "CREATE TABLE IF NOT EXISTS Instant_Request(
     loc_id INT,
     full_name VARCHAR(100),
     req_name VARCHAR(255) NOT NULL,
-    resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
+    resource_type ENUM(
+        'food',
+        'water',
+        'medicine',
+        'shelter',
+        'clothes',
+        'rescue',
+        'electricity',
+        'communication'
+    ) NOT NULL,
     resource_count INT,
-    description VARCHAR(255),
     contact_number VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
-    FOREIGN KEY (req_id) REFERENCES requests(request_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (loc_id) REFERENCES Location(loc_id) ON UPDATE CASCADE
+    FOREIGN KEY (req_id) REFERENCES requests(request_id)
+    ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE,
+    FOREIGN KEY (loc_id) REFERENCES Location(loc_id)
+    ON UPDATE CASCADE
 )";
 $conn->query($sql);
+
 echo "Instant Request table created successfully!<br>";
 
 
@@ -140,8 +152,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Logged_Request(
     loc_id INT,
     user_id INT,
     req_name VARCHAR(255) NOT NULL,
-    req_type ENUM('tornadoes', 'tsunamis', 'landslides', 'avalanches', 'heat waves') NOT NULL,
-    resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
+    req_type ENUM(
+        'tornadoes',
+        'tsunamis',
+        'landslides',
+        'avalanches',
+        'heat waves',
+        'Flood',
+        'Droughts',
+        'Strong Winds and Cyclones'
+    ) NOT NULL,
+    resource_type ENUM(
+        'food',
+        'water',
+        'medicine',
+        'shelter',
+        'clothes',
+        'rescue',
+        'electricity',
+        'communication'
+    ) NOT NULL,
     resource_count INT,
     no_of_affected_people INT,
     description VARCHAR(255),
@@ -149,11 +179,17 @@ $sql = "CREATE TABLE IF NOT EXISTS Logged_Request(
     priority_level ENUM('low', 'medium', 'high'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
-    FOREIGN KEY (req_id) REFERENCES requests(request_id) ON DELETE CASCADE,
-    FOREIGN KEY (affected_people_id) REFERENCES affected_people(affected_people_id) ON DELETE CASCADE,
-    FOREIGN KEY (loc_id) REFERENCES Location(loc_id) ON UPDATE CASCADE
+    FOREIGN KEY (req_id) REFERENCES requests(request_id)
+    ON DELETE CASCADE,
+    FOREIGN KEY (affected_people_id)
+    REFERENCES affected_people(affected_people_id)
+    ON DELETE CASCADE,
+    FOREIGN KEY (loc_id)
+    REFERENCES Location(loc_id)
+    ON UPDATE CASCADE
 )";
 $conn->query($sql);
+
 echo "Logged Request table created successfully!<br>";
 
 
@@ -162,7 +198,8 @@ $sql = "CREATE TABLE IF NOT EXISTS resource(
     resource_id INT PRIMARY KEY AUTO_INCREMENT,
     volunteer_id INT,
     resource_name VARCHAR (100),
-    resource_type ENUM('Medicals', 'Foods', 'Shelters', 'Cloths', 'Money') NOT NULL,
+    resource_type ENUM('food','water','medicine','shelter','clothes','rescue','electricity','communication'
+)NOT NULL,
     resource_count INT,
     description TEXT,
     FOREIGN KEY (volunteer_id) REFERENCES volunteer (volunteer_id)
@@ -170,6 +207,8 @@ $sql = "CREATE TABLE IF NOT EXISTS resource(
 )";
 $conn->query($sql);
 echo "Resource table created successfully!<br>";
+
+
 
 
 //Create assignment table

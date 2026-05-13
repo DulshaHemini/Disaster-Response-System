@@ -73,11 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .auth-card {
             background: var(--white);
             border: 1.5px solid var(--border);
-            border-radius: 28px;
+            border-radius: 12px;
             width: 100%;
             max-width: 460px;
             padding: 2.4rem 2rem 2.8rem 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-top: 3px solid #c8102e;
+            border-bottom: 3px solid #c8102e;
             transition: transform 0.2s;
         }
 
