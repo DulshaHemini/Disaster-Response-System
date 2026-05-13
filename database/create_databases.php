@@ -121,7 +121,6 @@ $sql = "CREATE TABLE IF NOT EXISTS Instant_Request(
     req_name VARCHAR(255) NOT NULL,
     resource_type ENUM('Medicins', 'Foods', 'Shelters', 'Clothes', 'Money') NOT NULL,
     resource_count INT,
-    description VARCHAR(255),
     contact_number VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'Pending',
