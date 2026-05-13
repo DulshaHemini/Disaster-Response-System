@@ -6,45 +6,56 @@ $lat = "";
 $lon = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //GET LOCATION
+
+    // GET LOCATION
     $lat = $_POST['lat'] ?? '';
     $lon = $_POST['lon'] ?? '';
 
-    //GET FORM DATA
+    // GET FORM DATA
     $name = trim($_POST['name'] ?? '');
     $req_name = trim($_POST['req_name'] ?? '');
-    $req_type = $_POST['req_type'] ?? '';
-    $num_aff_pp = $_POST['aff_pp'] ?? '';
-    $res_type = $_POST['resource_type'] ?? '' ;
+    $res_type = $_POST['resource_type'] ?? '';
     $res_count = $_POST['resource_count'] ?? '';
     $contact_number = $_POST['contact_number'] ?? '';
-    $email = $_POST['email'] ?? '' ;
-    $priority = $_POST['priority'] ?? '';
 
-    // phone validation
+    // VALIDATION
+
     if (!preg_match('/^07[0-9]{8}$/', $contact_number)) {
         die("Invalid Sri Lankan mobile number");
     }
 
-    // email validation
-    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email address");
-    }
-
-    //INSERT FORM DATA
-
-    $sql = "INSERT INTO Instant_Request (full_name, req_name, req_type, no_of_affected_people, resource_type, resource_count, contact_number, email, priority_level ) 
-            VALUES('$name', '$req_name', '$req_type', '$num_aff_pp','$res_type', '$res_count', '$contact_number', '$email', '$priority'  )";
-    }
-
     $loc_sql = "INSERT INTO Location(latitude, longitude)
-                VALUES ( $lat, $lon )";
-    
-    //INSERT LOCATION
+                VALUES ('$lat', '$lon')";
 
-    $loc_sql = "INSERT INTO Location(latitude, longitude)
-                VALUES ($lat, $lon )";
+    if ($conn->query($loc_sql)) {
 
+        $loc_id = $conn->insert_id;
+
+        $req_sql = "INSERT INTO requests(request_type)
+                    VALUES('Instant_Request')";
+
+        if ($conn->query($req_sql)) {
+
+            $req_id = $conn->insert_id;
+
+            $instant_sql = "INSERT INTO Instant_Request
+            (req_id, loc_id, full_name, req_name,
+            resource_type, resource_count,
+            contact_number)
+            VALUES('$req_id', '$loc_id', '$name','$req_name', '$res_type','$res_count', '$contact_number')";
+
+            if ($conn->query($instant_sql)) {
+                echo "<script>alert('Request Submitted Successfully');</script>";
+            } else {
+                echo "Error inserting request: " . $conn->error;
+            }
+        } else {
+            echo "Error inserting request type: " . $conn->error;
+        }
+    } else {
+        echo "Error inserting location: " . $conn->error;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -133,8 +144,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <option value="tornadoes">Tornadoes</option>
     <option value="tsunamis">Tsunamis</option>
     <option value="landslides">Landslides</option>
-    <option value="avalanches">Avalanches</option>
+    <option value="Flood">Flood</option>
     <option value="heat waves">Heat Waves</option>
+    <option value="Droughts">Droughts</option>
+    <option value="Strong Winds and Cyclones">Strong Winds and Cyclones</option>
+
 
 </select>
     <br><br>
@@ -154,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <option value="rescue">Rescue Team</option>
     <option value="electricity">Electricity Support</option>
     <option value="communication">Communication Support</option>
-</select>
+    </select>
 
 <br><br>
 
