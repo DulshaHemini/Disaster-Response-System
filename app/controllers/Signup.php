@@ -527,6 +527,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return false;
         }
 
+        //home no validation(, or / allowed)
+        var homeNoPattern = /^[\w\s\/,]+$/;
+        var homeNo = document.getElementById("home_no").value;
+        if (homeNo && !homeNoPattern.test(homeNo)) {
+            alert("Home No can only contain letters, numbers, spaces, commas, and slashes.");
+            return false;
+        }
+
+
         return true; // All validations passed
     }
 </script>
