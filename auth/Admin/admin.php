@@ -90,6 +90,7 @@ if (isset($_POST['action'])) {
       <button class="tab-btn" data-tab="assign">🔄 Assign Volunteers</button>
       <button class="tab-btn" data-tab="resources">📦 Resource Management</button>
       <button class="tab-btn" data-tab="locations">🗺️ Location Management</button>
+      <button class="tab-btn" data-tab="volunteers">👨‍💼 Volunteer Management</button>
     </div>
   </div>
 
@@ -108,6 +109,7 @@ if (isset($_POST['action'])) {
   <?php include 'tabs/assign_tab.php'; ?>
   <?php include 'tabs/resources_tab.php'; ?>
   <?php include 'tabs/locations_tab.php'; ?>
+  <?php include 'tabs/volunteers_tab.php'; ?>
 </div>
 
 <!-- TOAST -->
