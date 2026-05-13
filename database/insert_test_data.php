@@ -63,7 +63,7 @@ $conn->query($sql);
 echo "Requests inserted successfully!<br>";
 
 // ========== INSERT INTO Instant_Request TABLE ==========
-$sql = "INSERT INTO Instant_Request (req_id, user_id, loc_id, full_name, req_name, resource_type, resource_count,contact_number, status) VALUES 
+$sql = "INSERT INTO Instant_Request (req_id, user_id, loc_id, full_name, req_name, resource_type, resource_count, contact_number, status) VALUES 
     (101, 2, 1, 'Mary Johnson', 'Emergency Medicine Supply', 'Medicins', 50, '0712345678', 'Pending'),
     (102, 3, 2, 'Ahmed Rashid', 'Food Packages for Flood Victims', 'Foods', 100, '0723456789', 'Pending')";
 $conn->query($sql);
