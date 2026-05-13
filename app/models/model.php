@@ -12,3 +12,7 @@ class User {
 foreach(){}
 
 ?>
+
+Model -> signup_.php
+
+Views -> _signup.php

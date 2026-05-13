@@ -7,7 +7,7 @@ $password = "";
 $dbname = "DRCS";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+$conn = new mysqli($servername, $username, $password, "", 3307);
 
 // Check connection
 if ($conn->connect_error) {
@@ -52,13 +52,9 @@ echo "Users inserted successfully!<br>";
 $sql = "INSERT INTO admin 
 (user_id, first_name, last_name, gender, age, email, contact_no) 
 VALUES
-
 (1, 'John', 'Administrator', 'Male', 35, 'john.admin@drcs.org', '0712345678'),
-
 (2, 'Sarah', 'Coordinator', 'Female', 29, 'sarah.coord@drcs.org', '0723456789')";
-
 $conn->query($sql);
-
 echo "Admin data inserted successfully!<br>";
 
 
@@ -69,13 +65,9 @@ echo "Admin data inserted successfully!<br>";
 $sql = "INSERT INTO volunteer 
 (volunteer_id, first_name, last_name, nic, gender, contact_no, age, availability_status, organization_name) 
 VALUES
-
 (3, 'Michael', 'Volunteer', '199012345678', 'Male', '0771234567', 30, 'available', 'Red Cross Sri Lanka'),
-
 (4, 'Emma', 'Rescue', '199112345678', 'Female', '0782345678', 28, 'available', 'World Vision'),
-
 (5, 'David', 'Helper', '199212345678', 'Male', '0763456789', 31, 'busy', 'Save the Children')";
-
 $conn->query($sql);
 
 echo "Volunteer data inserted successfully!<br>";
@@ -88,15 +80,10 @@ echo "Volunteer data inserted successfully!<br>";
 $sql = "INSERT INTO affected_people 
 (affected_people_id, first_name, last_name, age, no_of_family_members, gender, nic, contact_no) 
 VALUES
-
 (6, 'Kasun', 'Perera', 32, 4, 'Male', '198912345678', '0711111111'),
-
 (7, 'Priyani', 'Silva', 28, 3, 'Female', '199312345678', '0722222222'),
-
 (8, 'Mohamed', 'Rizwan', 45, 6, 'Male', '198712345678', '0733333333'),
-
 (9, 'Shanthi', 'Kumar', 35, 2, 'Female', '199512345678', '0744444444'),
-
 (10, 'Nimal', 'Jayasinghe', 40, 5, 'Male', '199112345679', '0755555555')";
 
 $conn->query($sql);
@@ -111,19 +98,12 @@ echo "Affected people data inserted successfully!<br>";
 $sql = "INSERT INTO Location 
 (user_id, latitude, longitude, district, city, street, home_no) 
 VALUES
-
 (6, 7.8730540000000000, 80.7717970000000000, 'Kandy', 'Kandy', 'Peradeniya Road', '45'),
-
 (7, 6.9270790000000000, 79.8612430000000000, 'Colombo', 'Nugegoda', 'High Level Road', '123'),
-
 (8, 8.3500000000000000, 80.3833330000000000, 'Anuradhapura', 'Anuradhapura', 'Main Street', '78'),
-
 (9, 6.9344380000000000, 79.8436010000000000, 'Colombo', 'Bambalapitiya', 'Galle Road', '25/2'),
-
 (10, 7.2905720000000000, 80.6334270000000000, 'Kandy', 'Gampola', 'Colombo Road', '10'),
-
 (3, 6.9147200000000000, 79.9726900000000000, 'Colombo', 'Colombo', 'Union Place', '5'),
-
 (4, 7.8730540000000000, 80.7717970000000000, 'Kandy', 'Kandy', 'Hill Street', '12')";
 
 $conn->query($sql);
