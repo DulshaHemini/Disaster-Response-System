@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .data-form{
             width: 90%;
             padding: 0;
-            margine: 0;
+            margin: 0 ;
         }
 
     .top-text {
