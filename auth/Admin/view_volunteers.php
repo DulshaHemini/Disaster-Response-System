@@ -1,0 +1,155 @@
+<?php
+require_once '../../config/config.php';
+
+// JOIN with users to get the username alongside volunteer profile data
+$sql    = "SELECT v.volunteer_id, u.username, v.first_name, v.last_name,
+                  v.nic, v.gender, v.contact_no, v.age,
+                  v.availability_status, v.organization_name
+           FROM volunteer v
+           JOIN users u ON v.volunteer_id = u.user_id
+           ORDER BY v.volunteer_id ASC";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteers · DRCS Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --white: #ffffff;
+            --off: #f8f5f2;
+            --surface: #f2ede8;
+            --red: #c8102e;
+            --red-dk: #9b0b21;
+            --red-lt: #fbeaec;
+            --red-m: #f5c0c7;
+            --amber: #d97706;
+            --green: #15803d;
+            --blue: #1d4ed8;
+            --slate: #475569;
+            --text: #1a1a1a;
+            --muted: #6b6b6b;
+            --border: #e2ddd8;
+            --font-hd: 'Playfair Display', serif;
+            --font-bd: 'Outfit', sans-serif;
+            --font-mn: 'JetBrains Mono', monospace;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+        }
+
+        body { background: var(--off); font-family: var(--font-bd); color: var(--text); overflow-x: hidden; }
+
+        .admin-nav {
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { width: 38px; height: 38px; background: var(--red); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon svg { width: 22px; fill: #fff; }
+        .brand-text { font-family: var(--font-hd); font-size: 1.3rem; }
+        .brand-text em { color: var(--red); font-style: normal; }
+        .admin-badge { background: var(--red-lt); padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.75rem; font-weight: 600; color: var(--red); font-family: var(--font-mn); }
+        .back-btn { background: transparent; border: 1.5px solid var(--border); padding: 0.4rem 1rem; border-radius: 40px; cursor: pointer; font-size: 0.75rem; font-family: var(--font-bd); }
+        .back-btn:hover { background: var(--surface); }
+
+        .admin-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .section-header h2 { font-family: var(--font-hd); font-size: 1.6rem; }
+
+        .table-wrapper { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { text-align: left; padding: 1rem 1.2rem; background: var(--off); font-family: var(--font-mn); font-size: 0.7rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+        td { padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+
+        .badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .badge-available { background: #e0f2e9; color: #15803d; }
+        .badge-busy      { background: #fff3e3; color: #b45309; }
+
+        @media (max-width: 800px) {
+            .admin-nav { flex-wrap: wrap; height: auto; padding: 0.8rem; gap: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-nav">
+    <div class="nav-brand">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg></div>
+        <span class="brand-text">DR<em>CS</em> · ADMIN</span>
+        <span class="admin-badge">🤝 Volunteers</span>
+    </div>
+    <button class="back-btn" onclick="window.location.href='admin.php'">← Back to Admin</button>
+</div>
+
+<div class="admin-container">
+    <div class="section-header">
+        <h2>🤝 Volunteers</h2>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Volunteer ID</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>NIC</th>
+                    <th>Gender</th>
+                    <th>Contact No</th>
+                    <th>Age</th>
+                    <th>Availability</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result && $result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <?php
+                            $availability = $row['availability_status'];
+                            $badgeClass   = $availability === 'available' ? 'badge-available' : 'badge-busy';
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['volunteer_id'],                ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['username'],                    ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['first_name'],                  ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['last_name'],                   ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['nic']              ?? '—',     ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['gender'],                      ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['contact_no']       ?? '—',     ENT_QUOTES); ?></td>
+                            <td><?php echo htmlspecialchars($row['age']              ?? '—',     ENT_QUOTES); ?></td>
+                            <td>
+                                <span class="badge <?php echo $badgeClass; ?>">
+                                    <?php echo htmlspecialchars($availability, ENT_QUOTES); ?>
+                                </span>
+                            </td>
+                            <td><?php echo htmlspecialchars($row['organization_name'] ?? '—',    ENT_QUOTES); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="10" style="text-align:center; color:var(--muted);">No volunteers found</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
