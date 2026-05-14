@@ -13,7 +13,7 @@ define('CONFIG_PATH', BASE_PATH . '/config');
 require_once CONFIG_PATH . '/config.php';
 
 // Load and use router
-require_once CONFIG_PATH . '/routes.php';
+require_once CONFIG_PATH . '/route.php';
 
 // Dispatch the current request
 $router->dispatch();
