@@ -9,7 +9,7 @@ $result = $conn->query($view_sql);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="admin-container">
         <div class="section-header">
-            <h2>📦 Resources</h2>
+            <h2><i class="fa-solid fa-boxes-stacked"></i> Resources</h2>
         </div>
 
         <div class="table-wrapper">
