@@ -19,6 +19,7 @@ while ($row = $assignResult->fetch_assoc()) {
 
 <!-- ASSIGN VOLUNTEERS TAB -->
 <div id="assignTab" class="tab-content">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <div class="section-header">
     <h2>🔄 Assign Volunteers to Requests</h2>
     <p style="color:var(--muted); font-size:0.8rem;">Match volunteers with open requests</p>
