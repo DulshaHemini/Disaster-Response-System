@@ -17,6 +17,3 @@ require_once CONFIG_PATH . '/routes.php';
 
 // Dispatch the current request
 $router->dispatch();
-
-
-
