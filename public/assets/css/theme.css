@@ -1,0 +1,88 @@
+/* ============================================================
+   DRCS – Global Theme & Common Styles
+   ============================================================
+   
+   This file contains:
+   - CSS Custom Properties (Color Theme)
+   - Global Reset Styles
+   - Common Typography
+   - Reusable Button Styles
+   - Form Input Styles
+   - Utility Classes
+   - Common Animations
+   
+   Import this file first in all pages before component-specific styles.
+   ============================================================ */
+
+/* ══════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES (COLOR THEME)
+   ══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Brand Colors ── */
+  --red:     #c8102e;
+  --red-dk:  #9b0b21;
+  --red-lt:  #fbeaec;
+  --red-m:   #f5c0c7;
+  
+  /* ── Accent Colors ── */
+  --amber:   #d97706;
+  --green:   #15803d;
+  --blue:    #1d4ed8;
+  
+  /* ── Neutral Colors ── */
+  --white:   #ffffff;
+  --off:     #f8f5f2;
+  --surface: #f2ede8;
+  --text:    #1a1a1a;
+  --muted:   #6b6b6b;
+  --border:  #e2ddd8;
+  
+  /* ── Typography ── */
+  --font-hd: 'Playfair Display', serif;
+  --font-bd: 'Outfit', sans-serif;
+  --font-mn: 'JetBrains Mono', monospace;
+  
+  /* ── Spacing ── */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* ── Border Radius ── */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* ── Shadows ── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --shadow-red: 0 4px 12px rgba(200, 16, 46, 0.15);
+  
+  /* ── Transitions ── */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════════════
+   GLOBAL RESET
+   ══════════════════════════════════════════════════════════ */
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
