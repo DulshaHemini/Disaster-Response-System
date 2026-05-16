@@ -1,17 +1,25 @@
 <?php
-    function adminpage(){
-        header("Location: ../app/controllers/admin.php");
-        exit();
+
+function route($path = "", $params = [])
+{
+    // Base URL of your PUBLIC folder only
+    $base = "http://localhost/Disaster-Response-System/public/";
+
+    // Clean the path
+    $path = trim($path, "/");
+
+    // Build query string if needed
+    $query = "";
+
+    if (!empty($params)) {
+        $query = "?" . http_build_query($params);
     }
 
-    function affected_people(){
-        header("Location: ../app/controllers/affected.php");
-        exit();
-    }
+    // Final safe URL
+    $url = $base . $path . $query;
 
-    function volunteer(){
-        header("Location: ../app/controllers/volunteer.php");
-        exit();
-    }
-    
+    header("Location: " . $url);
+    exit();
+}
+
 ?>
