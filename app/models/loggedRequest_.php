@@ -1,67 +1,75 @@
 <?php
-function insertData(){
-    require_once __DIR__ . "../../config/config.php";
 
-    $username = $_POST['username'];
-    $request_name = $_POST['request_name'];
-    $request_type = $_POST['req_type'];
-    $description = $_POST['description'];
-    $affected_people = $_POST['affected_people'];
-    $resource_type = $_POST['resource_type'];
-    $resource_count = $_POST['resource_count'];
-    $contact_number = $_POST['contact_number'];
-    $email = $_POST['email'];
-    $city = $_POST['city'];
-    $street = $_POST['street'];
-    $home_no = $_POST['home_nummber'];
-    $priority = $_POST['priority_level'];
-    $district = $_POST['district'];
-    $location = $_POST['location'];
 
-    $sql = "INSERT INTO logged_Request(
-        username,
-        request_type,
-        description,
-        affected_people,
+function insertData($conn, $row){
+
+    $user_id = $row['user_id'];
+    $latitude = $row['latitude'];
+    $longitude = $row['longitude'];
+    $district = $row['district'];
+    $city = $row['city'];
+    $street = $row['street'];
+    $home_no = $row['home_no'];
+    $req_name = $row['request_name'];
+    $req_type = $row['request_type'];
+    $resource_type = $row['resource_type'];
+    $resource_count = $row['resource_count'];
+    $no_of_affected_people = $row['affected_people'];
+    $description = $row['description'];
+    $contact_number = $row['contact_number'];
+    $priority_level = $row['priority'];    
+    
+    $sql_location = "UPDATE Location SET latitude = '$latitude', longitude = '$longitude', district = '$district', city = '$city', street = '$street', home_no = '$home_no' WHERE user_id = $user_id";
+
+    if ($conn->query($sql_location) === TRUE) {
+            $get_location = "SELECT loc_id FROM Location WHERE user_id = $user_id";
+            $result = $conn->query($get_location);
+            $row = $result->fetch_assoc();
+            $location_id = $row['loc_id'];
+    } else {
+            echo "Error updating location: " . $conn->error;
+    }
+
+    $sql = "INSERT INTO requests(request_type) VALUES ('Logged_Request')";
+    if ($conn->query($sql) === TRUE) {
+        $req_id = $conn->insert_id;
+    } else {
+        echo "Error inserting request: " . $conn->error;
+    }
+
+    $sql = "INSERT INTO Logged_Request (
+        req_id,
+        affected_people_id,
+        loc_id,
+        user_id,
+        req_name,
+        req_type,
         resource_type,
         resource_count,
+        no_of_affected_people,
+        description,
         contact_number,
-        email,
-        city,
-        street,
-        home_no,
-        priority,
-        district,
-        location
-
-        )VALUES ('$username',
-        '$request_name',
-        '$request_type',
-        '$description',
-        '$affected_people',
+        priority_level
+    ) VALUES (
+        $req_id,
+        $user_id,
+        $location_id,
+        $user_id,
+        '$req_name',
+        '$req_type',
         '$resource_type',
         '$resource_count',
+        '$no_of_affected_people',
+        '$description',
         '$contact_number',
-        '$email',
-        '$city',
-        '$street',
-        '$home_no',
-        '$priority',
-        '$district',
-        '$location')
+        '$priority_level'
     )";
 
-  return mysqli_query($conn, $sql);
-    
-  // i want to update location table with the new location data
-  $sql_location = "INSERT INTO Location(
-    latitude,
-    longitude,
-    district,
-    city,
-    street,
-    home_no) VALUES ('$latitude', '$longitude', '$district', '$city', '$street', '$home_no')";
-  return mysqli_query($conn, $sql_location);
+    if ($conn->query($sql) === TRUE) {
+        return 'success';
+    } else {
+        echo "Error inserting logged request: " . $conn->error;
+    }
   
 }
 
