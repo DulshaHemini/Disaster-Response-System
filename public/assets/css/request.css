@@ -21,6 +21,21 @@
     html { scroll-behavior: smooth; }
     body { background: var(--white); color: var(--text); font-family: var(--font-bd); overflow-x: hidden; }
 
+
+    body {
+            overflow-x: auto;
+            overflow-y: auto;
+            height: 100vh;
+    }
+   .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+
+
+
+
     /* ── NAVBAR ── */
     
     .nav-brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
