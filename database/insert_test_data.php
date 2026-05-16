@@ -106,6 +106,17 @@ $sql = "INSERT INTO assignment (assigned_date, req_id, resource_id, volunteer_id
 $conn->query($sql);
 echo "Assignment data inserted successfully!<br>";
 
+// ========== 9. INSERT TRACKER ACTIVITY LOGS ==========
+$sql = "INSERT INTO tracker_activity_log (person_id, log_type, message, created_by) VALUES
+    (6, 'incident_reported', 'Family requested urgent evacuation support due to landslide risk', 'Emergency Hotline'),
+    (6, 'team_dispatched', 'Rescue team dispatched to Peradeniya Road location', 'Control Center'),
+    (7, 'incident_reported', 'Flood water entered ground floor and food supplies are running low', 'Local Police'),
+    (8, 'medical_aid', 'On-site medical team treated minor injuries and distributed medicine', 'Medical Team'),
+    (9, 'status_update', 'Situation stabilized and person moved to a temporary shelter', 'Field Coordinator'),
+    (10, 'team_arrived', 'Response team reached location and started assessment', 'Rescue Team')";
+$conn->query($sql);
+echo "Tracker activity logs inserted successfully!<br>";
+
 echo "<br><strong>All data inserted successfully!</strong>";
 
 $conn->close();

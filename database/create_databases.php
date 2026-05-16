@@ -146,6 +146,19 @@ $sql = "CREATE TABLE IF NOT EXISTS assignment(
 $conn->query($sql);
 echo "Assignment table created successfully!<br>";
 
+//Create tracker activity log table
+$sql = "CREATE TABLE IF NOT EXISTS tracker_activity_log(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    person_id INT NOT NULL,
+    log_type ENUM('incident_reported', 'alert', 'team_dispatched', 'team_arrived', 'medical_aid', 'food_supply', 'shelter', 'status_update') NOT NULL,
+    message TEXT NOT NULL,
+    created_by VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (person_id) REFERENCES affected_people(user_id) ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Tracker activity log table created successfully!<br>";
+
 
 
 

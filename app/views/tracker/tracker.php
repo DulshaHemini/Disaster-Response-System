@@ -214,7 +214,10 @@
             echo '"longitude":' . $p['longitude'] . ',';
             echo '"disaster_type":"' . addslashes($p['disaster_type']) . '",';
             echo '"status":"' . $p['status'] . '",';
-            echo '"created_at":"' . $p['created_at'] . '"';
+            echo '"created_at":"' . $p['created_at'] . '",';
+            echo '"injury_status":"' . addslashes(isset($p['injury_status']) ? $p['injury_status'] : 'Not specified') . '",';
+            echo '"family_count":' . (isset($p['family_count']) ? (int) $p['family_count'] : 0) . ',';
+            echo '"contact":"' . addslashes(isset($p['contact']) ? $p['contact'] : 'Not available') . '"';
             echo '}';
             $first = false;
         }
