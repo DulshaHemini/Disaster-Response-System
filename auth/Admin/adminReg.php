@@ -369,6 +369,18 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter username">
+                <div class="error-message" id="usernameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email address">
+                <div class="error-message" id="emailError"></div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label>Gender</label>
@@ -388,15 +400,23 @@
             </div>
 
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" id="email" placeholder="Enter email address">
-                <div class="error-message" id="emailError"></div>
-            </div>
-
-            <div class="form-group">
                 <label>Contact Number</label>
                 <input type="tel" name="cnumber" id="cnumber" placeholder="Enter contact number">
                 <div class="error-message" id="cnumberError"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter password">
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password">
+                    <div class="error-message" id="confirm_passwordError"></div>
+                </div>
             </div>
 
             <div class="form-actions">
@@ -414,10 +434,13 @@
         const formInputs = {
             fname: document.getElementById('fname'),
             lname: document.getElementById('lname'),
+            username: document.getElementById('username'),
             gender: document.getElementById('gender'),
             age: document.getElementById('age'),
             email: document.getElementById('email'),
-            cnumber: document.getElementById('cnumber')
+            cnumber: document.getElementById('cnumber'),
+            password: document.getElementById('password'),
+            confirm_password: document.getElementById('confirm_password')
         };
 
         const validationRules = {
@@ -428,6 +451,14 @@
             lname: {
                 validate: (value) => value.trim().length >= 2,
                 error: 'Invalid Last Name '
+            },
+            username: {
+                validate: (value) => {
+                    // Username must be 3-20 characters, alphanumeric and underscore only
+                    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+                    return usernameRegex.test(value.trim());
+                },
+                error: 'Username must be 3-20 characters (letters, numbers, underscore only)'
             },
             gender: {
                 validate: (value) => value !== '',
@@ -453,6 +484,16 @@
                     return phoneRegex.test(value.replace(/\s/g, ''));
                 },
                 error: 'Please enter a valid contact number (minimum 10 digits)'
+            },
+            password: {
+                validate: (value) => value.trim().length >= 1,
+                error: 'Password is required'
+            },
+            confirm_password: {
+                validate: (value) => {
+                    return value === formInputs.password.value;
+                },
+                error: 'Passwords do not match'
             }
         };
 
@@ -557,10 +598,12 @@
             const formData = {
                 fname: formInputs.fname.value.trim(),
                 lname: formInputs.lname.value.trim(),
+                username: formInputs.username.value.trim(),
                 gender: formInputs.gender.value,
                 age: formInputs.age.value,
                 email: formInputs.email.value.trim(),
-                cnumber: formInputs.cnumber.value.trim()
+                cnumber: formInputs.cnumber.value.trim(),
+                password: formInputs.password.value
             };
 
             const submitBtn = document.querySelector('.btn-primary');

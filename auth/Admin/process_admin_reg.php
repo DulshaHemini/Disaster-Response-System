@@ -49,6 +49,15 @@ if (empty($data['lname']) || strlen($data['lname']) < 2) {
     $errors['lname'] = 'Last name must be at least 2 characters';
 }
 
+// Validate Username
+if (empty($data['username']) || strlen($data['username']) < 3) {
+    $errors['username'] = 'Username must be at least 3 characters';
+} elseif (strlen($data['username']) > 20) {
+    $errors['username'] = 'Username must not exceed 20 characters';
+} elseif (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $data['username'])) {
+    $errors['username'] = 'Username can only contain letters, numbers, and underscore';
+}
+
 // Validate Gender
 if (empty($data['gender']) || !in_array($data['gender'], ['Male', 'Female'])) {
     $errors['gender'] = 'Invalid gender selection';
@@ -70,6 +79,11 @@ if (empty($data['cnumber']) || !preg_match('/^[0-9\-\+\(\)\s]{10,}$/', str_repla
     $errors['cnumber'] = 'Invalid contact number (minimum 10 digits)';
 }
 
+// Validate Password
+if (empty($data['password'])) {
+    $errors['password'] = 'Password is required';
+}
+
 // If validation errors exist, return them
 if (!empty($errors)) {
     http_response_code(400);
@@ -87,10 +101,12 @@ if (!empty($errors)) {
 
 $fname = $conn->real_escape_string(trim($data['fname']));
 $lname = $conn->real_escape_string(trim($data['lname']));
+$username = $conn->real_escape_string(trim($data['username']));
 $gender = $conn->real_escape_string($data['gender']);
 $age = intval($data['age']);
 $email = $conn->real_escape_string(trim($data['email']));
 $cnumber = $conn->real_escape_string(trim($data['cnumber']));
+$password = $data['password']; // Don't escape - will be hashed
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CHECK IF EMAIL ALREADY EXISTS
@@ -109,18 +125,30 @@ if ($result && $result->num_rows > 0) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// CHECK IF USERNAME ALREADY EXISTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+$checkUsername = "SELECT username FROM users WHERE username = '$username'";
+$result = $conn->query($checkUsername);
+
+if ($result && $result->num_rows > 0) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Username already taken'
+    ]);
+    exit;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // START TRANSACTION
 // ═══════════════════════════════════════════════════════════════════════════
 
 $conn->begin_transaction();
 
 try {
-    // Generate a unique username from email
-    $username = explode('@', $email)[0] . '_' . time();
-    
-    // Generate a temporary password (in production, send this via email)
-    $tempPassword = bin2hex(random_bytes(8)); // 16 character random password
-    $hashedPassword = password_hash($tempPassword, PASSWORD_DEFAULT);
+    // Hash the provided password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     
     // ═══════════════════════════════════════════════════════════════════════════
     // INSERT INTO USERS TABLE
