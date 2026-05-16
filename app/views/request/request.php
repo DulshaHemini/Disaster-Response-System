@@ -68,6 +68,7 @@
             </thead>
             <tbody id="table-body-1">
                 <?php foreach($result as $item): ?>
+                    <?php if($item['status'] == 'Allocated'): ?>
                     <//?php if($item['status'] == 'Assigned'): ?>
                 <tr data-status="<?= htmlspecialchars($item['status']) ?>"
                     data-search="<?= strtolower(htmlspecialchars($item['description'] . ' ' . $item['volunteer_id'])) ?>">
@@ -90,6 +91,7 @@
                     
                 </tr>
                 <//?php endif; ?></tr>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -133,7 +135,7 @@
                         <td class="status-cell"><?= htmlspecialchars($item['status']) ?></td>
                         <td>
                             <select class="status-select" onchange="updateStatus(<?= $item['id'] ?>, this)">
-                                <option value="Allocated" <?= $item['status'] == 'Allocated' ? 'selected' : '' ?>>Allocated</option>
+                                
                                 <option value="Received"  <?= $item['status'] == 'Received'  ? 'selected' : '' ?>>Received</option>
                                 
                                 <option value="Rejected"  <?= $item['status'] == 'Rejected'  ? 'selected' : '' ?>>Rejected</option>
@@ -167,7 +169,7 @@
                     <th>DESCRIPTION</th>
                     <th>STATUS</th>
                     <th>CHANGE STATUS</th>
-                    <th>ACTIONS</th>
+                    
                 </tr>
             </thead>
             <tbody id="table-body-3">
@@ -185,19 +187,13 @@
                         <td class="status-cell"><?= htmlspecialchars($item['status']) ?></td>
                         <td>
                             <select class="status-select" onchange="updateStatus(<?= $item['id'] ?>, this)">
-                                <option value="Allocated" <?= $item['status'] == 'Allocated' ? 'selected' : '' ?>>Allocated</option>
+                                
                                 <option value="Received"  <?= $item['status'] == 'Received'  ? 'selected' : '' ?>>Received</option>
                                 
                                 <option value="Rejected"  <?= $item['status'] == 'Rejected'  ? 'selected' : '' ?>>Rejected</option>
                             </select>
                         </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="act-btn" title="View">👁</button>
-                                <button class="act-btn" title="Edit">✏️</button>
-                                <button class="act-btn danger" title="Delete">🗑</button>
-                            </div>
-                        </td>
+                        
                     </tr>
                     <?php endif; ?>
                 <?php endforeach; ?>
