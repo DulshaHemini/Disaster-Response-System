@@ -17,7 +17,6 @@ require_once '../../config/config.php';
 </head>
 <body>
 
-<!-- NAVBAR (adapted from home/_navbar.php) -->
 <nav>
   <a class="nav-brand admin" href="../../public/index.php">
     <div class="logo-icon">
@@ -46,7 +45,7 @@ require_once '../../config/config.php';
   </div>
 </nav>
 
-<!-- TICKER (from home/_ticker.php) -->
+
 <?php include '../../app/views/home/_ticker.php'; ?>
 
 <div class="admin-container">

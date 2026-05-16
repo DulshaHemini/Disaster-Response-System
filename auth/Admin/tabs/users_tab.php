@@ -38,18 +38,21 @@ if ($dataOnly) return;
 ?>
 <?php if (!$embedded): ?>
 
-
 <!-- MANAGE USERS TAB -->
 <div id="usersTab" class="tab-content active-tab">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <div class="section-header">
     <h2> <i class="fa-solid fa-users"></i> System Users</h2>
+     <a href="adminReg.php" style="text-decoration: none;">
+       <button class="btn-primary">Add New Admin</button>
+     </a>
   </div>
   
   <div class="stats-grid" style="grid-template-columns: repeat(2,1fr);">
     <div class="stat-card"><div class="label">Volunteers</div><div class="value"><?php echo $volCount; ?></div></div>
     <div class="stat-card"><div class="label">Affected People</div><div class="value"><?php echo $affCount; ?></div></div>
+   
   </div>
   
   <div class="table-wrapper">
