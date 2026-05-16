@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: volunteer.php");
             exit();
         } else {
+            echo "<h1>error</h1>";
             signin_fail();
         }
     }
