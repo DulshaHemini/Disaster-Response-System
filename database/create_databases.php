@@ -159,17 +159,54 @@ echo "Logged Request table created successfully!<br>";
 
 //Create resource table
 $sql = "CREATE TABLE IF NOT EXISTS resource(
-    resource_id INT PRIMARY KEY AUTO_INCREMENT,
-    volunteer_id INT,
-    resource_name VARCHAR (100),
-    resource_type ENUM('Medicals', 'Foods', 'Shelters', 'Cloths', 'Money') NOT NULL,
-    resource_count INT,
+     resource_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    volunteer_id INT Not NULL,
+
+    resource_type_id INT NOT NULL,
+
+    resource_name VARCHAR(100) NOT NULL,
+
+    resource_count INT DEFAULT 0,
+
+    resource_unit VARCHAR(50) DEFAULT '',
+
+    resource_max INT DEFAULT 0,
+
     description TEXT,
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer (user_id)
-    ON DELETE CASCADE
+
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (volunteer_id)
+    REFERENCES volunteer(user_id)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (resource_type_id)
+    REFERENCES resource_type(resource_type_id)
+    ON DELETE RESTRICT
 )";
 $conn->query($sql);
 echo "Resource table created successfully!<br>";
+
+// Create resource type table
+
+$sql = "CREATE TABLE IF NOT EXISTS resource_type(
+
+    resource_type_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    resource_name VARCHAR(50) NOT NULL UNIQUE,
+
+    is_default TINYINT(1) DEFAULT 0
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Resource type table created successfully.<br>";
+} else {
+    die("Error creating resource_type table: " . $conn->error);
+}
+
+
 
 
 //Create assignment table
