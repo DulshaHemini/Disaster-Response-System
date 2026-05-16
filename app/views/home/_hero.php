@@ -9,7 +9,7 @@
   </p>
 
   <div class="hero-cta fade-up">
-    <button class="btn-help" onclick="window.location.href='../app/controllers/instant_help_req.php'" >INSTANT HELP</button>
+    <button class="btn-help" onclick="window.location.href='../app/controllers/InstantHelp.php'" >INSTANT HELP</button>
     <button class="btn-lg btn-lg-ghost" onclick="scrollTo('dashboard')">View Dashboard</button>
   </div>
 
