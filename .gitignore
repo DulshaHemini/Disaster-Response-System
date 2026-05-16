@@ -17,3 +17,13 @@ database/create_databases my data.php
 database/create_databases my data copy.php
 database/insert_test_data my data .php
 database/insert_test_data my data  copy.php
+
+database\create_databases my data(1).php
+database\delete_database my data(1).php
+database\delete_test_data my data(1).php
+database\insert_test_data my data (1).php
+
+
+
+
+

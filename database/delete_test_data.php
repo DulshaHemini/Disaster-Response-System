@@ -11,6 +11,7 @@ $conn->query("TRUNCATE TABLE Instant_Request");
 $conn->query("TRUNCATE TABLE Logged_Request");
 $conn->query("TRUNCATE TABLE requests");
 $conn->query("TRUNCATE TABLE resource");
+$conn->query("TRUNCATE TABLE resource_type");
 $conn->query("TRUNCATE TABLE Location");
 $conn->query("TRUNCATE TABLE volunteer");
 $conn->query("TRUNCATE TABLE affected_people");

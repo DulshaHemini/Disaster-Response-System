@@ -117,7 +117,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resource(
 
     resource_id INT PRIMARY KEY AUTO_INCREMENT,
 
-    volunteer_id INT DEFAULT NULL,
+    volunteer_id INT Not NULL,
 
     resource_type_id INT NOT NULL,
 
