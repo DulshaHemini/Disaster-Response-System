@@ -117,6 +117,110 @@ $sql = "INSERT INTO tracker_activity_log (person_id, log_type, message, created_
 $conn->query($sql);
 echo "Tracker activity logs inserted successfully!<br>";
 
+// ========== 10. INSERT MASSIVE TRACKER ACTIVITY LOG DATA ==========
+$sql = "INSERT INTO tracker_activity_log (person_id, log_type, message, created_by) VALUES
+    (6, 'alert', 'Water level warning issued for low-lying area sector A1', 'Alert System'),
+    (6, 'team_dispatched', 'Boat rescue unit assigned from station K-01', 'Control Center'),
+    (6, 'team_arrived', 'First response team reached the reported location', 'Rescue Team Alpha'),
+    (6, 'medical_aid', 'First aid administered for minor cuts and bruises', 'Medical Team'),
+    (6, 'food_supply', 'Emergency dry ration packs delivered to household', 'Logistics Unit'),
+    (6, 'status_update', 'Household transferred to safe shelter block 3', 'Field Coordinator'),
+    (6, 'alert', 'Secondary rainfall warning sent to nearby families', 'Alert System'),
+    (6, 'team_dispatched', 'Backup ambulance dispatched for standby support', 'Control Center'),
+    (6, 'status_update', 'Communication restored with affected family members', 'Operations Desk'),
+    (6, 'shelter', 'Temporary shelter allocation confirmed by local council', 'Relief Officer'),
+
+    (7, 'alert', 'Strong wind advisory shared with residents in sector C2', 'Alert System'),
+    (7, 'incident_reported', 'Family reported rising water inside the ground floor', 'Emergency Hotline'),
+    (7, 'team_dispatched', 'Rescue pickup team dispatched from district base', 'Control Center'),
+    (7, 'team_arrived', 'Response team arrived and began rapid assessment', 'Rescue Team Bravo'),
+    (7, 'food_supply', 'Cooked meal packs distributed to displaced members', 'Relief Volunteers'),
+    (7, 'medical_aid', 'Blood pressure and dehydration checks completed', 'Medical Team'),
+    (7, 'status_update', 'Children moved to safer zone in community center', 'Field Coordinator'),
+    (7, 'shelter', 'Family assigned to shelter room B-14', 'Relief Officer'),
+    (7, 'status_update', 'Night monitoring plan shared with shelter warden', 'Operations Desk'),
+    (7, 'food_supply', 'Additional clean drinking water cans delivered', 'Logistics Unit'),
+
+    (8, 'incident_reported', 'Road access blocked due to debris accumulation', 'Local Police'),
+    (8, 'alert', 'Landslide risk alert issued for hillside lane 5', 'Alert System'),
+    (8, 'team_dispatched', 'Excavation support unit dispatched to clear route', 'Control Center'),
+    (8, 'team_arrived', 'Field engineers reached the blocked access point', 'Response Engineering'),
+    (8, 'status_update', 'Narrow pathway opened for emergency movement', 'Field Coordinator'),
+    (8, 'medical_aid', 'Mobile clinic screened elderly family members', 'Medical Team'),
+    (8, 'food_supply', 'Infant nutrition supplies handed over to guardian', 'Relief Volunteers'),
+    (8, 'shelter', 'Temporary tent shelter installed near school ground', 'Relief Officer'),
+    (8, 'status_update', 'Family condition stable and under periodic review', 'Operations Desk'),
+    (8, 'alert', 'Aftershock advisory distributed via SMS broadcast', 'Alert System'),
+
+    (9, 'incident_reported', 'Displaced family requested urgent clothing and blankets', 'Emergency Hotline'),
+    (9, 'team_dispatched', 'Local volunteer unit assigned for relief support', 'Control Center'),
+    (9, 'team_arrived', 'Volunteer team arrived and started distribution setup', 'Volunteer Team'),
+    (9, 'food_supply', 'Meal packets delivered for two-day requirement', 'Logistics Unit'),
+    (9, 'shelter', 'Community hall space prepared for overnight stay', 'Relief Officer'),
+    (9, 'status_update', 'Family relocated to designated safe zone', 'Field Coordinator'),
+    (9, 'medical_aid', 'Basic medical assessment completed without critical findings', 'Medical Team'),
+    (9, 'alert', 'Heat stress warning issued for afternoon period', 'Alert System'),
+    (9, 'status_update', 'Relief follow-up visit scheduled for tomorrow morning', 'Operations Desk'),
+    (9, 'food_supply', 'High-energy biscuits and milk powder distributed', 'Relief Volunteers'),
+
+    (10, 'incident_reported', 'Caller reported severe shortage of essential medicines', 'Emergency Hotline'),
+    (10, 'alert', 'Heavy rain warning escalated to orange level', 'Alert System'),
+    (10, 'team_dispatched', 'Medical response vehicle sent from base hospital', 'Control Center'),
+    (10, 'team_arrived', 'Medical team reached location and triage initiated', 'Medical Response Unit'),
+    (10, 'medical_aid', 'Medication issued for chronic health conditions', 'Medical Team'),
+    (10, 'food_supply', 'Ready-to-eat packs issued for immediate consumption', 'Logistics Unit'),
+    (10, 'shelter', 'Family moved to school shelter wing A', 'Relief Officer'),
+    (10, 'status_update', 'Primary needs covered and condition improving', 'Field Coordinator'),
+    (10, 'status_update', 'Family contact verified and reunification in progress', 'Operations Desk'),
+    (10, 'alert', 'Night-time flood watch warning sent to all nearby homes', 'Alert System'),
+
+    (6, 'incident_reported', 'Neighbor reported water entering rear section of house', 'Local Police'),
+    (6, 'food_supply', 'Protein meal kits delivered for four family members', 'Relief Volunteers'),
+    (6, 'status_update', 'Priority changed to monitored after rapid improvement', 'Field Coordinator'),
+    (6, 'team_arrived', 'Secondary response team confirmed area safety', 'Rescue Team Alpha'),
+    (6, 'medical_aid', 'Wound dressing changed and pain management provided', 'Medical Team'),
+    (6, 'shelter', 'Additional bedding provided at temporary shelter', 'Relief Officer'),
+    (6, 'alert', 'Localized rain cell warning sent for next 2 hours', 'Alert System'),
+    (6, 'status_update', 'Case handed over to district welfare follow-up', 'Operations Desk'),
+
+    (7, 'alert', 'Community siren test completed and acknowledged', 'Alert System'),
+    (7, 'team_dispatched', 'Night patrol support team assigned for monitoring', 'Control Center'),
+    (7, 'status_update', 'Family requested infant supplies and hygiene kits', 'Field Coordinator'),
+    (7, 'food_supply', 'Infant formula and dry food supplies delivered', 'Logistics Unit'),
+    (7, 'medical_aid', 'General physician consultation completed at shelter', 'Medical Team'),
+    (7, 'status_update', 'All members accounted for and safe', 'Operations Desk'),
+    (7, 'shelter', 'Shelter registration updated with extended stay details', 'Relief Officer'),
+    (7, 'team_arrived', 'Volunteer support team arrived for shift handover', 'Volunteer Team'),
+
+    (8, 'incident_reported', 'Request received for clean water purification support', 'Emergency Hotline'),
+    (8, 'food_supply', 'Water containers and purification tablets delivered', 'Logistics Unit'),
+    (8, 'status_update', 'Access road reopened for light vehicles', 'Field Coordinator'),
+    (8, 'alert', 'Slope movement monitoring alert remains active', 'Alert System'),
+    (8, 'team_dispatched', 'Geology inspection unit dispatched for reassessment', 'Control Center'),
+    (8, 'team_arrived', 'Geology team completed hazard scan', 'Response Engineering'),
+    (8, 'status_update', 'Risk reduced to moderate after field inspection', 'Operations Desk'),
+    (8, 'shelter', 'Family retained in temporary shelter for precautionary stay', 'Relief Officer'),
+
+    (9, 'alert', 'High temperature warning issued for noon interval', 'Alert System'),
+    (9, 'team_dispatched', 'Mobile relief van dispatched to sector D4', 'Control Center'),
+    (9, 'team_arrived', 'Relief van reached pickup point and unloaded supplies', 'Volunteer Team'),
+    (9, 'status_update', 'Sanitation kit distribution completed successfully', 'Field Coordinator'),
+    (9, 'food_supply', 'Fresh drinking water bottles distributed', 'Relief Volunteers'),
+    (9, 'medical_aid', 'Follow-up check completed for elderly member', 'Medical Team'),
+    (9, 'status_update', 'Family support request closed after confirmation call', 'Operations Desk'),
+    (9, 'shelter', 'Alternative shelter option reserved as backup', 'Relief Officer'),
+
+    (10, 'incident_reported', 'Request logged for baby food and essential hygiene items', 'Emergency Hotline'),
+    (10, 'team_dispatched', 'Supply transport unit allocated to request', 'Control Center'),
+    (10, 'team_arrived', 'Supply unit reached destination and verified recipients', 'Logistics Unit'),
+    (10, 'food_supply', 'Nutrition packs issued for three-day use', 'Relief Volunteers'),
+    (10, 'medical_aid', 'Nurse-led assessment completed for all members', 'Medical Team'),
+    (10, 'status_update', 'Case downgraded from urgent to routine monitoring', 'Field Coordinator'),
+    (10, 'alert', 'Rainfall advisory remains active for the district', 'Alert System'),
+    (10, 'shelter', 'Temporary shelter stay extended by 24 hours', 'Relief Officer')";
+$conn->query($sql);
+echo "Massive tracker activity log data inserted successfully!<br>";
+
 echo "<br><strong>All data inserted successfully!</strong>";
 
 $conn->close();

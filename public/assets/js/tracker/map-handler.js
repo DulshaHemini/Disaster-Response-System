@@ -28,7 +28,7 @@ function addMarkersToMap(people) {
     var p = people[i];
     var cfg = STATUS_CONFIG[p.status];
     if (!cfg) {
-      cfg = STATUS_CONFIG.reported;
+      cfg = STATUS_CONFIG.needs_aid;
     }
 
     var icon = L.divIcon({

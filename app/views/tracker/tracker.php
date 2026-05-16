@@ -2,6 +2,8 @@
 // Data passed from TrackerController via extract()
 // $people - array of all affected people
 // $total_people - total count of people
+$tracker_assets_version = filemtime(BASE_PATH . '/public/assets/js/tracker/main.js');
+$tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,15 +17,15 @@
     <link rel="stylesheet" href="../assets/css/theme.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/ticker.css">
-    <link rel="stylesheet" href="../assets/css/tracker.css">
+    <link rel="stylesheet" href="../assets/css/tracker.css?v=<?php echo $tracker_style_version; ?>">
     
-    <script defer src="../assets/js/tracker/config.js"></script>
-    <script defer src="../assets/js/tracker/helpers.js"></script>
-    <script defer src="../assets/js/tracker/map-handler.js"></script>
-    <script defer src="../assets/js/tracker/person-selection.js"></script>
-    <script defer src="../assets/js/tracker/details-panel.js"></script>
-    <script defer src="../assets/js/tracker/activity-modal.js"></script>
-    <script defer src="../assets/js/tracker/main.js"></script>
+    <script defer src="../assets/js/tracker/config.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/helpers.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/map-handler.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/person-selection.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/details-panel.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/activity-modal.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="../assets/js/tracker/main.js?v=<?php echo $tracker_assets_version; ?>"></script>
 </head>
 <body>
     <!-- Include Navbar Component -->
@@ -97,7 +99,7 @@
             <div class="info-section">
                 <h4>🎯 Rescue Progress</h4>
                 <div class="progress-tracker">
-                    <div class="progress-step" data-status="reported"><div class="step-circle">1</div><div class="step-label">Reported</div></div>
+                    <div class="progress-step" data-status="needs_aid"><div class="step-circle">1</div><div class="step-label">Needs Aid</div></div>
                     <div class="progress-line"></div>
                     <div class="progress-step" data-status="team_sent"><div class="step-circle">2</div><div class="step-label">Team Sent</div></div>
                     <div class="progress-line"></div>

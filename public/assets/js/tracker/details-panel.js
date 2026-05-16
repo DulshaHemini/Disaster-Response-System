@@ -13,25 +13,44 @@ function openDetails(personId) {
 
 // Load person data
 function loadPersonData(personId) {
-  // Find person in peopleData
-  var person = null;
+  // Use list data as immediate fallback while DB details are loading
+  var fallbackPerson = null;
   for (var i = 0; i < peopleData.length; i++) {
     if (peopleData[i].id == personId) {
-      person = peopleData[i];
+      fallbackPerson = peopleData[i];
       break;
     }
   }
-  
-  if (!person) {
-    return;
+
+  if (fallbackPerson) {
+    receivePersonData(fallbackPerson, [], 0);
   }
-  
-  // For now, use basic person data from peopleData
-  // In future, you can load full details from get_person.php via AJAX
-  var logs = [];
-  var logsCount = 0;
-  
-  receivePersonData(person, logs, logsCount);
+
+  var apiUrl = "index.php?page=tracker&action=getPersonData&id=" + encodeURIComponent(personId) + "&_ts=" + Date.now();
+  if (window.location.pathname.indexOf("/tracker/") !== -1) {
+    apiUrl = "../" + apiUrl;
+  }
+
+  fetch(apiUrl)
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Failed to load person data");
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      if (!data || !data.success || !data.person) {
+        return;
+      }
+
+      var person = data.person;
+      var logs = Array.isArray(data.logs) ? data.logs : [];
+      var logsCount = typeof data.logs_count === "number" ? data.logs_count : logs.length;
+      receivePersonData(person, logs, logsCount);
+    })
+    .catch(function () {
+      // Keep fallback data already rendered
+    });
 }
 
 // Receive person data from popup
@@ -128,7 +147,7 @@ function receivePersonData(person, logs, logsCount) {
 
 // Update progress tracker
 function updateProgressTracker(status) {
-  var steps = ["reported", "team_sent", "arrived", "rescued"];
+  var steps = ["needs_aid", "team_sent", "arrived", "rescued"];
   var currentIndex = -1;
   
   for (var i = 0; i < steps.length; i++) {

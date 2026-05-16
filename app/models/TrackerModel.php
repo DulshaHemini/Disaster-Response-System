@@ -5,6 +5,15 @@
  */
 class TrackerModel
 {
+    private const DEFAULT_TRACKER_STATUS = 'needs_aid';
+    private const REQUEST_STATUS_MAP = array(
+        'Pending' => 'needs_aid',
+        'Approved' => 'team_sent',
+        'Assigned' => 'arrived',
+        'In Progress' => 'arrived',
+        'Received' => 'rescued',
+    );
+
     private $conn;
     
     public function __construct($conn)
@@ -63,32 +72,7 @@ class TrackerModel
     
     private function getAllPeopleData(): array
     {
-        $requestJoinSql = '';
-        $requestSelectSql = "'other' AS disaster_type,
-                    'needs_aid' AS status,
-                    NOW() AS created_at";
-        $requestTable = $this->resolveRequestTableName();
-        if ($requestTable !== null) {
-            $requestSelectSql = "COALESCE(r.req_type, 'other') AS disaster_type,
-                    CASE
-                        WHEN r.status = 'Pending' THEN 'needs_aid'
-                        WHEN r.status = 'Approved' THEN 'team_sent'
-                        WHEN r.status = 'Assigned' THEN 'arrived'
-                        WHEN r.status = 'In Progress' THEN 'arrived'
-                        WHEN r.status = 'Received' THEN 'rescued'
-                        ELSE 'needs_aid'
-                    END AS status,
-                    COALESCE(r.created_at, NOW()) AS created_at";
-            $requestJoinSql = "LEFT JOIN (
-                    SELECT r1.*
-                    FROM " . $requestTable . " r1
-                    INNER JOIN (
-                        SELECT affected_people_id, MAX(req_id) AS latest_req_id
-                        FROM " . $requestTable . "
-                        GROUP BY affected_people_id
-                    ) latest_request ON latest_request.latest_req_id = r1.req_id
-                ) r ON r.affected_people_id = ap.user_id";
-        }
+        list($requestSelectSql, $requestJoinSql) = $this->getRequestSqlParts();
 
         $sql = "SELECT
                     ap.user_id AS id,
@@ -141,32 +125,7 @@ class TrackerModel
     
     private function getPersonByIdData($person_id)
     {
-        $requestJoinSql = '';
-        $requestSelectSql = "'other' AS disaster_type,
-                    'needs_aid' AS status,
-                    NOW() AS created_at";
-        $requestTable = $this->resolveRequestTableName();
-        if ($requestTable !== null) {
-            $requestSelectSql = "COALESCE(r.req_type, 'other') AS disaster_type,
-                    CASE
-                        WHEN r.status = 'Pending' THEN 'needs_aid'
-                        WHEN r.status = 'Approved' THEN 'team_sent'
-                        WHEN r.status = 'Assigned' THEN 'arrived'
-                        WHEN r.status = 'In Progress' THEN 'arrived'
-                        WHEN r.status = 'Received' THEN 'rescued'
-                        ELSE 'needs_aid'
-                    END AS status,
-                    COALESCE(r.created_at, NOW()) AS created_at";
-            $requestJoinSql = "LEFT JOIN (
-                    SELECT r1.*
-                    FROM " . $requestTable . " r1
-                    INNER JOIN (
-                        SELECT affected_people_id, MAX(req_id) AS latest_req_id
-                        FROM " . $requestTable . "
-                        GROUP BY affected_people_id
-                    ) latest_request ON latest_request.latest_req_id = r1.req_id
-                ) r ON r.affected_people_id = ap.user_id";
-        }
+        list($requestSelectSql, $requestJoinSql) = $this->getRequestSqlParts();
 
         $sql = "SELECT
                     ap.user_id AS id,
@@ -320,6 +279,49 @@ class TrackerModel
         $stmt->close();
 
         return $exists;
+    }
+
+    private function getRequestSqlParts(): array
+    {
+        $requestJoinSql = '';
+        $requestSelectSql = "'other' AS disaster_type,
+                    '" . self::DEFAULT_TRACKER_STATUS . "' AS status,
+                    NOW() AS created_at";
+
+        $requestTable = $this->resolveRequestTableName();
+        if ($requestTable !== null) {
+            $requestSelectSql = "COALESCE(r.req_type, 'other') AS disaster_type,
+                    " . $this->buildRequestStatusCaseSql() . " AS status,
+                    COALESCE(r.created_at, NOW()) AS created_at";
+            $requestJoinSql = "LEFT JOIN (
+                    SELECT r1.*
+                    FROM " . $requestTable . " r1
+                    INNER JOIN (
+                        SELECT affected_people_id, MAX(req_id) AS latest_req_id
+                        FROM " . $requestTable . "
+                        GROUP BY affected_people_id
+                    ) latest_request ON latest_request.latest_req_id = r1.req_id
+                ) r ON r.affected_people_id = ap.user_id";
+        }
+
+        return array($requestSelectSql, $requestJoinSql);
+    }
+
+    private function buildRequestStatusCaseSql(): string
+    {
+        $parts = array('CASE');
+        foreach (self::REQUEST_STATUS_MAP as $requestStatus => $trackerStatus) {
+            $parts[] = "WHEN r.status = '" . $this->escapeSqlLiteral($requestStatus) . "' THEN '" . $this->escapeSqlLiteral($trackerStatus) . "'";
+        }
+        $parts[] = "ELSE '" . $this->escapeSqlLiteral(self::DEFAULT_TRACKER_STATUS) . "'";
+        $parts[] = 'END';
+
+        return implode("\n                        ", $parts);
+    }
+
+    private function escapeSqlLiteral($value): string
+    {
+        return str_replace("'", "''", $value);
     }
 }
 ?>
