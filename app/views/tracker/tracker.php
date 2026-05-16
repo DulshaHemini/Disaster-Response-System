@@ -4,6 +4,29 @@
 // $total_people - total count of people
 $tracker_assets_version = filemtime(BASE_PATH . '/public/assets/js/tracker/main.js');
 $tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css');
+
+function renderPersonCard($person, $initials) {
+    ob_start();
+    ?>
+    <div class="person-item" id="person-<?= $person['id'] ?>" data-id="<?= $person['id'] ?>">
+        <div class="person-item-header">
+            <div class="person-avatar"><?= $initials ?></div>
+            <div class="person-item-info">
+                <div class="person-item-name"><?= htmlspecialchars($person['full_name']) ?></div>
+                <div class="person-item-location">📍 <?= htmlspecialchars($person['district']) ?></div>
+                <div class="disaster-tag">🚨 <?= htmlspecialchars($person['disaster_type']) ?></div>
+            </div>
+        </div>
+        <div class="person-item-footer">
+            <div class="person-actions">
+                <button class="btn-focus" onclick="focusPerson(<?= $person['id'] ?>)">🎯 Focus</button>
+                <button class="btn-details" onclick="openDetails(<?= $person['id'] ?>)">👁️ Details</button>
+            </div>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,22 +73,7 @@ $tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css')
                     $initials .= strtoupper($part[0]);
                 }
                 
-                echo '<div class="person-item" id="person-' . $person['id'] . '" data-id="' . $person['id'] . '">';
-                echo '<div class="person-item-header">';
-                echo '<div class="person-avatar">' . $initials . '</div>';
-                echo '<div class="person-item-info">';
-                echo '<div class="person-item-name">' . $person['full_name'] . '</div>';
-                echo '<div class="person-item-location">📍 ' . $person['district'] . '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '<div class="person-item-footer">';
-                echo '<span class="disaster-tag">🚨 ' . $person['disaster_type'] . '</span>';
-                echo '<div class="person-actions">';
-                echo '<button class="btn-focus" onclick="focusPerson(' . $person['id'] . ')">🎯 Focus</button>';
-                echo '<button class="btn-details" onclick="openDetails(' . $person['id'] . ')">👁️ Details</button>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
+                echo renderPersonCard($person, $initials);
             }
             ?>
         </div>
@@ -75,7 +83,7 @@ $tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css')
     <div id="map"></div>
 
     <!-- Right Panel -->
-    <div id="details-panel" class="details-panel hidden">
+    <div id="details-panel" class="details-panel ">
         <div class="panel-header">
             <button class="close-btn" onclick="closeDetailsPanel()">✕</button>
             <h3>Person Details</h3>

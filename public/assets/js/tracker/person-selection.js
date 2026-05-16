@@ -2,6 +2,7 @@
 
 let currentPersonId = null;
 
+// Ensure details update automatically when person is focused
 // Select person
 function selectPerson(personId) {
   currentPersonId = personId;
@@ -29,6 +30,7 @@ function selectPerson(personId) {
   if (markerIcon) {
     markerIcon.classList.add("selected");
   }
+  
 }
 
 // Focus on person
@@ -52,9 +54,16 @@ function focusPerson(personId) {
 
   selectPerson(personId);
 
+  // Update details panel only if it's already active/open
+  var detailsPanel = document.getElementById("details-panel");
+  if (detailsPanel && detailsPanel.classList.contains("active")) {
+    openDetails(personId);
+  }
+
   setTimeout(function () {
     if (markers[personId]) {
       markers[personId].openPopup();
     }
   }, 1500);
+
 }

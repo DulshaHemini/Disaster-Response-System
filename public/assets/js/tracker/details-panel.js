@@ -4,10 +4,7 @@ let allActivityLogs = [];
 
 // Open details panel
 function openDetails(personId) {
-  currentPersonId = personId;
   selectPerson(personId);
-
-  // Load person data directly without popup
   loadPersonData(personId);
 }
 
