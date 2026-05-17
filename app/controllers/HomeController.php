@@ -19,10 +19,6 @@ class HomeController
             'emergencyContacts'  => $model->getEmergencyContacts(),
         ]);
 
-        ob_start();
         require APP_PATH . '/views/home/index.php';
-        $content = ob_get_clean();
-
-        require APP_PATH . '/views/layouts/main.php';
     }
 }

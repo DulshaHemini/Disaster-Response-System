@@ -6,8 +6,7 @@ $username = "root";
 $password = "";
 $dbname = "DRCS";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password );
+$conn = new mysqli($servername, $username, $password ,"", 3307);
 
 // Check connection
 if($conn->connect_error){
@@ -29,7 +28,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    user_role ENUM('admin', 'affected_people', 'volunteer') NOT NULL,
+    user_role ENUM('admin', 'affected_people', 'volunteer', 'relief_team', 'guest') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 $conn->query($sql);
@@ -87,6 +86,23 @@ $conn->query($sql);
 echo "Volunteer table created successfully!<br>";
 
 
+//Create Relief Team table 
+$sql = "CREATE TABLE IF NOT EXISTS relief_team ( 
+    relief_team_id INT PRIMARY KEY, 
+    team_name VARCHAR(100) NOT NULL, 
+    email VARCHAR(100), 
+    contact_no VARCHAR(15), 
+    specialization ENUM( 'Medical', 'Flood Rescue', 'Food Distribution', 'Transport', 'Animal Rescue', 'Emergency Response'),
+    no_of_members INT DEFAULT 1, 
+    vehicle_type VARCHAR(100), 
+    vehicle_number VARCHAR(50), 
+    availability_status ENUM('available', 'busy', 'offline') DEFAULT 'available', 
+    FOREIGN KEY (relief_team_id) REFERENCES users(user_id) ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Relief Team table created successfully!<br>";
+
+
 //Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
     loc_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +118,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Location(
 )";
 $conn->query($sql);
 echo "Location table created successfully!<br>";
+
 
 
 //Create all requests table
@@ -141,7 +158,6 @@ $sql = "CREATE TABLE IF NOT EXISTS Instant_Request(
     ON UPDATE CASCADE
 )";
 $conn->query($sql);
-
 echo "Instant Request table created successfully!<br>";
 
 
@@ -209,21 +225,23 @@ $conn->query($sql);
 echo "Resource table created successfully!<br>";
 
 
-
-
-//Create assignment table
+//Create assignment table suitable for both volunteers and relief teams
 $sql = "CREATE TABLE IF NOT EXISTS assignments(
     assignment_id INT AUTO_INCREMENT PRIMARY KEY,
-    volunteer_id INT,
-    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    assignment_type ENUM('Volunteer_Resource', 'Relief_Team_Task') NOT NULL,
+    volunteer_id INT NULL,
+    relief_team_id INT NULL,
     request_id INT NOT NULL,
-    resource_id INT,
-    affected_people_id INT,
+    resource_id INT NULL,
+    affected_people_id INT NULL,
+    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
-    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
+    status ENUM('Assigned', 'Doing', 'Done', 'Allocated', 'Received') DEFAULT 'Assigned',
     FOREIGN KEY (request_id) REFERENCES requests(request_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id)
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id) ON DELETE CASCADE,
+    FOREIGN KEY (relief_team_id) REFERENCES relief_team(relief_team_id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE SET NULL,
+    FOREIGN KEY (affected_people_id) REFERENCES affected_people(affected_people_id) ON DELETE SET NULL
 )";
 $conn->query($sql);
 echo "Assignment table created successfully!<br>";
