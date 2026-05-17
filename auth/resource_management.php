@@ -1,35 +1,48 @@
 <?php
-
+// 1. Enable full error reporting to display any hidden errors
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
-
 require_once "../config/config.php";
-
-$conn->select_db("DRCS1");
-
-
-
-
-/* 
-//   get logged volunteer id
- */
-
-if (!isset($_SESSION["user_id"])) {
-
-    // die("Please login first.");    //original file
-
-     $_SESSION["user_id"] = 2;  // this is for testing only. Remove this line in production.
-}
-
+$conn->select_db("DRCS");
+// 2. Force override $_SESSION and $volunteer_id to 7
+$_SESSION["user_id"] = 9;
 $volunteer_id = $_SESSION["user_id"];
-
 $message = "";
 
 
 
 
+
+
+
+//{
+
+/*
+
+<?php
+session_start();
+require_once "../config/config.php";
+$conn->select_db("DRCS");
+/*   get logged volunteer id */   /*
+if (!isset($_SESSION["user_id"])) {
+
+    // die("Please login first.");    //original file
+
+     $_SESSION["user_id"] = 5;  // this is for testing only. Remove this line in production.
+}
+
+$volunteer_id = $_SESSION["user_id"];
+$message = "";
+
+
+*/  //}      //this is original code that check user comes from previous page, but to testing we hard code user_id, to do that remove this part and added above part line 1 to 13
+
 /*if (!isset($_SESSION["user_id"])) {
 
     die("Please login first.");
+
 }
 
 $volunteer_id = $_SESSION["user_id"];
@@ -464,9 +477,34 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
     <title>Resource Management</title>
 
+    <!-- Theme and Component CSS Stylesheets -->
+    <link
+        rel="stylesheet"
+        href="../public/assets/css/theme.css">
+    <link
+        rel="stylesheet"
+        href="../public/assets/css/navbar.css">
+    <link
+        rel="stylesheet"
+        href="../public/assets/css/ticker.css">
     <link
         rel="stylesheet"
         href="resource_management.css">
+
+    <!-- Helper JavaScript for Navbar Actions -->
+    <script>
+        function setLang(lang, btn) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+        function openModal(action) {
+            if (action === 'signin') {
+                window.location.href = 'signin.php';
+            } else if (action === 'signup') {
+                window.location.href = 'signup.php';
+            }
+        }
+    </script>
 
     <script>
 
@@ -490,10 +528,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
 <body>
 
-  
-         <!-- dashboard -->
+    <!-- Navbar Component -->
+    <?php include '../app/views/home/_navbar.php'; ?>
 
+    <!-- Ticker Component -->
+    <?php include '../app/views/home/_ticker.php'; ?>
 
+    <!-- Space between Ticker and Dashboard Wrapper -->
+    <div style="margin-top: 20px;"></div>
+
+    <!-- dashboard -->
     <div class="dashboard-wrapper">
 
         <div class="card">
