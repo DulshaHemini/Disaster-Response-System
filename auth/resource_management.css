@@ -9,35 +9,38 @@ body {
     font-family: Arial, sans-serif;
 
     background-color: #f2f2f2;
-  display: flex; /* මෙය මගින් කොටස් දෙකම තිරස් අතට එකට (side by side) ගනී */
-  flex-direction: column; /* මෙය මගින් කොටස් එකක් යට එකක් එන ලෙස සකසයි */
-  align-items: center;    /* කොටස් දෙකම තිරස් අතට මැදට (center) ගනී */
-  gap: 50px; 
+    display: flex;
+    /* මෙය මගින් කොටස් දෙකම තිරස් අතට එකට (side by side) ගනී */
+    flex-direction: column;
+    /* මෙය මගින් කොටස් එකක් යට එකක් එන ලෙස සකසයි */
+    align-items: center;
+    /* කොටස් දෙකම තිරස් අතට මැදට (center) ගනී */
+    gap: 50px;
 }
 
 /* 
    dashboard
  */
 
-.dashboard-wrapper {
+.rm_dashboard-wrapper {
 
     display: flex;
 
     gap: 15px;
 
     margin-bottom: 10px;
-    margin-top:80px;
-   
-    border-radius: 15px;          
-                   
+    margin-top: 80px;
+
+    border-radius: 15px;
+
     padding: 10px;
-    background-color: #ff0000; 
+    background-color: #ff0000;
     font-family: sans-serif;
     width: 90%;
     box-sizing: border-box;
 }
 
-.card {
+.rm_card {
 
     flex: 1;
 
@@ -52,14 +55,14 @@ body {
     text-align: center;
 }
 
-.card h1 {
+.rm_card h1 {
 
     margin: 0;
 
     font-size: 40px;
 }
 
-.card p {
+.rm_card p {
 
     margin-top: 10px;
 
@@ -70,7 +73,7 @@ body {
    main container
  */
 
-.main-box {
+.rm_main-box {
 
     background-color: white;
 
@@ -90,7 +93,7 @@ body {
    rows and columns
  */
 
-.row {
+.rm_row {
 
     display: flex;
 
@@ -104,7 +107,7 @@ body {
 /* 
    buttons
  */
-.btn-outline-red {
+.rm_btn-outline-red {
 
     /* background-color: transparent; */
 
@@ -118,7 +121,7 @@ body {
 
     /* cursor: pointer; */
 
-outline: 2px solid rgb(249, 51, 51);
+    outline: 2px solid rgb(249, 51, 51);
 
 
 
@@ -126,7 +129,7 @@ outline: 2px solid rgb(249, 51, 51);
 }
 
 
-.btn-logout {
+.rm_btn-logout {
 
     background-color: #961723;
 
@@ -139,14 +142,14 @@ outline: 2px solid rgb(249, 51, 51);
     padding: 10px 15px;
 
     cursor: pointer;
-      position: absolute;
-  top: 20px;
-  right: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 
 
-.btn-red {
+.rm_btn-red {
 
     background-color: #c82333;
 
@@ -161,7 +164,7 @@ outline: 2px solid rgb(249, 51, 51);
     cursor: pointer;
 }
 
-.btn-white {
+.rm_btn-white {
 
     background-color: white;
 
@@ -174,7 +177,7 @@ outline: 2px solid rgb(249, 51, 51);
     cursor: pointer;
 }
 
-.table-btn {
+.rm_table-btn {
 
     padding: 5px 10px;
 }
@@ -231,7 +234,7 @@ th {
     background-color: #f2f2f2;
 }
 
-.no-data {
+.rm_no-data {
 
     text-align: center;
 
@@ -240,7 +243,7 @@ th {
     padding: 30px;
 }
 
-.table-date {
+.rm_table-date {
 
     color: gray;
 
@@ -251,7 +254,7 @@ th {
    tags
  */
 
-.tag {
+.rm_tag {
 
     display: inline-flex;
 
@@ -268,7 +271,7 @@ th {
     background-color: #f8f8f8;
 }
 
-.tag span {
+.rm_tag span {
 
     color: red;
 
@@ -277,7 +280,7 @@ th {
     font-weight: bold;
 }
 
-.table-tag {
+.rm_table-tag {
 
     background-color: #eeeeee;
 
@@ -290,7 +293,7 @@ th {
    modals
  */
 
-.modal-backdrop {
+.rm_modal-backdrop {
 
     display: none;
 
@@ -309,12 +312,12 @@ th {
     align-items: center;
 }
 
-.modal-backdrop.open {
+.rm_modal-backdrop.rm_open {
 
     display: flex;
 }
 
-.modal {
+.rm_modal {
 
     width: 420px;
 
@@ -325,7 +328,7 @@ th {
     overflow: hidden;
 }
 
-.modal-header {
+.rm_modal-header {
 
     display: flex;
 
@@ -338,7 +341,7 @@ th {
     border-bottom: 1px solid #ddd;
 }
 
-.modal-header button {
+.rm_modal-header button {
 
     border: none;
 
@@ -349,12 +352,12 @@ th {
     font-size: 16px;
 }
 
-.modal-body {
+.rm_modal-body {
 
     padding: 15px;
 }
 
-.modal-footer {
+.rm_modal-footer {
 
     padding: 15px;
 
@@ -367,26 +370,26 @@ th {
   forms
  */
 
-.form-group {
+.rm_form-group {
 
     margin-bottom: 15px;
 }
 
-.form-group label {
+.rm_form-group label {
 
     display: block;
 
     margin-bottom: 5px;
 }
 
-.form-row {
+.rm_form-row {
 
     display: flex;
 
     gap: 10px;
 }
 
-.form-row .form-group {
+.rm_form-row .rm_form-group {
 
     flex: 1;
 }
@@ -395,7 +398,7 @@ th {
    toast message
  */
 
-.toast {
+.rm_toast {
 
     position: fixed;
 
@@ -416,7 +419,7 @@ th {
     transition: 0.3s;
 }
 
-.toast.show {
+.rm_toast.rm_show {
 
     opacity: 1;
 }
