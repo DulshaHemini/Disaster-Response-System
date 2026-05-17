@@ -95,7 +95,7 @@ function renderTypeManager() {
 
         typeList.innerHTML += `
 
-            <div class="tag">
+            <div class="rm_tag">
 
                 ${type.name}
 
@@ -158,16 +158,16 @@ function renderTable() {
 
     let searchValue =
         document.getElementById("searchInput")
-        .value
-        .toLowerCase();
+            .value
+            .toLowerCase();
 
     let typeFilter =
         document.getElementById("typeFilter")
-        .value;
+            .value;
 
     let statusFilter =
         document.getElementById("statusFilter")
-        .value;
+            .value;
 
     let tableBody =
         document.getElementById("tableBody");
@@ -187,14 +187,14 @@ function renderTable() {
         let matchesSearch =
 
             resource.name
-            .toLowerCase()
-            .includes(searchValue)
+                .toLowerCase()
+                .includes(searchValue)
 
             ||
 
             resource.type_name
-            .toLowerCase()
-            .includes(searchValue);
+                .toLowerCase()
+                .includes(searchValue);
 
         let matchesType =
 
@@ -277,7 +277,7 @@ function renderTable() {
 
                         <br>
 
-                        <span class="table-date">
+                        <span class="rm_table-date">
 
                             ${resource.updated}
 
@@ -287,7 +287,7 @@ function renderTable() {
 
                     <td>
 
-                        <div class="tag table-tag">
+                        <div class="rm_tag rm_table-tag">
 
                             ${resource.type_name}
 
@@ -316,7 +316,7 @@ function renderTable() {
                     <td>
 
                         <button
-                            class="btn-white table-btn"
+                            class="rm_btn-white rm_table-btn"
                             onclick="editResource(${resource.id})">
 
                             Edit
@@ -324,7 +324,7 @@ function renderTable() {
                         </button>
 
                         <button
-                            class="btn-red table-btn"
+                            class="rm_btn-red rm_table-btn"
                             onclick="deleteResource(${resource.id})">
 
                             Delete
@@ -420,13 +420,13 @@ function openModal(clearForm = true) {
     }
 
     document.getElementById("modalBackdrop")
-        .classList.add("open");
+        .classList.add("rm_open");
 }
 
 function closeModal() {
 
     document.getElementById("modalBackdrop")
-        .classList.remove("open");
+        .classList.remove("rm_open");
 }
 
 function handleBackdropClick(event) {
@@ -489,17 +489,17 @@ function saveResource() {
 
     let name =
         document.getElementById("fName")
-        .value
-        .trim();
+            .value
+            .trim();
 
     let typeId =
         document.getElementById("fType")
-        .value;
+            .value;
 
     let unit =
         document.getElementById("fUnit")
-        .value
-        .trim();
+            .value
+            .trim();
 
     let qty =
         parseInt(
@@ -513,8 +513,8 @@ function saveResource() {
 
     let notes =
         document.getElementById("fNotes")
-        .value
-        .trim();
+            .value
+            .trim();
 
     let id =
         document.getElementById("editId").value;
@@ -593,11 +593,11 @@ function showToast(message) {
 
     toast.textContent = message;
 
-    toast.classList.add("show");
+    toast.classList.add("rm_show");
 
     setTimeout(function () {
 
-        toast.classList.remove("show");
+        toast.classList.remove("rm_show");
 
     }, 2500);
 }
