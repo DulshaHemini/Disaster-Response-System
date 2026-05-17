@@ -1,6 +1,6 @@
-/* =========================================
-   RESOURCE STATUS
-========================================= */
+/* 
+   restore states
+ */
 
 function getStatus(qty, max) {
 
@@ -18,9 +18,9 @@ function getStatus(qty, max) {
     return "Stocked";
 }
 
-/* =========================================
-   TYPE FUNCTIONS
-========================================= */
+/* 
+   type functions
+ */
 
 function renderTypeOptions(
     selectId,
@@ -31,7 +31,7 @@ function renderTypeOptions(
     let select =
         document.getElementById(selectId);
 
-    // Reset options
+    // reset options
     if (includeAll) {
 
         select.innerHTML =
@@ -43,7 +43,7 @@ function renderTypeOptions(
             '<option value="">Select Type</option>';
     }
 
-    // Add types
+    // add type options
     for (let i = 0; i < resourceTypes.length; i++) {
 
         let type = resourceTypes[i];
@@ -61,9 +61,9 @@ function renderTypeOptions(
     select.value = selectedValue;
 }
 
-/* =========================================
-   TYPE TAG LIST
-========================================= */
+/* 
+   type tag lists
+ */
 
 function renderTypeManager() {
 
@@ -82,7 +82,7 @@ function renderTypeManager() {
 
         let deleteButton = "";
 
-        // Hide delete button for default types
+        // hide delete button for default types
         if (type.default == 0) {
 
             deleteButton = `
@@ -106,9 +106,9 @@ function renderTypeManager() {
     }
 }
 
-/* =========================================
-   ADD TYPE
-========================================= */
+/* 
+   add type
+ */
 
 function addType() {
 
@@ -131,9 +131,9 @@ function addType() {
     document.getElementById("addTypeForm").submit();
 }
 
-/* =========================================
-   DELETE TYPE
-========================================= */
+/* 
+   delete type
+ */
 
 function deleteType(typeId) {
 
@@ -150,9 +150,9 @@ function deleteType(typeId) {
     document.getElementById("deleteTypeForm").submit();
 }
 
-/* =========================================
-   TABLE FUNCTIONS
-========================================= */
+/* 
+   table functions  
+ */
 
 function renderTable() {
 
@@ -176,7 +176,7 @@ function renderTable() {
 
     let filteredResources = [];
 
-    // Filter resources
+    // filter resources
     for (let i = 0; i < resources.length; i++) {
 
         let resource = resources[i];
@@ -222,9 +222,9 @@ function renderTable() {
         }
     }
 
-    /* =========================================
-       NO RECORDS
-    ========================================= */
+    /* 
+       no records
+     */
 
     if (filteredResources.length == 0) {
 
@@ -244,9 +244,9 @@ function renderTable() {
         `;
     }
 
-    /* =========================================
-       SHOW RECORDS
-    ========================================= */
+    /* 
+       show records
+     */
 
     else {
 
@@ -341,9 +341,9 @@ function renderTable() {
     updateStats();
 }
 
-/* =========================================
-   DASHBOARD STATS
-========================================= */
+/* 
+   dashboard stats
+ */
 
 function updateStats() {
 
@@ -393,9 +393,9 @@ function updateStats() {
         .textContent = out;
 }
 
-/* =========================================
-   MODAL FUNCTIONS
-========================================= */
+/* 
+   modal functions
+ */
 
 function openModal(clearForm = true) {
 
@@ -437,9 +437,9 @@ function handleBackdropClick(event) {
     }
 }
 
-/* =========================================
-   EDIT RESOURCE
-========================================= */
+/* 
+  edit resource
+ */
 
 function editResource(id) {
 
@@ -481,9 +481,9 @@ function editResource(id) {
     }
 }
 
-/* =========================================
-   SAVE RESOURCE
-========================================= */
+/* 
+   save resource
+ */
 
 function saveResource() {
 
@@ -519,7 +519,7 @@ function saveResource() {
     let id =
         document.getElementById("editId").value;
 
-    // Validation
+    // validation
     if (
         name == "" ||
         typeId == "" ||
@@ -533,7 +533,7 @@ function saveResource() {
         return;
     }
 
-    // Set hidden form values
+    // set hidden form values
     document.getElementById("actionType").value =
         "save_resource";
 
@@ -558,13 +558,13 @@ function saveResource() {
     document.getElementById("descriptionInput").value =
         notes;
 
-    // Submit form
+    // submit form
     document.getElementById("resourceForm").submit();
 }
 
-/* =========================================
-   DELETE RESOURCE
-========================================= */
+/* 
+   delete resource
+ */
 
 function deleteResource(id) {
 
@@ -582,9 +582,9 @@ function deleteResource(id) {
         .submit();
 }
 
-/* =========================================
-   TOAST MESSAGE
-========================================= */
+/* 
+   toast messages
+ */
 
 function showToast(message) {
 
@@ -602,9 +602,9 @@ function showToast(message) {
     }, 2500);
 }
 
-/* =========================================
-   INITIAL LOAD
-========================================= */
+/* 
+   initial load
+ */
 
 renderTypeManager();
 
