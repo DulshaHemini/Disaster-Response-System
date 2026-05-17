@@ -2,6 +2,7 @@
 
 let currentPersonId = null;
 
+// Ensure details update automatically when person is focused
 // Select person
 function selectPerson(personId) {
   currentPersonId = personId;
@@ -29,9 +30,10 @@ function selectPerson(personId) {
   if (markerIcon) {
     markerIcon.classList.add("selected");
   }
+  
 }
 
-// Focus on person
+// Focus on person - smooth navigation WITHOUT opening panel
 function focusPerson(personId) {
   var person = null;
   for (var i = 0; i < peopleData.length; i++) {
@@ -45,16 +47,23 @@ function focusPerson(personId) {
     return;
   }
 
+  // Select person first (updates UI, marks as selected)
+  selectPerson(personId);
+
+  // Smooth map animation to person location
   map.flyTo([person.latitude, person.longitude], 12, {
     duration: 1.5,
     easeLinearity: 0.5,
   });
 
-  selectPerson(personId);
-
+  // Open popup marker after animation completes
   setTimeout(function () {
     if (markers[personId]) {
       markers[personId].openPopup();
     }
   }, 1500);
+
+  // Load detail data in background for when user clicks Details button
+  // NOTE: Panel does NOT open on focus - only on explicit Details click
+  loadPersonData(personId);
 }

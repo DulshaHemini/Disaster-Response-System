@@ -42,5 +42,48 @@ class TrackerController
     {
         return $this->model->addActivityLog($person_id, $log_type, $message, $created_by);
     }
+
+    /**
+     * API endpoint to log activity from frontend
+     */
+    public function logActivity(): void
+    {
+        // Removed - logging functionality disabled
+        http_response_code(404);
+        echo json_encode(array('success' => false, 'message' => 'Not available'));
+    }
+
+    public function getPersonData(): void
+    {
+        header('Content-Type: application/json');
+
+        $person_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+        if ($person_id <= 0) {
+            http_response_code(400);
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'Invalid person ID',
+            ));
+            return;
+        }
+
+        $person = $this->model->getPersonById($person_id);
+        if (!$person) {
+            http_response_code(404);
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'Person not found',
+            ));
+            return;
+        }
+
+        $logs = $this->model->getLogsByPerson($person_id);
+        echo json_encode(array(
+            'success' => true,
+            'person' => $person,
+            'logs' => $logs,
+            'logs_count' => count($logs),
+        ));
+    }
 }
 ?>
