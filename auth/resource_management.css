@@ -16,7 +16,51 @@ body {
     align-items: center;
     /* කොටස් දෙකම තිරස් අතට මැදට (center) ගනී */
     gap: 50px;
+    /* Reduced gap from 35px to 20px to bring elements closer */
 }
+
+/* 
+   header
+ */
+.rm_header {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+    font-size: 2.3rem;
+
+    font-weight: 800;
+
+    margin: 0 0 10px 0;
+
+    padding-bottom: 12px;
+
+    letter-spacing: -0.02em;
+
+    position: relative;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    background: linear-gradient(135deg, #c82333 0%, #821019 100%);
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+.rm_header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 4px;
+    background: linear-gradient(90deg, #c82333 0%, #ff5263 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(200, 35, 51, 0.2);
+}
+
 
 /* 
    dashboard
@@ -29,7 +73,8 @@ body {
     gap: 15px;
 
     margin-bottom: 10px;
-    margin-top: 80px;
+    margin-top: 15px;
+    /* Decreased margin-top from 80px to 15px to sit beautifully below the header */
 
     border-radius: 15px;
 
