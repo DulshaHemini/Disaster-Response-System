@@ -28,7 +28,7 @@
         user_id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
-        user_role ENUM('admin', 'affected_people', 'volunteer', 'relief_team') NOT NULL,
+        user_role ENUM('admin', 'affected_people', 'volunteer', 'relief_team', 'guest') NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
     $conn->query($sql);
@@ -157,8 +157,8 @@
         FOREIGN KEY (loc_id) REFERENCES Location(loc_id)
         ON UPDATE CASCADE
     )";
-$conn->query($sql);
-echo "Instant Request table created successfully!<br>";
+    $conn->query($sql);
+    echo "Instant Request table created successfully!<br>";
 
 
     //Create Logged_Request table
