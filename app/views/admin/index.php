@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DRCS Admin · Command Center | Sri Lanka</title>
+  <title>DRCS Admin</title>
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
@@ -37,7 +37,7 @@
   </div>
 
   <div class="nav-right">
-    <button class="logout-btn" onclick="window.location.href='logout.php'"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+    <button class="logout-btn" onclick="window.location.href='../../auth/signin.php'"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
   </div>
 </nav>
 

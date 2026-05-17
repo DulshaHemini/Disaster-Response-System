@@ -29,3 +29,10 @@ auth/resource_management final.php
 
 z backup
 
+auth/Admin/.DS_Store
+auth/Admin/assets/.DS_Store
+auth/Admin/tabs/.DS_Store
+public/.DS_Store
+.gitignore
+public/assets/.DS_Store
+.DS_Store
