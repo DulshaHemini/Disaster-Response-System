@@ -477,34 +477,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
     <title>Resource Management</title>
 
-    <!-- Theme and Component CSS Stylesheets -->
-    <link
-        rel="stylesheet"
-        href="../public/assets/css/theme.css">
-    <link
-        rel="stylesheet"
-        href="../public/assets/css/navbar.css">
-    <link
-        rel="stylesheet"
-        href="../public/assets/css/ticker.css">
     <link
         rel="stylesheet"
         href="resource_management.css">
-
-    <!-- Helper JavaScript for Navbar Actions -->
-    <script>
-        function setLang(lang, btn) {
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-        }
-        function openModal(action) {
-            if (action === 'signin') {
-                window.location.href = 'signin.php';
-            } else if (action === 'signup') {
-                window.location.href = 'signup.php';
-            }
-        }
-    </script>
 
     <script>
 
@@ -528,19 +503,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
 <body>
 
-    <!-- Navbar Component -->
-    <?php include '../app/views/home/_navbar.php'; ?>
-
-    <!-- Ticker Component -->
-    <?php include '../app/views/home/_ticker.php'; ?>
-
-    <!-- Space between Ticker and Dashboard Wrapper -->
-    <div style="margin-top: 20px;"></div>
 
     <!-- dashboard -->
-    <div class="dashboard-wrapper">
+    <div class="rm_dashboard-wrapper">
 
-        <div class="card">
+        <div class="rm_card">
 
             <h1 id="stat-total">0</h1>
 
@@ -548,7 +515,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
         </div>
 
-        <div class="card">
+        <div class="rm_card">
 
             <h1 id="stat-ok">0</h1>
 
@@ -556,7 +523,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
         </div>
 
-        <div class="card">
+        <div class="rm_card">
 
             <h1 id="stat-low">0</h1>
 
@@ -564,7 +531,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
         </div>
 
-        <div class="card">
+        <div class="rm_card">
 
             <h1 id="stat-out">0</h1>
 
@@ -576,14 +543,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
   <!-- main box  -->
 
-    <div class="main-box">
+    <div class="rm_main-box">
 
         <!-- top comtrols -->
 
-        <div class="row">
+        <div class="rm_row">
 
             <button
-                class="btn-red"
+                class="rm_btn-red"
                 onclick="openModal()">
 
                 + Add Resource
@@ -592,14 +559,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
             <input
                 type="text"
-                class="btn-outline-red"
+                class="rm_btn-outline-red"
                 id="searchInput"
                 placeholder="Search..."
                 oninput="renderTable()">
 
             <select
                 id="typeFilter"
-                class="btn-outline-red"
+                class="rm_btn-outline-red"
                 onchange="renderTable()">
 
                 <option value="">All Types</option>
@@ -608,7 +575,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
             <select
                 id="statusFilter"
-                class="btn-outline-red"
+                class="rm_btn-outline-red"
                 onchange="renderTable()">
 
                 <option value="">All Status</option>
@@ -622,7 +589,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
             </select>
 
             <button
-                class="btn-logout"
+                class="rm_btn-logout"
                 onclick="window.location.href=' signin.php?action=logout'">
 
                 log out
@@ -633,16 +600,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
          
         <!-- add type -->
 
-        <div class="row">
+        <div class="rm_row">
 
             <input
                 type="text"
-                class="btn-outline-red"
+                class="rm_btn-outline-red"
                 id="newTypeInput"
                 placeholder="New type...">
 
             <button
-                class="btn-outline-red"
+                class="rm_btn-outline-red"
                 
                 
                 onclick="addType()">
@@ -656,7 +623,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
         type list -->
 
         <div
-            class="row"
+            class="rm_row"
             id="typeList">
         </div>
 
@@ -695,13 +662,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
      -->
 
     <div
-        class="modal-backdrop"
+        class="rm_modal-backdrop"
         id="modalBackdrop"
         onclick="handleBackdropClick(event)">
 
-        <div class="modal">
+        <div class="rm_modal">
 
-            <div class="modal-header">
+            <div class="rm_modal-header">
 
                 <h3 id="modalTitle">
                     Add Resource
@@ -713,7 +680,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
             </div>
 
-            <div class="modal-body">
+            <div class="rm_modal-body">
 
                 <input
                     type="hidden"
@@ -721,7 +688,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                 <!-- resource name -->
 
-                <div class="form-group">
+                <div class="rm_form-group">
 
                     <label>
                         Resource Name *
@@ -735,9 +702,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                 <!-- type + unit -->
 
-                <div class="form-row">
+                <div class="rm_form-row">
 
-                    <div class="form-group">
+                    <div class="rm_form-group">
 
                         <label>
                             Type *
@@ -753,7 +720,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                     </div>
 
-                    <div class="form-group">
+                    <div class="rm_form-group">
 
                         <label>
                             Unit *
@@ -769,9 +736,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                 <!-- qyt + max -->
 
-                <div class="form-row">
+                <div class="rm_form-row">
 
-                    <div class="form-group">
+                    <div class="rm_form-group">
 
                         <label>
                             Quantity *
@@ -784,7 +751,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                     </div>
 
-                    <div class="form-group">
+                    <div class="rm_form-group">
 
                         <label>
                             Max Capacity
@@ -801,7 +768,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
                 <!-- notes -->
 
-                <div class="form-group">
+                <div class="rm_form-group">
 
                     <label>
                         Notes
@@ -813,10 +780,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
             </div>
 
-            <div class="modal-footer">
+            <div class="rm_modal-footer">
 
                 <button
-                    class="btn-white"
+                    class="rm_btn-white"
                     onclick="closeModal()">
 
                     Cancel
@@ -824,7 +791,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
                 </button>
 
                 <button
-                    class="btn-red"
+                    class="rm_btn-red"
                     onclick="saveResource()">
 
                     Save
@@ -842,7 +809,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
          -->
 
     <div
-        class="toast"
+        class="rm_toast"
         id="toast">
     </div>
 
