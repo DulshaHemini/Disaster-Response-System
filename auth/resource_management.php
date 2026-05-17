@@ -7,7 +7,7 @@ session_start();
 require_once "../config/config.php";
 $conn->select_db("DRCS");
 // 2. Force override $_SESSION and $volunteer_id to 7
-$_SESSION["user_id"] = 9;
+$_SESSION["user_id"] = 8;
 $volunteer_id = $_SESSION["user_id"];
 $message = "";
 
@@ -505,6 +505,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
 
     <!-- dashboard -->
+
+
+    <h1 class="rm_header">Volunteer Resource Management</h1>
+
+
     <div class="rm_dashboard-wrapper">
 
         <div class="rm_card">
