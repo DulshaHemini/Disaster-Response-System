@@ -1,6 +1,6 @@
-/* =========================================
-   PAGE
-========================================= */
+/* 
+   page
+ */
 
 body {
     margin: 0;
@@ -15,9 +15,9 @@ body {
   gap: 50px; 
 }
 
-/* =========================================
-   DASHBOARD
-========================================= */
+/* 
+   dashboard
+ */
 
 .dashboard-wrapper {
 
@@ -28,10 +28,10 @@ body {
     margin-bottom: 10px;
     margin-top:80px;
    
-    border-radius: 15px;           /* Lines the cards up horizontally */
-                   /* Creates the space between the cards */
+    border-radius: 15px;          
+                   
     padding: 10px;
-    background-color: #ff0000; /* Light grey background like the image */
+    background-color: #ff0000; 
     font-family: sans-serif;
     width: 90%;
     box-sizing: border-box;
@@ -66,9 +66,9 @@ body {
     color: gray;
 }
 
-/* =========================================
-   MAIN CONTAINER
-========================================= */
+/* 
+   main container
+ */
 
 .main-box {
 
@@ -86,9 +86,9 @@ body {
     position: relative;
 }
 
-/* =========================================
-   ROWS
-========================================= */
+/* 
+   rows and columns
+ */
 
 .row {
 
@@ -101,9 +101,9 @@ body {
     flex-wrap: wrap;
 }
 
-/* =========================================
-   BUTTONS
-========================================= */
+/* 
+   buttons
+ */
 .btn-outline-red {
 
     /* background-color: transparent; */
@@ -179,9 +179,9 @@ outline: 2px solid rgb(249, 51, 51);
     padding: 5px 10px;
 }
 
-/* =========================================
-   INPUTS
-========================================= */
+/* 
+   inputs and textareas
+ */
 
 input,
 select,
@@ -205,9 +205,9 @@ textarea {
     resize: none;
 }
 
-/* =========================================
-   TABLE
-========================================= */
+/* 
+   tables
+ */
 
 table {
 
@@ -247,9 +247,9 @@ th {
     font-size: 12px;
 }
 
-/* =========================================
-   TAGS
-========================================= */
+/* 
+   tags
+ */
 
 .tag {
 
@@ -286,9 +286,9 @@ th {
     font-size: 12px;
 }
 
-/* =========================================
-   MODAL
-========================================= */
+/* 
+   modals
+ */
 
 .modal-backdrop {
 
@@ -363,9 +363,9 @@ th {
     border-top: 1px solid #ddd;
 }
 
-/* =========================================
-   FORMS
-========================================= */
+/* 
+  forms
+ */
 
 .form-group {
 
@@ -391,9 +391,9 @@ th {
     flex: 1;
 }
 
-/* =========================================
-   TOAST MESSAGE
-========================================= */
+/* 
+   toast message
+ */
 
 .toast {
 
