@@ -5,6 +5,17 @@ let allActivityLogs = [];
 // Open details panel
 function openDetails(personId) {
   selectPerson(personId);
+  
+  // Show panel immediately
+  var panel = document.getElementById("details-panel");
+  panel.classList.remove("hidden");
+  
+  // Trigger CSS animation on next frame
+  requestAnimationFrame(function() {
+    panel.classList.add("active");
+    adjustMapForPanel(true);
+  });
+  
   loadPersonData(personId);
 }
 
@@ -138,8 +149,13 @@ function receivePersonData(person, logs, logsCount) {
 
   var panel = document.getElementById("details-panel");
   panel.classList.remove("hidden");
-  panel.classList.add("active");
-  adjustMapForPanel(true);
+  
+  // Only add active class if panel is not already transitioning
+  if (!panel.classList.contains("active")) {
+    requestAnimationFrame(function() {
+      panel.classList.add("active");
+    });
+  }
 }
 
 // Update progress tracker

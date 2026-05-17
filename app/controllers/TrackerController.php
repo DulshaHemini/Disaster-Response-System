@@ -43,6 +43,16 @@ class TrackerController
         return $this->model->addActivityLog($person_id, $log_type, $message, $created_by);
     }
 
+    /**
+     * API endpoint to log activity from frontend
+     */
+    public function logActivity(): void
+    {
+        // Removed - logging functionality disabled
+        http_response_code(404);
+        echo json_encode(array('success' => false, 'message' => 'Not available'));
+    }
+
     public function getPersonData(): void
     {
         header('Content-Type: application/json');

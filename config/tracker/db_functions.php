@@ -133,94 +133,25 @@ function get_person_by_id($conn, $person_id) {
 
 // Get activity logs for person
 function get_logs_by_person($conn, $person_id) {
-    // TODO: Replace with MySQL query
-    // $query = "SELECT * FROM activity_logs WHERE person_id = '$person_id' ORDER BY created_at DESC";
-    // $result = mysqli_query($conn, $query);
-    // if (!$result) {
-    //     return array();
-    // }
-    // $logs = array();
-    // while ($row = mysqli_fetch_assoc($result)) {
-    //     $logs[] = $row;
-    // }
-    // return $logs;
-    
-    // Mock data
-    $all_logs = array(
-        1 => array(
-            array(
-                'id' => 1,
-                'person_id' => 1,
-                'log_type' => 'incident_reported',
-                'message' => 'Person reported trapped in flooded area',
-                'created_by' => 'Emergency Hotline',
-                'created_at' => '2024-01-15 10:30:00'
-            ),
-            array(
-                'id' => 2,
-                'person_id' => 1,
-                'log_type' => 'team_dispatched',
-                'message' => 'Rescue team dispatched to location',
-                'created_by' => 'Control Center',
-                'created_at' => '2024-01-15 10:45:00'
-            )
-        ),
-        2 => array(
-            array(
-                'id' => 3,
-                'person_id' => 2,
-                'log_type' => 'incident_reported',
-                'message' => 'Landslide reported, family needs evacuation',
-                'created_by' => 'Local Police',
-                'created_at' => '2024-01-15 11:00:00'
-            )
-        ),
-        3 => array(
-            array(
-                'id' => 4,
-                'person_id' => 3,
-                'log_type' => 'incident_reported',
-                'message' => 'Person found in flood waters',
-                'created_by' => 'Rescue Team Alpha',
-                'created_at' => '2024-01-15 09:15:00'
-            ),
-            array(
-                'id' => 5,
-                'person_id' => 3,
-                'log_type' => 'medical_aid',
-                'message' => 'Medical aid provided on site',
-                'created_by' => 'Medical Team',
-                'created_at' => '2024-01-15 09:30:00'
-            ),
-            array(
-                'id' => 6,
-                'person_id' => 3,
-                'log_type' => 'status_update',
-                'message' => 'Person successfully rescued and transported to hospital',
-                'created_by' => 'Rescue Team Alpha',
-                'created_at' => '2024-01-15 10:00:00'
-            )
-        )
-    );
-    
-    if (isset($all_logs[$person_id])) {
-        return $all_logs[$person_id];
+    $query = "SELECT log_id as id, affected_people_id as person_id, log_type, message, created_by, created_at FROM activity_logs WHERE affected_people_id = '$person_id' ORDER BY created_at DESC";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        return array();
     }
-    
-    return array();
+    $logs = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $logs[] = $row;
+    }
+    return $logs;
 }
 
 // Add new activity log
 function add_activity_log($conn, $person_id, $log_type, $message, $created_by) {
-    // TODO: Replace with MySQL query
-    // $query = "INSERT INTO activity_logs (person_id, log_type, message, created_by) VALUES ('$person_id', '$log_type', '$message', '$created_by')";
-    // $result = mysqli_query($conn, $query);
-    // if (!$result) {
-    //     return false;
-    // }
-    // return true;
-    
-    // Mock: Just return success
+    $query = "INSERT INTO activity_logs (affected_people_id, log_type, message, created_by) VALUES ('$person_id', '$log_type', '$message', '$created_by')";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        return false;
+    }
     return true;
 }
 ?>

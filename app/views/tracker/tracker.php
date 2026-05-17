@@ -189,20 +189,36 @@ function renderPersonCard($person, $initials) {
     <div id="activity-modal" class="activity-modal hidden">
         <div class="modal-overlay" onclick="closeActivityModal()"></div>
         <div class="modal-container">
+
+            <!-- ① Modal title bar -->
             <div class="modal-header">
-                <h3>📋 Complete Activity Timeline</h3>
-                <button class="close-btn" onclick="closeActivityModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="person-info-bar">
-                    <div class="person-avatar-small" id="modal-avatar">NJ</div>
+                <div class="modal-header-left">
+                    <span class="modal-title-icon">📋</span>
                     <div>
-                        <div class="person-name-small" id="modal-name">Person Name</div>
-                        <div class="person-meta-small" id="modal-meta">District • Status</div>
+                        <div class="modal-title-label">COMPLETE ACTIVITY TIMELINE</div>
+                        <div class="modal-title-sub">Full rescue log for selected person</div>
                     </div>
                 </div>
+                <button class="close-btn" onclick="closeActivityModal()">✕</button>
+            </div>
+
+            <!-- ② Sticky personal‑data header (locked, does not scroll) -->
+            <div class="modal-person-header">
+                <div class="mph-avatar" id="modal-avatar">NJ</div>
+                <div class="mph-info">
+                    <div class="mph-name" id="modal-name">Person Name</div>
+                    <div class="mph-meta" id="modal-meta">District • Status</div>
+                </div>
+                <div class="mph-badge-wrap" id="modal-status-badge">
+                    <span class="mph-badge"></span>
+                </div>
+            </div>
+
+            <!-- ③ Scrollable timeline body -->
+            <div class="modal-body">
                 <div id="modal-activity-timeline" class="activity-timeline-full"></div>
             </div>
+
         </div>
     </div>
 
