@@ -22,11 +22,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($user_role === 'relief_team') {
             header("Location: relief_team.php");
             exit();
+        } elseif ($user_role === 'admin') {
+            header("Location: admin.php");
+            exit();
         } elseif ($user_role === 'affected_people') {
             header("Location: affected_people.php");
             exit();
         } elseif ($user_role === 'volunteer') {
             header("Location: volunteer.php");
+            exit();
+        } else if ($user_role === 'guest') {
+            header("Location: geust.php");
             exit();
         } else {
             signin_fail();
