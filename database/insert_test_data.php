@@ -36,16 +36,22 @@ $sql = "INSERT INTO users (user_id, username, password, user_role) VALUES
     (2, 'affected_mary', MD5('mary123'), 'affected_people'),
     (3, 'affected_ahmed', MD5('ahmed123'), 'affected_people'),
     -- 
-    ('kasun_volunteer', MD5('kasun123'), 'volunteer'),
-
-    ('nimal_volunteer', MD5('nimal123'), 'volunteer'),
-    ('sachini_volunteer', MD5('sachini123'), 'volunteer'),
-
-    ('tharindu_volunteer', MD5('tharindu123'), 'volunteer'),
-
-    ('dinithi_volunteer', MD5('dinithi123'), 'volunteer')";
+    (4, 'kasun_volunteer', MD5('kasun123'), 'volunteer'),
+    (5, 'nimal_volunteer', MD5('nimal123'), 'volunteer'),
+    (6, 'sachini_volunteer', MD5('sachini123'), 'volunteer'),
+    (7, 'tharindu_volunteer', MD5('tharindu123'), 'volunteer'),
+    (8, 'dinithi_volunteer', MD5('dinithi123'), 'volunteer')";
 $conn->query($sql);
 echo "Users inserted successfully!<br>";
+
+// Fetch the user IDs to map them for the volunteer and resource insertions
+$user_ids = array();
+$result = $conn->query("SELECT user_id, username FROM users");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $user_ids[$row['username']] = $row['user_id'];
+    }
+}
 
 
 // (4, 'volunteer_sarah', MD5('sarah123'), 'volunteer'),
@@ -150,7 +156,7 @@ $sql = "INSERT INTO volunteer (user_id, first_name, last_name, nic, gender, cont
     22,
     'busy',
     'World Vision Lanka'
-)
+)";
 
 $conn->query($sql);
 echo "Volunteers inserted successfully!<br>";
@@ -269,9 +275,7 @@ $sql = "INSERT INTO resource
 
 VALUES
 
-
-//    KASUN - 2 RESOURCES
-
+/* KASUN - 2 RESOURCES */
 
 (
     " . $user_ids['kasun_volunteer'] . ",
@@ -293,9 +297,7 @@ VALUES
     'Basic emergency medical kits'
 ),
 
-
-//    NIMAL - 4 RESOURCES
-
+/* NIMAL - 4 RESOURCES */
 
 (
     " . $user_ids['nimal_volunteer'] . ",
@@ -337,8 +339,7 @@ VALUES
     'Collected public donations'
 ),
 
-
-//    SACHINI - 3 RESOURCES
+/* SACHINI - 3 RESOURCES */
 
 (
     " . $user_ids['sachini_volunteer'] . ",
@@ -370,9 +371,7 @@ VALUES
     'Nutrition support for children'
 ),
 
-
-//    THARINDU - 5 RESOURCES
-
+/* THARINDU - 5 RESOURCES */
 
 (
     " . $user_ids['tharindu_volunteer'] . ",
@@ -424,8 +423,7 @@ VALUES
     'Financial emergency assistance'
 ),
 
-
-//    DINITHI - 2 RESOURCES
+/* DINITHI - 2 RESOURCES */
 
 (
     " . $user_ids['dinithi_volunteer'] . ",
