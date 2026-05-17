@@ -120,22 +120,105 @@ h2 {
   font-family: var(--font-mn); font-size: .7rem;
   letter-spacing: .09em; color: var(--muted); margin-bottom: 1rem;
 }
-.map-visual {
-  position: absolute; inset: 3.5rem 1.4rem 1.4rem;
-  background: var(--off); border: 1.5px solid var(--border);
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  font-size: .8rem; color: var(--muted);
+
+/* ── FAKE BLURRED MAP ── */
+.fake-map-container {
+  position: absolute;
+  inset: 3.5rem 1.4rem 1.4rem;
+  background: var(--off);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.map-pin {
-  position: absolute; width: 10px; height: 10px;
-  border-radius: 50%; animation: ping 1.8s ease-in-out infinite;
+
+.fake-map-blur {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 30% 40%, var(--red) 0%, transparent 8%),
+    radial-gradient(circle at 65% 25%, var(--amber) 0%, transparent 6%),
+    radial-gradient(circle at 45% 70%, var(--blue) 0%, transparent 7%),
+    radial-gradient(circle at 75% 60%, var(--green) 0%, transparent 5%),
+    radial-gradient(circle at 20% 80%, var(--red) 0%, transparent 6%),
+    radial-gradient(circle at 85% 35%, var(--amber) 0%, transparent 5%),
+    linear-gradient(135deg, #e8f4f8 0%, #f5f5f5 50%, #e8f4f8 100%);
+  filter: blur(8px);
+  opacity: 0.6;
+  animation: map-pulse 4s ease-in-out infinite;
 }
-.map-pin.p1 { background: var(--red);   top: 58%; left: 40%; }
-.map-pin.p2 { background: var(--amber); top: 30%; left: 65%; animation-delay: .4s; }
-.map-pin.p3 { background: var(--blue);  top: 35%; left: 22%; animation-delay: .8s; }
-@keyframes ping {
-  0%,100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
-  70%      { box-shadow: 0 0 0 12px transparent; opacity: .5; }
+
+@keyframes map-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.map-center-btn {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 40px;
+  background: var(--red);
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(200, 16, 46, 0.4);
+  transition: all 0.3s ease;
+  border: 2px solid var(--red);
+}
+
+.map-center-btn:hover {
+  background: var(--red-dk);
+  color: white;
+  border-color: var(--red-dk);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(200, 16, 46, 0.5);
+}
+
+.map-center-btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.map-btn-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  animation: bounce-icon 2s ease-in-out infinite;
+}
+
+@keyframes bounce-icon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.map-btn-text {
+  font-family: var(--font-mn);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.map-btn-subtitle {
+  font-family: var(--font-bd);
+  font-size: 0.75rem;
+  opacity: 0.9;
+  font-weight: 400;
 }
 
 .alerts-card {
