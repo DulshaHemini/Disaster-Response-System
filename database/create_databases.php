@@ -24,6 +24,7 @@ $conn->query($sql);
 $conn->select_db($dbname);
 
 
+
 // Create users table
 $sql = "CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,6 +35,8 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
 )";
 $conn->query($sql);
 echo "Users People table created successfully!<br>";
+
+
 
 
 //Create Admin table
@@ -69,6 +72,9 @@ $conn->query($sql);
 echo "Affected People table created successfully!<br>";
 
 
+
+
+
 //Create Volunteers table
 $sql = "CREATE TABLE IF NOT EXISTS volunteer (
     user_id INT PRIMARY KEY,
@@ -85,6 +91,9 @@ $sql = "CREATE TABLE IF NOT EXISTS volunteer (
 )";
 $conn->query($sql);
 echo "Volunteer table created successfully!<br>";
+
+
+
 
 
 //Create location table
@@ -157,6 +166,27 @@ $conn->query($sql);
 echo "Logged Request table created successfully!<br>";
 
 
+
+
+// Create resource type table
+
+$sql = "CREATE TABLE IF NOT EXISTS resource_type(
+
+    resource_type_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    resource_name VARCHAR(50) NOT NULL UNIQUE,
+
+    is_default TINYINT(1) DEFAULT 0
+)";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Resource type table created successfully.<br>";
+} else {
+    die("Error creating resource_type table: " . $conn->error);
+}
+
+
+
 //Create resource table
 $sql = "CREATE TABLE IF NOT EXISTS resource(
      resource_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -189,22 +219,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resource(
 $conn->query($sql);
 echo "Resource table created successfully!<br>";
 
-// Create resource type table
 
-$sql = "CREATE TABLE IF NOT EXISTS resource_type(
-
-    resource_type_id INT PRIMARY KEY AUTO_INCREMENT,
-
-    resource_name VARCHAR(50) NOT NULL UNIQUE,
-
-    is_default TINYINT(1) DEFAULT 0
-)";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Resource type table created successfully.<br>";
-} else {
-    die("Error creating resource_type table: " . $conn->error);
-}
 
 
 
