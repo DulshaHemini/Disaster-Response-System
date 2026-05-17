@@ -477,9 +477,9 @@ if ($conn->query($sql) === TRUE) {
 
 // ========== INSERT INTO assignment TABLE (Multiple Insertion) ==========
 $sql = "INSERT INTO assignment (assignment_id, assigned_date, req_id, resource_id, volunteer_id, affected_people_id, description, status) VALUES 
-    (1001, CURRENT_TIMESTAMP, 101, 501, 4, 2, 'Medicine supply assignment for Mary Johnson', 'Assigned'),
-    (1002, CURRENT_TIMESTAMP, 102, 502, 4, 3, 'Food supply assignment for Ahmed Rashid', 'Allocated'),
-    (1003, CURRENT_TIMESTAMP, 103, 503, 5, 2, 'Shelter materials assignment', 'Received')";
+    (1001, CURRENT_TIMESTAMP, 101, 2, 4, 2, 'Medicine supply assignment for Mary Johnson', 'Assigned'),
+    (1002, CURRENT_TIMESTAMP, 102, 1, 4, 3, 'Food supply assignment for Ahmed Rashid', 'Allocated'),
+    (1003, CURRENT_TIMESTAMP, 103, 3, 5, 2, 'Shelter materials assignment', 'Received')";
 $conn->query($sql);
 echo "Assignments inserted successfully!<br>";
 
