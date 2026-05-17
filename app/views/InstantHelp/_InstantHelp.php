@@ -108,7 +108,7 @@ function instantHelpForm(){
 
 <body>
     <div class='container'>
-        <a href='../' class='back-home' onclick='window.history.back();return false;'>← BACK TO HOME</a>
+        <a href='../../public/index.php' class='back-home'>← BACK TO HOME</a>
 
         <h1 class='top-text'>🚨 Instant Help Request</h1>
 

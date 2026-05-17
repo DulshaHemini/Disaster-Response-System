@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //if result == success do the success(); else fail();
     if($result == 'success'){
+        include_once __DIR__ . '/AssignLogic.php'; 
         success();
     }else{
         reg_fail();

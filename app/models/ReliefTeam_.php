@@ -118,4 +118,27 @@ function markTaskDone($conn, $assignment_id, $team_id) {
     return false;
 }
 
+function getAffectedPeopleCount($conn) {
+    $sql = "SELECT COUNT(*) as total FROM affected_people";
+    $result = $conn->query($sql);
+    if ($row = $result->fetch_assoc()) {
+        return (int)$row['total'];
+    }
+    return 0;
+}
+
+function getReliefTeamProfile($conn, $team_id) {
+    $sql = "
+        SELECT rt.*, l.district, l.city, l.street, l.home_no, l.latitude, l.longitude
+        FROM relief_team rt
+        LEFT JOIN Location l ON rt.relief_team_id = l.user_id
+        WHERE rt.relief_team_id = ?
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $team_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+
 ?>

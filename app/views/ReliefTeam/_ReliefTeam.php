@@ -117,24 +117,6 @@
             gap: .75rem;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--text);
-            border: 1.5px solid var(--border);
-            padding: .4rem 1rem;
-            border-radius: 7px;
-            font-family: var(--font-bd);
-            font-size: .9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all .2s;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--red);
-            color: var(--red);
-        }
-
         .btn-fill {
             background: var(--text);
             color: #fff;
@@ -169,6 +151,184 @@
         .btn-logout:hover {
             background: var(--red);
             color: #fff;
+        }
+
+        /* Profile button */
+        .btn-profile {
+            background: var(--surface);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            padding: .4rem 1rem;
+            border-radius: 7px;
+            font-family: var(--font-bd);
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-profile:hover {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+        }
+
+        /* Profile Modal CSS */
+        .profile-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .profile-modal-backdrop.open {
+            display: flex;
+        }
+
+        .profile-modal-card {
+            background: var(--white);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .profile-modal-header {
+            padding: 1.2rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--off);
+        }
+
+        .profile-modal-header h3 {
+            font-family: var(--font-hd);
+            font-size: 1.25rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.7rem;
+            cursor: pointer;
+            color: var(--muted);
+            line-height: 1;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .profile-modal-close:hover {
+            color: var(--red);
+        }
+
+        .profile-modal-body {
+            padding: 2rem 1.8rem;
+        }
+
+        .profile-avatar-sec {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            background: var(--red-lt);
+            color: var(--red);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 4px 10px rgba(200, 16, 46, 0.1);
+        }
+
+        .profile-avatar-sec h4 {
+            font-family: var(--font-hd);
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-badge {
+            font-size: 0.72rem;
+            font-family: var(--font-mn);
+            background: var(--red-lt);
+            color: var(--red);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .profile-item {
+            background: var(--off);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+        }
+
+        .profile-label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .profile-label i {
+            margin-right: 4px;
+        }
+
+        .profile-val {
+            font-size: 0.88rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .profile-address-full {
+            background: var(--off);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         /* ========= TICKER / ALERT BAR ========= */
@@ -472,8 +632,8 @@
         </div>
 
         <div class="nav-right">
-            <button class="btn-outline" id="instantHelpBtn"><i class="fas fa-life-ring"></i> Instant Help</button>
-            <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <button class="btn-profile" id="profileBtn" onclick="openProfileModal()"><i class="fas fa-user-circle"></i> Profile</button>
+            <a href="logout.php" class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
 
@@ -530,12 +690,12 @@
                                     </div>
                                 </div>
                                 <div class="task-actions">
-                                    <form method="POST" action="ReliefTeamController.php" style="display:inline;">
+                                    <form method="POST" action="ReliefTeam.php" style="display:inline;">
                                         <input type="hidden" name="action" value="accept">
                                         <input type="hidden" name="task_id" value="<?= $task['id'] ?>">
                                         <button type="submit" class="btn-accept"><i class="fas fa-check"></i> Accept</button>
                                     </form>
-                                    <form method="POST" action="ReliefTeamController.php" style="display:inline;">
+                                    <form method="POST" action="ReliefTeam.php" style="display:inline;">
                                         <input type="hidden" name="action" value="reject">
                                         <input type="hidden" name="task_id" value="<?= $task['id'] ?>">
                                         <button type="submit" class="btn-reject"><i class="fas fa-times"></i> Reject</button>
@@ -578,7 +738,7 @@
                                 </div>
                                 <div class="task-actions">
                                     <?php if ($task['status'] !== 'done'): ?>
-                                        <form method="POST" action="ReliefTeamController.php" style="display:inline;">
+                                        <form method="POST" action="ReliefTeam.php" style="display:inline;">
                                             <input type="hidden" name="action" value="mark_done">
                                             <input type="hidden" name="task_id" value="<?= $task['id'] ?>">
                                             <button type="submit" class="btn-done"><i class="fas fa-check-double"></i> Done</button>
@@ -596,5 +756,70 @@
             <strong>DRCS</strong> • Real‑time coordination platform • Relief Team Portal • Sri Lanka
         </footer>
     </div>
+
+    <!-- PROFILE MODAL POPUP -->
+    <div id="profileModal" class="profile-modal-backdrop" onclick="handleProfileBackdropClick(event)">
+        <div class="profile-modal-card">
+            <div class="profile-modal-header">
+                <h3><i class="fas fa-id-card"></i> Relief Team Profile</h3>
+                <button class="profile-modal-close" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-avatar-sec">
+                    <div class="profile-avatar">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h4><?= htmlspecialchars($profile['team_name'] ?? 'N/A') ?></h4>
+                    <span class="profile-badge"><?= htmlspecialchars($profile['specialization'] ?? 'N/A') ?> Specialist</span>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-envelope"></i> Email</span>
+                        <span class="profile-val"><?= htmlspecialchars($profile['email'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-phone-alt"></i> Contact No</span>
+                        <span class="profile-val"><?= htmlspecialchars($profile['contact_no'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-users"></i> Team Members</span>
+                        <span class="profile-val"><?= htmlspecialchars($profile['no_of_members'] ?? '1') ?> Members</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-truck"></i> Vehicle Type</span>
+                        <span class="profile-val"><?= htmlspecialchars($profile['vehicle_type'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-hashtag"></i> Vehicle No</span>
+                        <span class="profile-val"><?= htmlspecialchars($profile['vehicle_number'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label"><i class="fas fa-map-marked-alt"></i> District / City</span>
+                        <span class="profile-val"><?= htmlspecialchars(($profile['district'] ?? '') . ', ' . ($profile['city'] ?? '')) ?></span>
+                    </div>
+                </div>
+                <div class="profile-address-full">
+                    <span class="profile-label"><i class="fas fa-home"></i> Base Address</span>
+                    <span class="profile-val"><?= htmlspecialchars(($profile['home_no'] ?? '') . ' ' . ($profile['street'] ?? '') . ', ' . ($profile['city'] ?? '')) ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openProfileModal() {
+            document.getElementById('profileModal').classList.add('open');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('open');
+        }
+
+        function handleProfileBackdropClick(e) {
+            if (e.target === document.getElementById('profileModal')) {
+                closeProfileModal();
+            }
+        }
+    </script>
 </body>
 </html>

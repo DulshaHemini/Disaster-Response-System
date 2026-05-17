@@ -16,11 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if($result) {
         $user_id = $result['user_id'] ?? '';
         $user_role = $result['user_role'] ?? '';
-        success();
         session_start();
         $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_role'] = $user_role;
+        success();
         if ($user_role === 'relief_team') {
-            header("Location: relief_team.php");
+            header("Location: ReliefTeam.php"); // same folder, relative path
             exit();
         } elseif ($user_role === 'affected_people') {
             header("Location: affected_people.php");
@@ -28,8 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif ($user_role === 'volunteer') {
             header("Location: volunteer.php");
             exit();
+        } elseif ($user_role === 'admin') {
+            header("Location: admin.php");
+            exit();
+        } elseif ($user_role === 'guest') {
+            header("Location: guest.php");
+            exit();
         } else {
-            echo "<h1>error</h1>";
             signin_fail();
         }
     }

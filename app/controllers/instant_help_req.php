@@ -51,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = storeInstantHelp($conn, $data);
 
     if($result == 'success'){
+        include_once __DIR__ . '/AssignLogic.php'; 
         success();
     }else{
         reg_fail();
