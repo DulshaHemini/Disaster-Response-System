@@ -66,16 +66,19 @@ body {
 
 
 .rm_main-box {
-    width: 80%;
+    width: 90%;
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
     box-sizing: border-box;
+    position: relative;
+    
 }
 
 
-   rows
+
+   /* rows */
 
 
 .rm_row {
@@ -101,6 +104,13 @@ body {
     background: #c82333;
     color: white;
     border: none;
+
+     /* background-color: #c82333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer; */
 }
 
 .rm_btn-red:hover {
@@ -299,3 +309,8 @@ th {
 .rm_toast.rm_show {
     opacity: 1;
 }
+
+
+
+/* 
+new simple chatgpt css i edited */
