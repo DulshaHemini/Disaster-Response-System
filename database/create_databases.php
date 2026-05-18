@@ -7,7 +7,7 @@ $password = '';
 $dbname = 'DRCS';
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, "", 3306);
+$conn = new mysqli($servername, $username, $password, "", 3307);
 
 // Check connection
 if ($conn->connect_error) {
