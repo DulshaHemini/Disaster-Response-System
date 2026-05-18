@@ -8,12 +8,12 @@ $username = "root";
 $password = "";
 $database = "DRCS";
 
-try{
-    $conn = new mysqli($host, $username, $password, $database);
-    $conn->set_charset("utf8");
+$conn = new mysqli($host, $username, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-catch(mysqli_sql_exception $e){
-    echo "Connection failed: " . $e->getMessage();
-}
+
+$conn->set_charset("utf8");
 
 ?>
