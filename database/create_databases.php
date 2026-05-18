@@ -6,7 +6,7 @@
     $password = "";
     $dbname = "DRCS";
 
-    $conn = new mysqli($servername, $username, $password ,"", 3306);
+    $conn = new mysqli($servername, $username, $password ,"", 3308);
 
     // Check connection
     if($conn->connect_error){
