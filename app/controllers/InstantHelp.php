@@ -4,7 +4,6 @@ require_once '../../config/config.php';
 require_once '../views/InstantHelp/_InstantHelp.php';
 require_once '../models/InstantHelp_.php';
 
-
 $lat = "";
 $lon = "";
 
@@ -52,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = storeInstantHelp($conn, $data);
 
     if($result == 'success'){
+        include_once __DIR__ . '/AssignLogic.php'; 
         success();
     }else{
         reg_fail();

@@ -1,3 +1,4 @@
+
 <?PHP
 
 function instantHelpForm(){
@@ -107,7 +108,7 @@ function instantHelpForm(){
 
 <body>
     <div class='container'>
-        <a href='../' class='back-home' onclick='window.history.back();return false;'>← BACK TO HOME</a>
+        <a href='../../public/index.php' class='back-home'>← BACK TO HOME</a>
 
         <h1 class='top-text'>🚨 Instant Help Request</h1>
 
@@ -166,7 +167,7 @@ function instantHelpForm(){
                     <option value='high'>High</option>
                 </select>
 
-                <label id='location_label' for='get_location_btn' >Location</label>
+                <label id='location_label' for='get_location_btn'>Location</label>
 
                 <input type='hidden' name='lat' id='lat'>
                 <input type='hidden' name='lon' id='lon'>
@@ -195,7 +196,6 @@ function instantHelpForm(){
 
     document.getElementById('instantHelp').addEventListener('submit', function(event){
         const get = id => document.getElementById(id);
-
         function fail(id, labelId, msg, scrollTarget){
             event.preventDefault();
             get(id).style.border = '2px solid red';
@@ -204,7 +204,6 @@ function instantHelpForm(){
             get(scrollTarget).scrollIntoView({behavior: 'smooth',block: 'center'});
             return false;
         }
-            
         document.querySelectorAll('input, select').forEach(el => {el.style.border = '';});
         document.querySelectorAll('label').forEach(el => {el.style.color = '';});
 
@@ -224,36 +223,16 @@ function instantHelpForm(){
         const phonePattern = /^07[0-9]{8}$/;
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if(name === '' || !namePattern.test(name)){
-            return fail('name', 'name_label', 'Enter valid name *', 'name');
-        }
-        if(reqName === ''){
-            return fail( 'req_name', 'req_name_label', 'Request name required *', 'req_name');
-        }
-        if(reqType === ''){
-            return fail('req_type', 'req_type_label', 'Select request type *', 'req_type');
-        }
-        if(affPeople === '' || isNaN(affPeople) || Number(affPeople) <= 0){
-            return fail('aff_pp','aff_pp_label','Enter valid people count *','aff_pp');
-        }
-        if(resourceType === ''){
-            return fail('resource_type', 'resource_type_label', 'Select resource type *', 'resource_type');
-        }
-        if(resourceCount === '' || isNaN(resourceCount) || Number(resourceCount) <= 0){
-            return fail('resource_count','resource_count_label','Enter valid resource count *','resource_count');
-        }
-        if(!phonePattern.test(contact)){
-            return fail('contactnumber', 'contact_number_label', 'Invalid contact number *', 'contactnumber');
-        }
-        if(email != '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-            return fail('email', 'email_label', 'Invalid email address *', 'email');
-        }
-        if(priority === ''){
-            return fail('priority_level','priority_level_label','Select priority level *', 'priority_level');
-        }
-        if(lat === '' || lon === ''){
-            return fail('get_location_btn', 'location_label', 'Location required *', 'get_location_btn' );
-        }
+        if(name === '' || !namePattern.test(name)){return fail('name', 'name_label', 'Enter valid name *', 'name');}
+        if(reqName === ''){return fail( 'req_name', 'req_name_label', 'Request name required *', 'req_name');}
+        if(reqType === ''){return fail('req_type', 'req_type_label', 'Select request type *', 'req_type');}
+        if(affPeople === '' || isNaN(affPeople) || Number(affPeople) <= 0){return fail('aff_pp','aff_pp_label','Enter valid people count *','aff_pp');}
+        if(resourceType === ''){return fail('resource_type', 'resource_type_label', 'Select resource type *', 'resource_type');}
+        if(resourceCount === '' || isNaN(resourceCount) || Number(resourceCount) <= 0){return fail('resource_count','resource_count_label','Enter valid resource count *','resource_count');}
+        if(!phonePattern.test(contact)){return fail('contactnumber', 'contact_number_label', 'Invalid contact number *', 'contactnumber');}
+        if(email != '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){return fail('email', 'email_label', 'Invalid email address *', 'email');}
+        if(priority === ''){return fail('priority_level','priority_level_label','Select priority level *', 'priority_level');}
+        if(lat === '' || lon === ''){return fail( 'get_location_btn', 'location_label', 'Location required *', 'get_location_btn' );}
         });
 
 // GET LOCATION
@@ -339,7 +318,7 @@ function success(){
     </div>
 </div>
 <script>
-        setTimeout(function(){window.location.href='../../public/';
+        setTimeout(function(){window.location.href='signin.php';
         }, 3000);
 </script>";
 }
@@ -400,7 +379,7 @@ function reg_fail(){
     </div>
 </div>
 <script>
-        setTimeout(function(){window.location.href='../public/';
+        setTimeout(function(){window.location.href='../../public/';
         }, 3000);
 </script>";
 }
