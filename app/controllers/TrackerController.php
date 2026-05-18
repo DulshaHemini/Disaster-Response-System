@@ -1,4 +1,16 @@
 <?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
+    // Not logged in → redirect to signin page
+    header("Location: http://localhost/disaster-Response-System/app/controllers/Signin.php");
+    exit();
+}
+
 require_once APP_PATH . '/models/TrackerModel.php';
 require_once dirname(APP_PATH) . '/config/config.php';
 
@@ -17,9 +29,14 @@ class TrackerController
         $people = $this->model->getAllPeople();
         $total_people = count($people);
         
+        // Pass user role to view for conditional display
+        $user_role = $_SESSION['user_role'] ?? '';
+        $is_admin = (strtolower($user_role) === 'admin');
+        
         extract([
             'people'       => $people,
             'total_people' => $total_people,
+            'is_admin'     => $is_admin,
         ]);
         
         require APP_PATH . '/views/tracker/tracker.php';

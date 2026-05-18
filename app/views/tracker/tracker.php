@@ -162,6 +162,7 @@ function renderPersonCard($person, $initials) {
                 <div id="detail-activity" class="last-update-card"></div>
             </div>
 
+            <?php if (isset($is_admin) && $is_admin): ?>
             <div class="info-section">
                 <h4>➕ Add New Update</h4>
                 <form id="update-form" method="POST" action="add_log.php">
@@ -182,6 +183,7 @@ function renderPersonCard($person, $initials) {
                     <button type="submit" class="btn-submit"><span>📤 Add Update</span></button>
                 </form>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
