@@ -98,6 +98,23 @@ $conn->query($sql);
 echo "Relief Team table created successfully!<br>";
 
 
+    //Create Relief Team table 
+    $sql = "CREATE TABLE IF NOT EXISTS relief_team ( 
+        relief_team_id INT PRIMARY KEY, 
+        team_name VARCHAR(100) NOT NULL, 
+        email VARCHAR(100), 
+        contact_no VARCHAR(15), 
+        specialization ENUM( 'Medical', 'Flood Rescue', 'Food Distribution', 'Transport', 'Animal Rescue', 'Emergency Response'),
+        no_of_members INT DEFAULT 1, 
+        vehicle_type VARCHAR(100), 
+        vehicle_number VARCHAR(50), 
+        availability_status ENUM('available', 'busy', 'offline') DEFAULT 'available', 
+        FOREIGN KEY (relief_team_id) REFERENCES users(user_id) ON DELETE CASCADE
+    )";
+    $conn->query($sql);
+    echo "Relief Team table created successfully!<br>";
+
+
 //Create location table
 $sql = "CREATE TABLE IF NOT EXISTS Location(
     loc_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -256,4 +273,4 @@ echo 'Assignment table created successfully!<br>';
 
 echo 'All tables created successfully!';
 
-$conn->close();
+    $conn->close();
