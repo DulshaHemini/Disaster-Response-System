@@ -49,3 +49,4 @@ switch ($page) {
         $controller->index();
         break;
 }
+

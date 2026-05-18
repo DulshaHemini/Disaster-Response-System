@@ -17,6 +17,7 @@ class HomeController
             'responseTimes'      => $model->getResponseTimes(),
             'heroStats'          => $model->getHeroStats(),
             'emergencyContacts'  => $model->getEmergencyContacts(),
+            'mapPeople'          => $model->getMapPeople(),
         ]);
 
         require APP_PATH . '/views/home/index.php';

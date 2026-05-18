@@ -7,14 +7,12 @@ $host = "localhost";
 $username = "root";
 $password = "";
 $database = "DRCS";
-$port = 3306;
+$port = 3308;
 
-try{
-    $conn = new mysqli($host, $username, $password, $database, $port);
-    $conn->set_charset("utf8");
-}
-catch(mysqli_sql_exception $e){
-    echo "Connection failed: " . $e->getMessage();
+$conn = new mysqli($host, $username, $password, $database, $port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
 ?>
