@@ -10,11 +10,11 @@ body {
 
     background-color: #f2f2f2;
     display: flex;
-    /* මෙය මගින් කොටස් දෙකම තිරස් අතට එකට (side by side) ගනී */
+    
     flex-direction: column;
-    /* මෙය මගින් කොටස් එකක් යට එකක් එන ලෙස සකසයි */
+  
     align-items: center;
-    /* කොටස් දෙකම තිරස් අතට මැදට (center) ගනී */
+    
     gap: 50px;
     /* Reduced gap from 35px to 20px to bring elements closer */
 }
@@ -79,7 +79,7 @@ body {
     border-radius: 15px;
 
     padding: 10px;
-    background-color: #ff0000;
+    /* background-color: #ff0000; */
     font-family: sans-serif;
     width: 90%;
     box-sizing: border-box;
@@ -99,6 +99,11 @@ body {
 
     text-align: center;
 }
+
+ .rm_card:hover {
+            border-color: var(--red-m);
+            box-shadow: 0 4px 12px rgba(251, 12, 12, 0.03);
+        }
 
 .rm_card h1 {
 
@@ -130,7 +135,7 @@ body {
 
     width: 90%;
     margin: 0 auto;
-    outline: 3px solid red;
+    outline: 1px solid red;
     position: relative;
 }
 
