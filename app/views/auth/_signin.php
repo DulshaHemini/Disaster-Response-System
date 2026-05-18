@@ -88,7 +88,7 @@ function showSigninForm(){
 </head>
 <body>
     <div class="container">
-        <a href="../../public/index.php" class="back-home">← BACK TO HOME</a>
+        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
         <br>
         <h1 class="signin-text">Sign In</h1><br><br>
         <div class="auth-card">                     
@@ -242,7 +242,7 @@ function signin_fail(){
     </div>
 </div>
 <script>
-        setTimeout(function(){window.location.href='../';}, 5000);
+        setTimeout(function(){window.location.href='../../public/';}, 5000);
 </script>";
 }
 
