@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: ReliefTeam.php"); // same folder, relative path
             exit();
         } elseif ($user_role === 'affected_people') {
-            header("Location: affected_people.php");
+            header("Location: AffectedPeople.php");
             exit();
         } elseif ($user_role === 'volunteer') {
             header("Location: volunteer.php");

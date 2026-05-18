@@ -2,6 +2,31 @@
 // Data passed from TrackerController via extract()
 // $people - array of all affected people
 // $total_people - total count of people
+$tracker_assets_version = filemtime(BASE_PATH . '/public/assets/js/tracker/main.js');
+$tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css');
+
+function renderPersonCard($person, $initials) {
+    ob_start();
+    ?>
+    <div class="person-item" id="person-<?= $person['id'] ?>" data-id="<?= $person['id'] ?>">
+        <div class="person-item-header">
+            <div class="person-avatar"><?= $initials ?></div>
+            <div class="person-item-info">
+                <div class="person-item-name"><?= htmlspecialchars($person['full_name']) ?></div>
+                <div class="person-item-location">📍 <?= htmlspecialchars($person['district']) ?></div>
+                <div class="disaster-tag">🚨 <?= htmlspecialchars($person['disaster_type']) ?></div>
+            </div>
+        </div>
+        <div class="person-item-footer">
+            <div class="person-actions">
+                <button class="btn-focus" onclick="focusPerson(<?= $person['id'] ?>)">🎯 Focus</button>
+                <button class="btn-details" onclick="openDetails(<?= $person['id'] ?>)">👁️ Details</button>
+            </div>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,18 +37,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <!-- Theme CSS must be loaded first -->
-    <link rel="stylesheet" href="../assets/css/theme.css">
-    <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/ticker.css">
-    <link rel="stylesheet" href="../assets/css/tracker.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/theme.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/navbar.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/ticker.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/tracker.css?v=<?php echo $tracker_style_version; ?>">
     
-    <script defer src="../assets/js/tracker/config.js"></script>
-    <script defer src="../assets/js/tracker/helpers.js"></script>
-    <script defer src="../assets/js/tracker/map-handler.js"></script>
-    <script defer src="../assets/js/tracker/person-selection.js"></script>
-    <script defer src="../assets/js/tracker/details-panel.js"></script>
-    <script defer src="../assets/js/tracker/activity-modal.js"></script>
-    <script defer src="../assets/js/tracker/main.js"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/config.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/helpers.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/map-handler.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/person-selection.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/details-panel.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/activity-modal.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/main.js?v=<?php echo $tracker_assets_version; ?>"></script>
 </head>
 <body>
     <!-- Include Navbar Component -->
@@ -48,22 +73,7 @@
                     $initials .= strtoupper($part[0]);
                 }
                 
-                echo '<div class="person-item" id="person-' . $person['id'] . '" data-id="' . $person['id'] . '">';
-                echo '<div class="person-item-header">';
-                echo '<div class="person-avatar">' . $initials . '</div>';
-                echo '<div class="person-item-info">';
-                echo '<div class="person-item-name">' . $person['full_name'] . '</div>';
-                echo '<div class="person-item-location">📍 ' . $person['district'] . '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '<div class="person-item-footer">';
-                echo '<span class="disaster-tag">🚨 ' . $person['disaster_type'] . '</span>';
-                echo '<div class="person-actions">';
-                echo '<button class="btn-focus" onclick="focusPerson(' . $person['id'] . ')">🎯 Focus</button>';
-                echo '<button class="btn-details" onclick="openDetails(' . $person['id'] . ')">👁️ Details</button>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
+                echo renderPersonCard($person, $initials);
             }
             ?>
         </div>
@@ -73,7 +83,7 @@
     <div id="map"></div>
 
     <!-- Right Panel -->
-    <div id="details-panel" class="details-panel hidden">
+    <div id="details-panel" class="details-panel ">
         <div class="panel-header">
             <button class="close-btn" onclick="closeDetailsPanel()">✕</button>
             <h3>Person Details</h3>
@@ -97,7 +107,7 @@
             <div class="info-section">
                 <h4>🎯 Rescue Progress</h4>
                 <div class="progress-tracker">
-                    <div class="progress-step" data-status="reported"><div class="step-circle">1</div><div class="step-label">Reported</div></div>
+                    <div class="progress-step" data-status="needs_aid"><div class="step-circle">1</div><div class="step-label">Needs Aid</div></div>
                     <div class="progress-line"></div>
                     <div class="progress-step" data-status="team_sent"><div class="step-circle">2</div><div class="step-label">Team Sent</div></div>
                     <div class="progress-line"></div>
@@ -179,20 +189,36 @@
     <div id="activity-modal" class="activity-modal hidden">
         <div class="modal-overlay" onclick="closeActivityModal()"></div>
         <div class="modal-container">
+
+            <!-- ① Modal title bar -->
             <div class="modal-header">
-                <h3>📋 Complete Activity Timeline</h3>
-                <button class="close-btn" onclick="closeActivityModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="person-info-bar">
-                    <div class="person-avatar-small" id="modal-avatar">NJ</div>
+                <div class="modal-header-left">
+                    <span class="modal-title-icon">📋</span>
                     <div>
-                        <div class="person-name-small" id="modal-name">Person Name</div>
-                        <div class="person-meta-small" id="modal-meta">District • Status</div>
+                        <div class="modal-title-label">COMPLETE ACTIVITY TIMELINE</div>
+                        <div class="modal-title-sub">Full rescue log for selected person</div>
                     </div>
                 </div>
+                <button class="close-btn" onclick="closeActivityModal()">✕</button>
+            </div>
+
+            <!-- ② Sticky personal‑data header (locked, does not scroll) -->
+            <div class="modal-person-header">
+                <div class="mph-avatar" id="modal-avatar">NJ</div>
+                <div class="mph-info">
+                    <div class="mph-name" id="modal-name">Person Name</div>
+                    <div class="mph-meta" id="modal-meta">District • Status</div>
+                </div>
+                <div class="mph-badge-wrap" id="modal-status-badge">
+                    <span class="mph-badge"></span>
+                </div>
+            </div>
+
+            <!-- ③ Scrollable timeline body -->
+            <div class="modal-body">
                 <div id="modal-activity-timeline" class="activity-timeline-full"></div>
             </div>
+
         </div>
     </div>
 
@@ -214,7 +240,10 @@
             echo '"longitude":' . $p['longitude'] . ',';
             echo '"disaster_type":"' . addslashes($p['disaster_type']) . '",';
             echo '"status":"' . $p['status'] . '",';
-            echo '"created_at":"' . $p['created_at'] . '"';
+            echo '"created_at":"' . $p['created_at'] . '",';
+            echo '"injury_status":"' . addslashes(isset($p['injury_status']) ? $p['injury_status'] : 'Not specified') . '",';
+            echo '"family_count":' . (isset($p['family_count']) ? (int) $p['family_count'] : 0) . ',';
+            echo '"contact":"' . addslashes(isset($p['contact']) ? $p['contact'] : 'Not available') . '"';
             echo '}';
             $first = false;
         }

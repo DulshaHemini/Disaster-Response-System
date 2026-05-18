@@ -28,7 +28,7 @@ function addMarkersToMap(people) {
     var p = people[i];
     var cfg = STATUS_CONFIG[p.status];
     if (!cfg) {
-      cfg = STATUS_CONFIG.reported;
+      cfg = STATUS_CONFIG.needs_aid;
     }
 
     var icon = L.divIcon({
@@ -79,7 +79,7 @@ function addMarkersToMap(people) {
   }
 }
 
-// Adjust map for panel
+// Adjust map for panel - with intelligent centering
 function adjustMapForPanel(open) {
   var mapElement = document.getElementById("map");
 
@@ -89,8 +89,10 @@ function adjustMapForPanel(open) {
     mapElement.classList.remove("panel-open");
   }
 
+  // Wait for CSS transition to complete before adjusting map
   setTimeout(function () {
-    map.invalidateSize();
+    // Recalculate map size after panel animation
+    map.invalidateSize(false);
 
     if (open && currentPersonId) {
       var person = null;
@@ -102,8 +104,18 @@ function adjustMapForPanel(open) {
       }
 
       if (person) {
-        map.panTo([person.latitude, person.longitude]);
+        // Smooth animated pan to center the person in the available map area
+        // When panel opens, the map shrinks from right, so we center to account for that
+        map.panTo(
+          [person.latitude, person.longitude],
+          {
+            animate: true,
+            duration: 0.6, // Smooth animation duration
+            easeLinearity: 0.25 // Smooth easing curve
+          }
+        );
       }
     }
-  }, 450);
+  }, 400); // Wait for CSS transition (0.4s) to complete
 }
+
