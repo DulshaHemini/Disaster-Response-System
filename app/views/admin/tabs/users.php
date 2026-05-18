@@ -2,7 +2,7 @@
 <div id="usersTab" class="tab-content active-tab">
   <div class="section-header">
     <h2><i class="fa-solid fa-users"></i> System Users</h2>
-     <a href="../../auth/Admin/adminReg.php" style="text-decoration: none;">
+     <a href="../../app/views/admin/adminReg.php" style="text-decoration: none;">
        <button class="btn-primary">Add New Admin</button>
      </a>
   </div>
