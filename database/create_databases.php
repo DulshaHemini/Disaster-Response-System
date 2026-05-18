@@ -50,7 +50,8 @@ echo "Admin table created successfully!<br>";
 
 //Create Affected people table
 $sql = "CREATE TABLE IF NOT EXISTS affected_people (
-    user_id INT PRIMARY KEY,
+    affected_people_id INT PRIMARY KEY,
+    user_id INT,
     first_name VARCHAR(100) NOT NULL, 
     last_name VARCHAR(100) NOT NULL, 
     age INT,
@@ -67,7 +68,8 @@ echo "Affected People table created successfully!<br>";
 
 //Create Volunteers table
 $sql = "CREATE TABLE IF NOT EXISTS volunteer (
-    user_id INT PRIMARY KEY,
+    volunteer_id INT PRIMARY KEY,
+    user_id INT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     nic VARCHAR(20),
@@ -177,7 +179,7 @@ echo "Volunteer table created successfully!<br>";
         FOREIGN KEY (req_id) REFERENCES requests(request_id)
         ON DELETE CASCADE,
         FOREIGN KEY (affected_people_id)
-        REFERENCES affected_people(user_id)
+        REFERENCES affected_people(affected_people_id)
         ON DELETE CASCADE,
         FOREIGN KEY (loc_id)
         REFERENCES Location(loc_id)
@@ -197,7 +199,7 @@ echo "Volunteer table created successfully!<br>";
     )NOT NULL,
         resource_count INT,
         description TEXT,
-        FOREIGN KEY (volunteer_id) REFERENCES volunteer (user_id)
+        FOREIGN KEY (volunteer_id) REFERENCES volunteer (volunteer_id)
         ON DELETE CASCADE
     )";
     $conn->query($sql);
@@ -217,9 +219,9 @@ echo "Volunteer table created successfully!<br>";
         description TEXT,
         status ENUM('Assigned', 'Doing', 'Done', 'Allocated', 'Received') DEFAULT 'Assigned',
         FOREIGN KEY (request_id) REFERENCES requests(request_id) ON DELETE CASCADE,
-        FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id) ON DELETE CASCADE,
+        FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteer_id) ON DELETE CASCADE,
         FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE SET NULL,
-        FOREIGN KEY (affected_people_id) REFERENCES affected_people(user_id) ON DELETE SET NULL
+        FOREIGN KEY (affected_people_id) REFERENCES affected_people(affected_people_id) ON DELETE SET NULL
     )";
     $conn->query($sql);
     echo "Assignment table created successfully!<br>";
@@ -234,7 +236,7 @@ echo "Volunteer table created successfully!<br>";
         message TEXT NOT NULL,
         created_by VARCHAR(100) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (affected_people_id) REFERENCES affected_people(user_id) ON DELETE CASCADE,
+        FOREIGN KEY (affected_people_id) REFERENCES affected_people(affected_people_id) ON DELETE CASCADE,
         INDEX idx_person_id (affected_people_id),
         INDEX idx_created_at (created_at),
         INDEX idx_person_date (affected_people_id, created_at)

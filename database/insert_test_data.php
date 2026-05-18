@@ -94,7 +94,7 @@ $affected_people = [
 
 $stmt = $conn->prepare("
     INSERT INTO affected_people
-    (user_id, first_name, last_name, age,
+    (affected_people_id, first_name, last_name, age,
     no_of_family_members, gender, nic, contact_no)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 ");
@@ -129,7 +129,7 @@ $volunteers = [
 
 $stmt = $conn->prepare("
     INSERT INTO volunteer
-    (user_id, first_name, last_name, nic,
+    (volunteer_id, first_name, last_name, nic,
     gender, contact_no, age, availability_status, organization_name)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
