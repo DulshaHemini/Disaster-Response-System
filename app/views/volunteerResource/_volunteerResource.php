@@ -163,6 +163,8 @@
             padding: .4rem 0;
             margin-top: 0; /* Flush under sticky navbar */
             width: 100%;
+            position: relative;
+            top: -20px;
         }
 
         .ticker {
@@ -182,16 +184,59 @@
                 transform: translateX(-100%);
             }
         }
+        .btn-profile {
+            background: var(--surface);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            padding: .45rem 1.1rem;
+            border-radius: 40px;
+            font-family: var(--font-bd);
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-profile:hover {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--red);
+            border: 1.5px solid var(--red);
+            padding: .45rem 1.1rem;
+            border-radius: 40px;
+            font-family: var(--font-bd);
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: var(--red);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar (styled like admin panel) -->
+    <!-- ========== NAVBAR (WITH NAVIGATION TABS) ========== -->
     <nav>
-        <a class="nav-brand" href="../../public/index.php">
+        <a class="nav-brand" href="#">
             <div class="logo-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/>
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
                 </svg>
             </div>
             <span class="brand-text">DR<em>CS</em> | VOLUNTEER</span>
@@ -205,9 +250,12 @@
         </div>
 
         <div class="nav-right">
-            <button class="logout-btn" onclick="window.location.href='logout.php'"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+            <button class="btn-profile" id="profileBtn" onclick="openProfileModal()"><i class="fas fa-id-card"></i> Profile</button>
+            <a href="logout.php" class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
+
+    <!-- Alert ticker -->
     <div class="ticker-wrap">
         <div class="ticker">
             ⚠️ WARNING – Landslide Risk: Ratnapura District &nbsp;&nbsp;|&nbsp;&nbsp; ✅ RESOLVED – Cyclone Watch lifted: Eastern Coast &nbsp;&nbsp;|&nbsp;&nbsp; 🚨 ACTIVE – Search & Rescue teams deployed: Galle
