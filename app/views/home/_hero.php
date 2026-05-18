@@ -2,10 +2,6 @@
 <div class="hero">
   <div class="hero-lines"></div>
 
-  <div class="hero-badge">
-    <span></span> LIVE SYSTEM ACTIVE
-  </div>
-
   <h1 class="fade-up">DISASTER<br><em>RESPONSE</em><br>COORDINATION</h1>
   <p class="hero-sub fade-up">
     Real-time coordination platform for emergency response teams, government agencies,
@@ -13,9 +9,7 @@
   </p>
 
   <div class="hero-cta fade-up">
-    <button class="btn-help" onclick="instantHelp()">
-      <span class="pulse-dot"></span> INSTANT HELP
-    </button>
+    <button class="btn-help" onclick="window.location.href='../app/controllers/InstantHelp.php'" >INSTANT HELP</button>
     <button class="btn-lg btn-lg-ghost" onclick="scrollTo('dashboard')">View Dashboard</button>
   </div>
 
