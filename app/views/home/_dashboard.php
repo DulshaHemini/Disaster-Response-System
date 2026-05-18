@@ -23,11 +23,13 @@
   <div class="dash-lower reveal">
     <div class="map-card">
       <div class="card-label">// INCIDENT MAP — SRI LANKA</div>
-      <div class="map-visual">
-        <div class="map-pin p1"></div>
-        <div class="map-pin p2"></div>
-        <div class="map-pin p3"></div>
-        <span style="position:relative;z-index:1;font-size:.75rem;">Interactive map loads on deployment</span>
+      <div class="fake-map-container">
+        <div class="fake-map-blur"></div>
+        <a href="tracker/index.php" class="map-center-btn">
+          <span class="map-btn-icon">🗺️</span>
+          <span class="map-btn-text">Open Live Tracker</span>
+          <span class="map-btn-subtitle">View real-time incident map</span>
+        </a>
       </div>
     </div>
 

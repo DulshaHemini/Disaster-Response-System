@@ -386,9 +386,7 @@ foreach ($assignments as $assignment) {
 
     $stmt->execute();
 }
-
-echo "Assignments inserted successfully.<br>";
-
+echo "Assignments inserted successfully.\n";
 
 // ================= ENABLE FOREIGN KEYS =================
 $conn->query("SET FOREIGN_KEY_CHECKS = 1");

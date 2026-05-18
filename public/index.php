@@ -11,15 +11,42 @@ define('CONFIG_PATH', BASE_PATH . '/config');
 // 2. Load Core Files
 require_once CONFIG_PATH . '/config.php';
 
+// Simple routing based on URL parameters
+$page = $_GET['page'] ?? 'home';
+$action = $_GET['action'] ?? 'index';
 
-// 3. Load MVC Components
-require_once APP_PATH . '/models/AssignmentModel.php';
-require_once APP_PATH . '/controllers/AssignmentController.php';
+// Route to appropriate controller
+switch ($page) {
+    case 'home':
+        require_once APP_PATH . '/controllers/HomeController.php';
+        $controller = new HomeController();
+        $controller->index();
+        break;
+    
+    case 'tracker':
+        require_once APP_PATH . '/controllers/TrackerController.php';
+        $controller = new TrackerController();
+        if (method_exists($controller, $action)) {
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
+        break;
+    
+    case 'user':
+        require_once APP_PATH . '/controllers/UserController.php';
+        $controller = new UserController();
+        if (method_exists($controller, $action)) {
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
+        break;
+    
+    default:
+        require_once APP_PATH . '/controllers/HomeController.php';
+        $controller = new HomeController();
+        $controller->index();
+        break;
+}
 
-// 4. Handle Logic (Controller)
-$controller = new AssignmentController();
-
-// Check if we are performing an action (POST) or just viewing (GET)
-
-    // This will load the view via AssignmentController->index()
-    $controller->index($conn);
