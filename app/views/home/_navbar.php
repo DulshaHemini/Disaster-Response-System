@@ -52,9 +52,7 @@ if ($is_logged_in) {
 
   <div class="nav-center">
     <?php if ($is_logged_in): ?>
-      <span style="color: var(--text-muted, #666); font-size: 0.9rem; font-weight: 500;">
-        <?= htmlspecialchars($role_display) ?> Dashboard
-      </span>
+      
     <?php else: ?>
       <span style="color: var(--text-muted, #666); font-size: 0.9rem;">
         Disaster Response Coordination System

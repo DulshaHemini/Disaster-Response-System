@@ -173,4 +173,3 @@ function filterUsers(filterType) {
   url.searchParams.set('filter', filterType);
   window.location.href = url.toString();
 }
-

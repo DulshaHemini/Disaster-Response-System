@@ -1,18 +1,10 @@
 <?php
 
-// ======================================
-// DATABASE CONNECTION
-// ======================================
-
 $conn = new mysqli("localhost", "root", "", "DRCS", 3306);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// ======================================
-// HAVERSINE FUNCTION
-// ======================================
 
 function getDistance($lat1, $lon1, $lat2, $lon2)
 {
@@ -24,9 +16,6 @@ function getDistance($lat1, $lon1, $lat2, $lon2)
     return $earth_radius * $c;
 }
 
-// ======================================
-// FETCH PENDING REQUESTS
-// ======================================
 $request_sql = "
     SELECT 
         r.req_id, r.resource_type, r.resource_count, r.status, 
@@ -53,9 +42,6 @@ if ($request_result) {
     }
 }
 
-// ======================================
-// FETCH VOLUNTEERS
-// ======================================
 $volunteer_sql = "
     SELECT 
         r.resource_id, v.volunteer_id, r.resource_type, r.resource_count, 
@@ -73,9 +59,6 @@ if ($volunteer_result) {
     }
 }
 
-// ======================================
-// FETCH RELIEF TEAMS
-// ======================================
 $team_sql = "
     SELECT 
         rt.relief_team_id, rt.team_name, rt.specialization, rt.availability_status, 
@@ -92,19 +75,12 @@ if ($team_result) {
     }
 }
 
-// ======================================
-// MATCHING LOGIC & ALLOCATION
-// ======================================
-
 echo "<h2>Allocation Results</h2>";
 
 foreach ($requests as $request) {
     echo "<hr>";
     $minimumDistance = PHP_FLOAT_MAX;
 
-    // -----------------------------------
-    // BRANCH A: RELIEF TEAM (RESCUE)
-    // -----------------------------------
     if ($request['resource_type'] == 'rescue') {
         $bestTeam = null;
 
@@ -127,14 +103,12 @@ foreach ($requests as $request) {
             echo "<b>Allocated Relief Team ID :</b> {$bestTeam['relief_team_id']} ({$bestTeam['team_name']})<br>";
             echo "<b>Distance :</b> " . round($minimumDistance, 2) . " KM<br>";
 
-            // EXECUTE INSERT
             $insert_sql = "INSERT INTO assignments (assignment_type, relief_team_id, request_id, description, status) 
                            VALUES ('Relief_Team_Task', {$bestTeam['relief_team_id']}, {$request['req_id']}, 'Auto-assigned by system based on proximity', 'Assigned')";
             
             if ($conn->query($insert_sql)) {
                 echo "<span style='color:green;'>✓ Successfully inserted into assignments.</span><br>";
                 
-                // EXECUTE UPDATE
                 $update_sql = "UPDATE {$request['source_table']} SET status = 'Assigned' WHERE req_id = {$request['req_id']}";
                 if ($conn->query($update_sql)) {
                     echo "<span style='color:green;'>✓ Successfully updated {$request['source_table']} status.</span><br>";
@@ -147,9 +121,6 @@ foreach ($requests as $request) {
             echo "No suitable Relief Team found for Request ID {$request['req_id']}<br>";
         }
     } 
-    // -----------------------------------
-    // BRANCH B: VOLUNTEER (RESOURCES)
-    // -----------------------------------
     else {
         $bestVolunteer = null;
 
@@ -175,14 +146,12 @@ foreach ($requests as $request) {
             echo "<b>Resource Type :</b> {$request['resource_type']}<br>";
             echo "<b>Distance :</b> " . round($minimumDistance, 2) . " KM<br>";
 
-            // EXECUTE INSERT
             $insert_sql = "INSERT INTO assignments (assignment_type, volunteer_id, request_id, resource_id, status) 
                            VALUES ('Volunteer_Resource', {$bestVolunteer['volunteer_id']}, {$request['req_id']}, {$bestVolunteer['resource_id']}, 'Assigned')";
             
             if ($conn->query($insert_sql)) {
                 echo "<span style='color:green;'>✓ Successfully inserted into assignments.</span><br>";
                 
-                // EXECUTE UPDATE
                 $update_sql = "UPDATE {$request['source_table']} SET status = 'Assigned' WHERE req_id = {$request['req_id']}";
                 if ($conn->query($update_sql)) {
                     echo "<span style='color:green;'>✓ Successfully updated {$request['source_table']} status.</span><br>";

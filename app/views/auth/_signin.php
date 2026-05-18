@@ -88,7 +88,7 @@ function showSigninForm(){
 </head>
 <body>
     <div class="container">
-        <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
+        <a href="/Disaster-Response-System/public/index.php" class="back-home" onclick="window.history.back();return false;">← BACK TO HOME</a>
         <br>
         <h1 class="signin-text">Sign In</h1><br><br>
         <div class="auth-card">                     
