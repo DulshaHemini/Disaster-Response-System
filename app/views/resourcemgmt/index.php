@@ -1,0 +1,9 @@
+<?php require __DIR__ . '/_navbar.php'; ?>
+<?php require __DIR__ . '/_ticker.php'; ?>
+<?php require __DIR__ . '/_hero.php'; ?>
+<?php require __DIR__ . '/_dashboard.php'; ?>
+<?php require __DIR__ . '/_needs.php'; ?>
+<?php require __DIR__ . '/_analysis.php'; ?>
+<?php require __DIR__ . '/_vision.php'; ?>
+<?php require __DIR__ . '/_footer.php'; ?>
+<?php require __DIR__ . '/_modal.php'; ?>

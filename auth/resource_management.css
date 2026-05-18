@@ -1,0 +1,470 @@
+/* 
+   page
+ */
+
+body {
+    margin: 0;
+    padding: 20px;
+
+    font-family: Arial, sans-serif;
+
+    background-color: #f2f2f2;
+    display: flex;
+    /* මෙය මගින් කොටස් දෙකම තිරස් අතට එකට (side by side) ගනී */
+    flex-direction: column;
+    /* මෙය මගින් කොටස් එකක් යට එකක් එන ලෙස සකසයි */
+    align-items: center;
+    /* කොටස් දෙකම තිරස් අතට මැදට (center) ගනී */
+    gap: 50px;
+    /* Reduced gap from 35px to 20px to bring elements closer */
+}
+
+/* 
+   header
+ */
+.rm_header {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+    font-size: 2.3rem;
+
+    font-weight: 800;
+
+    margin: 0 0 10px 0;
+
+    padding-bottom: 12px;
+
+    letter-spacing: -0.02em;
+
+    position: relative;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    background: linear-gradient(135deg, #c82333 0%, #821019 100%);
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+}
+
+.rm_header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 4px;
+    background: linear-gradient(90deg, #c82333 0%, #ff5263 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(200, 35, 51, 0.2);
+}
+
+
+/* 
+   dashboard
+ */
+
+.rm_dashboard-wrapper {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 10px;
+    margin-top: 15px;
+    /* Decreased margin-top from 80px to 15px to sit beautifully below the header */
+
+    border-radius: 15px;
+
+    padding: 10px;
+    background-color: #ff0000;
+    font-family: sans-serif;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.rm_card {
+
+    flex: 1;
+
+    background-color: white;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    text-align: center;
+}
+
+.rm_card h1 {
+
+    margin: 0;
+
+    font-size: 40px;
+}
+
+.rm_card p {
+
+    margin-top: 10px;
+
+    color: gray;
+}
+
+/* 
+   main container
+ */
+
+.rm_main-box {
+
+    background-color: white;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    width: 90%;
+    margin: 0 auto;
+    outline: 3px solid red;
+    position: relative;
+}
+
+/* 
+   rows and columns
+ */
+
+.rm_row {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    flex-wrap: wrap;
+}
+
+/* 
+   buttons
+ */
+.rm_btn-outline-red {
+
+    /* background-color: transparent; */
+
+    color: rgb(0, 0, 0);
+
+    border: none;
+
+    border-radius: 5px;
+
+    padding: 10px 15px;
+
+    /* cursor: pointer; */
+
+    outline: 2px solid rgb(249, 51, 51);
+
+
+
+
+}
+
+
+.rm_btn-logout {
+
+    background-color: #961723;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+
+.rm_btn-red {
+
+    background-color: #c82333;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+}
+
+.rm_btn-white {
+
+    background-color: white;
+
+    border: 1px solid #ccc;
+
+    border-radius: 5px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+}
+
+.rm_table-btn {
+
+    padding: 5px 10px;
+}
+
+/* 
+   inputs and textareas
+ */
+
+input,
+select,
+textarea {
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+}
+
+textarea {
+
+    width: 100%;
+
+    height: 70px;
+
+    resize: none;
+}
+
+/* 
+   tables
+ */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th,
+td {
+
+    padding: 12px;
+
+    border-bottom: 1px solid #ddd;
+
+    text-align: left;
+}
+
+th {
+
+    background-color: #f2f2f2;
+}
+
+.rm_no-data {
+
+    text-align: center;
+
+    color: gray;
+
+    padding: 30px;
+}
+
+.rm_table-date {
+
+    color: gray;
+
+    font-size: 12px;
+}
+
+/* 
+   tags
+ */
+
+.rm_tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 10px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 20px;
+
+    background-color: #f8f8f8;
+}
+
+.rm_tag span {
+
+    color: red;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.rm_table-tag {
+
+    background-color: #eeeeee;
+
+    border: none;
+
+    font-size: 12px;
+}
+
+/* 
+   modals
+ */
+
+.rm_modal-backdrop {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.4);
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+.rm_modal-backdrop.rm_open {
+
+    display: flex;
+}
+
+.rm_modal {
+
+    width: 420px;
+
+    background-color: white;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.rm_modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.rm_modal-header button {
+
+    border: none;
+
+    background: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+.rm_modal-body {
+
+    padding: 15px;
+}
+
+.rm_modal-footer {
+
+    padding: 15px;
+
+    text-align: right;
+
+    border-top: 1px solid #ddd;
+}
+
+/* 
+  forms
+ */
+
+.rm_form-group {
+
+    margin-bottom: 15px;
+}
+
+.rm_form-group label {
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+.rm_form-row {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.rm_form-row .rm_form-group {
+
+    flex: 1;
+}
+
+/* 
+   toast message
+ */
+
+.rm_toast {
+
+    position: fixed;
+
+    bottom: 20px;
+
+    right: 20px;
+
+    background-color: #333;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 5px;
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+.rm_toast.rm_show {
+
+    opacity: 1;
+}
