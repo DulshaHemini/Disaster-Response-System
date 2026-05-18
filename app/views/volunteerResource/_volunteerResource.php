@@ -231,7 +231,7 @@
 </head>
 <body>
 
-    <!-- ========== NAVBAR (WITH NAVIGATION TABS) ========== -->
+    <!-- NAVBAR with navigations -->
     <nav>
         <a class="nav-brand" href="#">
             <div class="logo-icon">
@@ -255,17 +255,17 @@
         </div>
     </nav>
 
-    <!-- Alert ticker -->
+    <!-- alert ticker -->
     <div class="ticker-wrap">
         <div class="ticker">
             ⚠️ WARNING – Landslide Risk: Ratnapura District &nbsp;&nbsp;|&nbsp;&nbsp; ✅ RESOLVED – Cyclone Watch lifted: Eastern Coast &nbsp;&nbsp;|&nbsp;&nbsp; 🚨 ACTIVE – Search & Rescue teams deployed: Galle
         </div>
     </div>
 
-    <!-- Main Container -->
+    <!-- main Container -->
     <div class="rm_header" style="margin-top: 20px;">Resource Manager</div>
 
-    <!-- Dashboard stats -->
+    <!-- dashboard stats -->
     <div class="rm_dashboard-wrapper">
         <div class="rm_card">
             <h1 id="stat-total">0</h1>
@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <!-- Main Table and search box -->
+    <!-- main Table and search box -->
     <div class="rm_main-box">
         <div class="rm_row" style="justify-content: space-between; align-items: center;">
             <div class="rm_row" style="gap: 10px; margin-bottom: 0;">
@@ -320,7 +320,7 @@
         </table>
     </div>
 
-    <!-- Type Management elements (minimally rendered / hidden, needed for JS script structure) -->
+    <!-- type management elements (minimally rendered / hidden, needed for JS script structure) -->
     <div style="display:none;">
         <input type="text" id="newTypeInput">
         <div id="typeList"></div>
@@ -332,7 +332,7 @@
         </form>
     </div>
 
-    <!-- Edit/Add Modal -->
+    <!-- edit/add modal -->
     <div class="rm_modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
         <div class="rm_modal">
             <div class="rm_modal-header">
@@ -378,7 +378,7 @@
         </div>
     </div>
 
-    <!-- Hidden Forms for JS Actions -->
+    <!-- hidden Forms for JS Actions -->
     <form id="resourceForm" method="POST" action="volunteerResource.php" style="display:none;">
         <input type="hidden" id="actionType" name="actionType">
         <input type="hidden" id="resourceId" name="resourceId">
@@ -394,17 +394,17 @@
         <input type="hidden" id="deleteResourceId" name="deleteResourceId">
     </form>
 
-    <!-- Toast element -->
+    <!-- toast element -->
     <div class="rm_toast" id="toast"></div>
 
-    <!-- Inject data into JavaScript from PHP Controller -->
+    <!-- inject data into JavaScript from PHP Controller -->
     <script>
         const resources = <?php echo json_encode($resourcesList); ?>;
         const resourceTypes = <?php echo json_encode($resourceTypes); ?>;
         const flashMessage = <?php echo json_encode($flashMessage); ?>;
     </script>
 
-    <!-- JS Logic -->
+    <!-- jS logic -->
     <script src="../views/volunteerResource/volunteerResource.js"></script>
 </body>
 </html>
