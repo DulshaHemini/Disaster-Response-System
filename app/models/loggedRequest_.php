@@ -64,9 +64,10 @@ function insertData($conn, $row)
         '$priority_level'
     )";
 
-    if ($conn->query($sql) === true) {
+    if ($conn->query($sql) === TRUE) {
         return 'success';
     } else {
-        echo 'Error inserting logged request: '.$conn->error;
+        echo "Error inserting logged request: " . $conn->error;
     }
+  
 }

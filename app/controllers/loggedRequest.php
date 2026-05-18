@@ -1,20 +1,25 @@
 <?php
 
-require_once __DIR__.'/../../config/config.php';
-require_once __DIR__.'/../models/loggedRequest_.php';
-require_once __DIR__.'/../views/loggedRequest/_loggedRequest.php';
+require_once __DIR__ . "/../../config/config.php";
+require_once __DIR__ . "/../models/loggedRequest_.php";
+require_once __DIR__ . "/../views/loggedRequest/_loggedRequest.php";
 
-// startSession();
+//startSession();
 
-// $user_id = $_SESSION['user_id'] ?? null;
+//$user_id = $_SESSION['user_id'] ?? null;
 
 $user_id = 2; // replace later with session user id
 
-// echo "User Name: " . $user_name; // Debugging line to check if the username is retrieved correctly
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//echo "User Name: " . $user_name; // Debugging line to check if the username is retrieved correctly
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    
+
     $row = [];
-
+    
     $row['user_id'] = $user_id; // replace later with session user id
 
     $row['request_name'] = $_POST['request_name'] ?? '';
@@ -36,12 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $result = insertData($conn, $row);
 
-    // if result == success do the success(); else fail();
-    if ($result == 'success') {
+    //if result == success do the success(); else fail();
+    if($result == 'success'){
+        include_once __DIR__ . '/AssignLogic.php'; 
         success();
-    } else {
+    }else{
         reg_fail();
     }
-}
+}  
 
 loggedRequestForm($name);
+
+
+
+?>

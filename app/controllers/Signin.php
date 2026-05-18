@@ -1,159 +1,50 @@
 <?php
 require_once '../../config/config.php';
+require_once '../views/auth/_signin.php';
+require_once '../models/auth/signin_.php';
+require '../../config/routes.php';
 
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $name = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $name = trim($_POST['username']) ?? '';
+    $password = trim($_POST['password']) ?? '';
 
-    // SQL Query
-    $sql = "SELECT * FROM users WHERE username='$name'";
-    $result = mysqli_query($conn, $sql);
+    $result = userSignin($conn, $name, $password);
 
-    // Check if user exists
-    if (mysqli_num_rows($result) > 0) {
-
-        $row = mysqli_fetch_assoc($result);
-
-        // Verify password
-        if (password_verify($password, $row['password'])) {
-
-            $message = "Login Successful!";
-
-            // Redirect based on role
-            if ($row['user_role'] === 'admin') {
-
-                header("Location: adminpage.php");
-                exit();
-
-            } elseif ($row['user_role'] === 'affected_people') {
-
-                header("Location: affected_people.php");
-                exit();
-
-            } elseif ($row['user_role'] === 'volunteer') {
-
-                header("Location: volunteer.php");
-                exit();
-
-            } else {
-
-                $message = "Invalid User Role!";
-            }
-
+    if($result) {
+        $user_id = $result['user_id'] ?? '';
+        $user_role = $result['user_role'] ?? '';
+        session_start();
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_role'] = $user_role;
+        success();
+        if ($user_role === 'relief_team') {
+            header("Location: ReliefTeam.php"); // same folder, relative path
+            exit();
+        } elseif ($user_role === 'affected_people') {
+            header("Location: affected_people.php");
+            exit();
+        } elseif ($user_role === 'volunteer') {
+            header("Location: volunteer.php");
+            exit();
+        } elseif ($user_role === 'admin') {
+            header("Location: admin.php");
+            exit();
+        } elseif ($user_role === 'guest') {
+            header("Location: guest.php");
+            exit();
         } else {
-
-            $message = "Invalid Password!";
+            signin_fail();
         }
-
-    } else {
-
-        $message = "User Not Found!";
+    }
+    else {
+        signin_fail();
     }
 }
+
+showSigninForm();
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="" >
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .auth-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 28px;
-            width: 100%;
-            max-width: 460px;
-            padding: 2.4rem 2rem 2.8rem 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-
-        .brand-icon {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.8rem;
-        }
-        
-    body {
-      background: var(--off);
-      font-family: var(--font-bd);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    h1 {
-      font-family: var(--font-hd);
-      font-size: 1.9rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
-    </style>
-</head>
-<body>
-    <a href="../" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
-
-    <div class="auth-card">
-    <div class="brand-icon">
-    <div class="logo-icon">
-    </div>
-  </div>
-      <h1>Welcome back</h1>
-        <div class="sub">Sign in to access the coordination dashboard</div>
-        
-                
-
-<h1>Sign In</h1>
-
-<form id="userForm" method="POST">
-    <input type="text" name="username" id="username" placeholder="Username"><br><br>
-    <input type="password" name="password" id="password" placeholder="Password"><br><br>
-    <input type="submit" value="Submit">
-</form>
-
-<p>No account? <a href='signup.php'>Sign Up</p>
-
-
-<p style="color:red;"><?php echo $message; ?></p>
-
-<script>
-document.getElementById("userForm").addEventListener("submit", function(event) {
-    const name = document.getElementById("username").value.trim();
-    const pwd = document.getElementById("password").value.trim();
-
-    if (name === "" && pwd === "") {
-        alert("Username and Password cannot be empty!");
-        event.preventDefault();
-    }
-    else if (name === "") {
-        alert("Username cannot be empty!");
-        event.preventDefault();
-    } 
-    else if (pwd === "") {
-        alert("Password cannot be empty!");
-        event.preventDefault();
-    }
-});
-
-</script>
-
-</body>
-</html>

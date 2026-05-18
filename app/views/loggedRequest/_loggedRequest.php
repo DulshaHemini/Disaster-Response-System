@@ -1,7 +1,7 @@
-<?php
+<?PHP
 
-function loggedRequestForm($name)
-{
+function loggedRequestForm(){
+    
     echo "<html>
 <head>
     <title>Logged Request</title>
@@ -382,10 +382,11 @@ function previewLocation() {
 </script>
 </body>
 </html>";
+
 }
 
-function success()
-{
+
+function success(){
     echo "<div style='
     position: fixed;
     top: 0;
@@ -445,8 +446,7 @@ function success()
 </script>";
 }
 
-function reg_fail()
-{
+function reg_fail(){
     echo "<div style='
     position: fixed;
     top: 0;
@@ -506,3 +506,5 @@ function reg_fail()
         }, 3000);
 </script>";
 }
+
+?>
