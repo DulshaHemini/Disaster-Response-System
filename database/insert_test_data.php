@@ -2,17 +2,20 @@
 
 // ================= DATABASE CONNECTION =================
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "drcs";
-$port = 3307;
+$username   = "root";
+$password   = "";
+$dbname     = "drcs";
+$port       = 3307;
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, "", 3306);
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+echo "Database connected successfully.<br>";
 
 // Disable foreign key checks temporarily
 $conn->query("SET FOREIGN_KEY_CHECKS = 0");
@@ -20,34 +23,37 @@ $conn->query("SET FOREIGN_KEY_CHECKS = 0");
 
 // ================= 1. USERS =================
 $users = [
-    [1, 'admin_main', 'admin123', 'admin'],
-    [2, 'kamal_p', 'user123', 'affected_people'],
-    [3, 'nimal_v', 'user123', 'volunteer'],
-    [4, 'samantha_w', 'user123', 'affected_people'],
-    [5, 'priyani_j', 'user123', 'affected_people'],
-    [6, 'sunil_r', 'user123', 'affected_people'],
-    [7, 'kusum_d', 'user123', 'affected_people'],
-    [8, 'mahesh_g', 'user123', 'affected_people'],
-    [9, 'rani_p', 'user123', 'affected_people'],
-    [10, 'chamara_s', 'user123', 'affected_people'],
-    [11, 'deepani_l', 'user123', 'affected_people'],
-    [12, 'ruwan_m', 'user123', 'affected_people'],
-    [13, 'lasitha_f', 'user123', 'volunteer'],
-    [14, 'menaka_s', 'user123', 'volunteer'],
-    [15, 'asanka_h', 'user123', 'volunteer'],
-    [16, 'colombo_rapid', 'team123', 'relief_team'],
-    [17, 'kandy_sarath', 'team123', 'relief_team'],
-    [18, 'galle_navy', 'team123', 'relief_team']
+    [1, 'admin_main', 'admin123',  'admin'],
+    [2, 'kamal_p', 'user123',  'affected_people'],
+    [3, 'nimal_v', 'user123',  'volunteer'],
+    [4, 'samantha_w', 'user123',  'affected_people'],
+    [5, 'priyani_j', 'user123',  'affected_people'],
+    [6, 'sunil_r', 'user123',  'affected_people'],
+    [7, 'kusum_d', 'user123',  'affected_people'],
+    [8, 'mahesh_g', 'user123',  'affected_people'],
+    [9, 'rani_p', 'user123',  'affected_people'],
+    [10, 'chamara_s', 'user123',  'affected_people'],
+    [11, 'deepani_l', 'user123',  'affected_people'],
+    [12, 'ruwan_m', 'user123',  'affected_people'],
+    [13, 'lasitha_f', 'user123',  'volunteer'],
+    [14, 'menaka_s', 'user123',  'volunteer'],
+    [15, 'asanka_h', 'user123',  'volunteer'],
+    [16, 'colombo_rapid', 'team123',  'relief_team'],
+    [17, 'kandy_sarath', 'team123',  'relief_team'],
+    [18, 'galle_navy', 'team123',  'relief_team']
 ];
 
-$stmt = $conn->prepare("INSERT INTO users (user_id, username, password, user_role) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("
+    INSERT INTO users (user_id, username, password, user_role)
+    VALUES (?, ?, ?, ?)
+");
 
 foreach ($users as $user) {
     $stmt->bind_param("isss", $user[0], $user[1], $user[2], $user[3]);
     $stmt->execute();
 }
 
-echo "Users inserted successfully.<br>";
+echo "Users inserted successfully.  <br>";
 
 
 // ================= 2. ADMIN =================
@@ -78,7 +84,7 @@ echo "Admin inserted successfully.<br>";
 // ================= 3. AFFECTED PEOPLE =================
 $affected_people = [
     [2, 'Kamal', 'Perera', 45, 4, 'Male', '801234567V', '0771112223'],
-    [4, 'Samantha', 'Weerasinghe', 38, 5, 'Male', '831456789V', '0772223334'],
+    [4, 'Samantha', 'Weerasinghe', 38, 5, 'Female', '831456789V', '0772223334'],
     [5, 'Priyani', 'Jayawardena', 52, 3, 'Female', '751234568V', '0773334445'],
     [6, 'Sunil', 'Rathnayake', 29, 2, 'Male', '921234569V', '0774445556'],
     [7, 'Kusum', 'Dissanayake', 61, 6, 'Female', '621234560V', '0775556667'],
@@ -97,6 +103,7 @@ $stmt = $conn->prepare("
 ");
 
 foreach ($affected_people as $person) {
+
     $stmt->bind_param(
         "issiisss",
         $person[0],
@@ -153,9 +160,9 @@ echo "Volunteers inserted successfully.<br>";
 
 // ================= 5. RELIEF TEAMS =================
 $relief_teams = [
-    [18, 'Galle Navy Rescue', 'navy@drcs.lk', '0912223334', 'Flood Rescue', 15, 'Rescue Boat', 'NAVY-001', 'available'],
     [16, 'Colombo Rapid Response', 'rapid@drcs.lk', '0112345678', 'Emergency Response', 20, 'Ambulance & Truck', 'CRR-002', 'available'],
-    [17, 'Kandy Sarath Brigade', 'sarath@drcs.lk', '0812345678', 'Emergency Response', 12, '4x4 Vehicles', 'KSB-003', 'available']
+    [17, 'Kandy Sarath Brigade', 'sarath@drcs.lk', '0812345678', 'Emergency Response', 12, '4x4 Vehicles', 'KSB-003', 'available'],
+    [18, 'Galle Navy Rescue', 'navy@drcs.lk', '0912223334', 'Flood Rescue', 15, 'Rescue Boat', 'NAVY-001', 'available']
 ];
 
 $stmt = $conn->prepare("
@@ -391,9 +398,26 @@ echo "Assignments inserted successfully.\n";
 // ================= ENABLE FOREIGN KEYS =================
 $conn->query("SET FOREIGN_KEY_CHECKS = 1");
 
-echo "<br><b>All data inserted successfully!</b><br>";
-echo "Admin Login: admin_main<br>";
-echo "Admin Password: admin123<br>";
+echo "<br><b>All test data inserted successfully!</b><br>";
+
+echo "<hr>";
+echo "<b>Test Login Credentials</b><br><br>";
+
+echo "Admin:<br>";
+echo "Username: admin_main<br>";
+echo "Password: admin123<br><br>";
+
+echo "Volunteer:<br>";
+echo "Username: nimal_v<br>";
+echo "Password: user123<br><br>";
+
+echo "Affected Person:<br>";
+echo "Username: kamal_p<br>";
+echo "Password: user123<br><br>";
+
+echo "Relief Team:<br>";
+echo "Username: galle_navy<br>";
+echo "Password: team123<br>";
 
 $conn->close();
 
