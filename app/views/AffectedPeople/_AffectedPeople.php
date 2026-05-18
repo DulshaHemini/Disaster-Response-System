@@ -12,31 +12,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/affected-people.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/theme.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/navbar.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/ticker.css">
+    <link rel="stylesheet" href="/disaster-Response-System/app/views/AffectedPeople/assets/css/affected-people.css">
 </head>
 
 <body>
 
     <!-- ========== NAVBAR ========== -->
-    <nav>
-        <a class="nav-brand" href="#">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z" />
-                </svg>
-            </div>
-            <span class="brand-text">DR<em>CS</em></span>
-        </a>
-
-        <div class="nav-center">
-            Affected People Dashboard
-        </div>
-
-        <div class="nav-right">
-            <button class="btn-profile" onclick="openProfileModal()"><i class="fas fa-user-circle"></i> Profile</button>
-            <a href="logout.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/../home/_navbar.php'; ?>
 
     <!-- Alert ticker -->
     <div class="ticker-wrap">
@@ -280,6 +265,6 @@
     </div>
 
     <!-- Custom JavaScript -->
-    <script src="assets/js/affected-people.js"></script>
+    <script src="/disaster-Response-System/app/views/AffectedPeople/assets/js/affected-people.js"></script>
 </body>
 </html>
