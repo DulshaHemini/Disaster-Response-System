@@ -31,7 +31,7 @@
       <button class="tab-btn" data-tab="instantHelp"><i class="fa-solid fa-bolt"></i> Instant Help</button>
       <button class="tab-btn" data-tab="assign"><i class="fa-solid fa-user-plus"></i> Assign Volunteers</button>
       <button class="tab-btn" data-tab="resources"><i class="fa-solid fa-boxes-stacked"></i> Resource Management</button>
-      <button class="tab-btn" data-tab="locations"><i class="fa-solid fa-map-marker-alt"></i> Location Management</button>
+      <button class="tab-btn" data-tab="locations"><i class="fa-solid fa-hands-holding-child"></i>Relief Teams</button>
       <button class="tab-btn" data-tab="volunteers"><i class="fa-solid fa-hands-helping"></i> Volunteer Management</button>
     </div>
   </div>
@@ -50,7 +50,7 @@
   <?php require_once __DIR__ . '/tabs/instant_help.php'; ?>
   <?php require_once __DIR__ . '/tabs/assign.php'; ?>
   <?php require_once __DIR__ . '/tabs/resources.php'; ?>
-  <?php require_once __DIR__ . '/tabs/locations.php'; ?>
+  <?php require_once __DIR__ . '/tabs/reliefTeam.php'; ?>
   <?php require_once __DIR__ . '/tabs/volunteers.php'; ?>
 </div>
 
