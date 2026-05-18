@@ -294,6 +294,13 @@ document.getElementById('helpNeeder').addEventListener('submit', function(event)
     const street = document.getElementById('street').value.trim();
     const city = document.getElementById('city').value.trim();
     const district = document.getElementById('district').value.trim();
+    const validDistricts = [
+    'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo',
+    'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara',
+    'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar',
+    'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya',
+    'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'
+];
 
     function fail(id, labelId, msg, scrollTarget){
         event.preventDefault();
@@ -303,9 +310,10 @@ document.getElementById('helpNeeder').addEventListener('submit', function(event)
         document.getElementById(scrollTarget).scrollIntoView({behavior: 'smooth', block: 'center'});
     }
 
-    if(reqName === ''){
-        return fail('request_name_field','request_name_label','Request Name is required *','request_name_field');
-    }
+    if (reqName === '' || !/^[A-Za-z\s]+$/.test(reqName)) {
+    return fail('request_name_field', 'request_name_label', 'Request Name must contain only letters *', 'request_name_field'
+    );
+}
 
     if(reqType === 'select'){
         return fail('req_type','request_type_label','Request Type is required *','req_type');
@@ -339,20 +347,24 @@ document.getElementById('helpNeeder').addEventListener('submit', function(event)
         return fail('email','email_label','Enter valid email address *','email');
     }
     
-    if(home === ''){
-        return fail('home_number','home_number_label','Home number is required *','home_number');
-    }
+    if (home === '' || !/^[A-Za-z0-9\/,]+$/.test(home)) {
+    return fail('home_number', 'home_number_label', 'Only letters, numbers, / and , are allowed *', 'home_number'
+    );
+}
 
-    if(street === ''){
+    if(street === '' || !/^[A-Za-z0-9]+$/.test(street)){
         return fail('street','street_label','Street is required *','street');
     }
 
-    if(city === ''){
+    if(city === '' || !/^[A-Za-z]+$/.test(city)){
         return fail('city','city_label','City is required *','city');
     }
 
-    if(district === ''){
-        return fail('district','district_label','District is required *','district');
+    
+
+    if (district === '' || !validDistricts.includes(district)) {
+        return fail('district', 'district_label', 'Please select a valid district *', 'district'
+        );
     }
 
     if(document.getElementById('lat').value === '' || document.getElementById('lon').value === ''){
