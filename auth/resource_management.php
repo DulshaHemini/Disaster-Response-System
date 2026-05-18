@@ -7,7 +7,7 @@ session_start();
 require_once "../config/config.php";
 $conn->select_db("DRCS");
 // 2. Force override $_SESSION and $volunteer_id to 7
-$_SESSION["user_id"] = 8;
+$_SESSION["user_id"] = 7;
 $volunteer_id = $_SESSION["user_id"];
 $message = "";
 
