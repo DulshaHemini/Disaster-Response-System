@@ -7,7 +7,7 @@ $password = "";
 $dbname = "DRCS";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, "", 3307);
+$conn = new mysqli($servername, $username, $password, "", 3308);
 
 // Check connection
 if($conn->connect_error){
@@ -182,9 +182,9 @@ $sql = "CREATE TABLE IF NOT EXISTS assignment(
     affected_people_id INT,
     description TEXT,
     status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
-    FOREIGN KEY (req_id) REFERENCES requests(req_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id)
+    FOREIGN KEY (req_id) REFERENCES requests(request_id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE SET NULL,
+    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id) ON DELETE SET NULL
 )";
 $conn->query($sql);
 echo "Assignment table created successfully!<br>";
