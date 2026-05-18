@@ -294,12 +294,8 @@ function getResources($conn) {
  */
 function getLocations($conn) {
     $sql = "
-        SELECT l.loc_id, l.user_id, u.username, u.user_role,
-               l.district, l.city, l.street, l.home_no,
-               l.latitude, l.longitude
-        FROM Location l
-        LEFT JOIN users u ON l.user_id = u.user_id
-        ORDER BY l.loc_id ASC
+        SELECT *
+        FROM relief_team
     ";
     
     $result = $conn->query($sql);
