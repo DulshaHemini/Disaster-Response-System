@@ -3,15 +3,18 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "drcs";
-$port = 3307;
+$dbname = "DRCS";
+$port = 3306;
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, "", 3306);
+$conn = new mysqli($servername, $username, $password, "", $port);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$conn->query("CREATE DATABASE IF NOT EXISTS `$dbname`");
+$conn->select_db($dbname);
 
 // Disable foreign key checks temporarily for bulk insert
 $conn->query("SET FOREIGN_KEY_CHECKS = 0");
