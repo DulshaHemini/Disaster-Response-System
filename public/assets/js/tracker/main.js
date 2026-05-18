@@ -1,4 +1,5 @@
 // main.js - Main initialization and event handlers
+// Automatically busting cache for new updates, cache fixed again
 
 // Keyboard shortcuts
 document.addEventListener("keydown", function (e) {
