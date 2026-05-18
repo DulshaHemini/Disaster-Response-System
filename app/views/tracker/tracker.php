@@ -37,18 +37,18 @@ function renderPersonCard($person, $initials) {
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <!-- Theme CSS must be loaded first -->
-    <link rel="stylesheet" href="../assets/css/theme.css">
-    <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/ticker.css">
-    <link rel="stylesheet" href="../assets/css/tracker.css?v=<?php echo $tracker_style_version; ?>">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/theme.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/navbar.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/ticker.css">
+    <link rel="stylesheet" href="/disaster-Response-System/public/assets/css/tracker.css?v=<?php echo $tracker_style_version; ?>">
     
-    <script defer src="../assets/js/tracker/config.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/helpers.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/map-handler.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/person-selection.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/details-panel.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/activity-modal.js?v=<?php echo $tracker_assets_version; ?>"></script>
-    <script defer src="../assets/js/tracker/main.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/config.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/helpers.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/map-handler.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/person-selection.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/details-panel.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/activity-modal.js?v=<?php echo $tracker_assets_version; ?>"></script>
+    <script defer src="/disaster-Response-System/public/assets/js/tracker/main.js?v=<?php echo $tracker_assets_version; ?>"></script>
 </head>
 <body>
     <!-- Include Navbar Component -->

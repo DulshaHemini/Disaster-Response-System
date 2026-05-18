@@ -79,4 +79,7 @@ $router->add('/', 'HomeController', 'index');
 $router->add('index.php', 'HomeController', 'index');
 $router->add('home', 'HomeController', 'index');
 
+// Define affected people dashboard route
+$router->add('affected-people', 'AffectedPeople', 'index');
+
 ?>

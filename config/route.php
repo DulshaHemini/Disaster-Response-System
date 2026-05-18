@@ -1,25 +1,57 @@
 <?php
 
-function route($path = "", $params = [])
-{
-    // Base URL of your PUBLIC folder only
-    $base = "http://localhost/Disaster-Response-System/public/";
+class Router {
+    private $routes = [];
 
-    // Clean the path
-    $path = trim($path, "/");
-
-    // Build query string if needed
-    $query = "";
-
-    if (!empty($params)) {
-        $query = "?" . http_build_query($params);
+    public function route($path, $callback) {
+        $this->routes[$path] = $callback;
     }
 
-    // Final safe URL
-    $url = $base . $path . $query;
+    public function dispatch() {
+        $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $base_path = '/Disaster-Response-System/public';
+        $path = str_replace($base_path, '', $request_uri);
+        $path = $path ?: '/';
 
-    header("Location: " . $url);
-    exit();
+        // Check if route exists
+        if (isset($this->routes[$path])) {
+            call_user_func($this->routes[$path]);
+        } else {
+            // Default to home
+            $this->home();
+        }
+    }
+
+    private function home() {
+        require_once APP_PATH . '/controllers/HomeController.php';
+        $controller = new HomeController();
+        $controller->index();
+    }
 }
+
+// Create router instance
+$router = new Router();
+
+// Define routes
+$router->route('/', function() {
+    require_once APP_PATH . '/controllers/HomeController.php';
+    $controller = new HomeController();
+    $controller->index();
+});
+
+$router->route('/admin', function() {
+    header("Location: " . BASE_PATH . "/app/controllers/admin.php");
+    exit();
+});
+
+$router->route('/affected', function() {
+    header("Location: " . BASE_PATH . "/app/controllers/affected.php");
+    exit();
+});
+
+$router->route('/volunteer', function() {
+    header("Location: " . BASE_PATH . "/app/controllers/volunteer.php");
+    exit();
+});
 
 ?>
