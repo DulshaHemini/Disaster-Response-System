@@ -7,11 +7,7 @@ $dbname = "drcs";
 $port = 3307;
 
 // Create connection
-<<<<<<< HEAD
-$conn = new mysqli($servername, $username, $password, "", 3308);
-=======
-$conn = new mysqli($servername, $username, $password, "", 3306);
->>>>>>> 162015902fc7554dc63defaa6d648a7f2748ed0f
+$conn = new mysqli($servername, $username, $password, $dbname, 3308);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

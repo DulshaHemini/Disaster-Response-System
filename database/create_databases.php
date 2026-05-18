@@ -6,12 +6,7 @@
     $password = "";
     $dbname = "DRCS";
 
-<<<<<<< HEAD
-// Create connection
-$conn = new mysqli($servername, $username, $password, "", 3308);
-=======
-    $conn = new mysqli($servername, $username, $password ,"", 3306);
->>>>>>> 162015902fc7554dc63defaa6d648a7f2748ed0f
+    $conn = new mysqli($servername, $username, $password ,"", 3308);
 
     // Check connection
     if($conn->connect_error){
@@ -214,24 +209,6 @@ $conn = new mysqli($servername, $username, $password, "", 3308);
     echo "Logged Request table created successfully!<br>";
 
 
-<<<<<<< HEAD
-//Create assignment table
-$sql = "CREATE TABLE IF NOT EXISTS assignment(
-    assignment_id INT PRIMARY KEY AUTO_INCREMENT,
-    assigned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    req_id INT NOT NULL,
-    resource_id INT,
-    volunteer_id INT,
-    affected_people_id INT,
-    description TEXT,
-    status ENUM('Assigned', 'Allocated', 'Received') NOT NULL,
-    FOREIGN KEY (req_id) REFERENCES requests(request_id) ON DELETE CASCADE,
-    FOREIGN KEY (resource_id) REFERENCES resource(resource_id) ON DELETE SET NULL,
-    FOREIGN KEY (volunteer_id) REFERENCES volunteer(user_id) ON DELETE SET NULL
-)";
-$conn->query($sql);
-echo "Assignment table created successfully!<br>";
-=======
     //Create resource table
     $sql = "CREATE TABLE IF NOT EXISTS resource(
         resource_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -246,7 +223,6 @@ echo "Assignment table created successfully!<br>";
     )";
     $conn->query($sql);
     echo "Resource table created successfully!<br>";
->>>>>>> 162015902fc7554dc63defaa6d648a7f2748ed0f
 
 
     //Create assignment table suitable for both volunteers and relief teams
