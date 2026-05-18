@@ -13,7 +13,7 @@ body {
 }
 
 
-   /* header */
+/* header */
 
 
 .rm_header {
@@ -26,7 +26,7 @@ body {
 }
 
 
-   /* dashboard */
+/* dashboard */
 
 
 .rm_dashboard-wrapper {
@@ -61,7 +61,7 @@ body {
 }
 
 
-    /* main box */
+/* main box */
 
 
 .rm_main-box {
@@ -71,10 +71,13 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-sizing: border-box;
+    position: relative;
+
 }
 
 
-   rows
+
+/* rows */
 
 
 .rm_row {
@@ -85,7 +88,7 @@ body {
 }
 
 
-   /* buttons */
+/* buttons */
 
 
 .rm_btn-red,
@@ -100,6 +103,13 @@ body {
     background: #c82333;
     color: white;
     border: none;
+
+    /* background-color: #c82333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer; */
 }
 
 .rm_btn-red:hover {
@@ -120,7 +130,7 @@ body {
 }
 
 
-   /* inputs */
+/* inputs */
 
 
 input,
@@ -141,7 +151,7 @@ textarea {
 }
 
 
-   /* tables */
+/* tables */
 
 
 table {
@@ -172,7 +182,7 @@ th {
 }
 
 
-   /* tags  */
+/* tags  */
 
 
 .rm_tag,
@@ -201,7 +211,7 @@ th {
 }
 
 
-   /* modal */
+/* modal */
 
 
 .rm_modal-backdrop {
@@ -258,7 +268,7 @@ th {
 }
 
 
-   /* forms */
+/* forms */
 
 
 .rm_form-group {
@@ -274,12 +284,13 @@ th {
     display: flex;
     gap: 10px;
 }
+
 .rm_form-row .rm_form-group {
     flex: 1;
 }
 
 
-   /* toast */
+/* toast */
 
 
 .rm_toast {
@@ -298,3 +309,8 @@ th {
 .rm_toast.rm_show {
     opacity: 1;
 }
+
+
+
+/* 
+new simple chatgpt css i edited */

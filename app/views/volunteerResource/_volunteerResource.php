@@ -340,6 +340,7 @@
                 <button onclick="closeModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
             <div class="rm_modal-body">
+                <input type="hidden" id="editId" value="">
                 <div class="rm_form-group">
                     <label for="fName">Resource Name *</label>
                     <input type="text" id="fName" style="width: 100%; box-sizing: border-box;">
