@@ -1,89 +1,66 @@
 <?php
-require_once APP_PATH . '/models/TrackerModel.php';
-require_once dirname(APP_PATH) . '/config/config.php';
 
-class TrackerController
-{
-    private $model;
-    
-    public function __construct()
-    {
-        global $conn;
-        $this->model = new TrackerModel($conn);
-    }
-    
-    public function index(): void
-    {
-        $people = $this->model->getAllPeople();
-        $total_people = count($people);
-        
-        extract([
-            'people'       => $people,
-            'total_people' => $total_people,
-        ]);
-        
-        require APP_PATH . '/views/tracker/tracker.php';
-    }
-    
-    // Simple function to get person details
-    public function getPerson($person_id)
-    {
-        return $this->model->getPersonById($person_id);
-    }
-    
-    // Simple function to get logs for a person
-    public function getPersonLogs($person_id)
-    {
-        return $this->model->getLogsByPerson($person_id);
-    }
-    
-    // Simple function to add activity log
-    public function addActivityLog($person_id, $log_type, $message, $created_by = 'System')
-    {
-        return $this->model->addActivityLog($person_id, $log_type, $message, $created_by);
-    }
-
-    /**
-     * API endpoint to log activity from frontend
-     */
-    public function logActivity(): void
-    {
-        // Removed - logging functionality disabled
-        http_response_code(404);
-        echo json_encode(array('success' => false, 'message' => 'Not available'));
-    }
-
-    public function getPersonData(): void
-    {
-        header('Content-Type: application/json');
-
-        $person_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-        if ($person_id <= 0) {
-            http_response_code(400);
-            echo json_encode(array(
-                'success' => false,
-                'message' => 'Invalid person ID',
-            ));
-            return;
-        }
-
-        $person = $this->model->getPersonById($person_id);
-        if (!$person) {
-            http_response_code(404);
-            echo json_encode(array(
-                'success' => false,
-                'message' => 'Person not found',
-            ));
-            return;
-        }
-
-        $logs = $this->model->getLogsByPerson($person_id);
-        echo json_encode(array(
-            'success' => true,
-            'person' => $person,
-            'logs' => $logs,
-            'logs_count' => count($logs),
-        ));
-    }
+// Start session for state management
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
+// Database connection using config
+require_once __DIR__ . '/../../config/config.php';
+
+// Check if connection was successful
+if (!isset($conn) || $conn->connect_error) {
+    die("Database connection failed. Please check if MySQL is running.");
+}
+
+// Require the model
+require_once __DIR__ . "/../models/TrackerModel.php";
+
+// Initialize the model
+$trackerModel = new TrackerModel($conn);
+
+// Handle API requests for person data
+if (isset($_GET['action']) && $_GET['action'] === 'getPersonData') {
+    header('Content-Type: application/json');
+
+    $person_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+    if ($person_id <= 0) {
+        http_response_code(400);
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'Invalid person ID',
+        ));
+        exit();
+    }
+
+    $person = $trackerModel->getPersonById($person_id);
+    if (!$person) {
+        http_response_code(404);
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'Person not found',
+        ));
+        exit();
+    }
+
+    $logs = $trackerModel->getLogsByPerson($person_id);
+    echo json_encode(array(
+        'success' => true,
+        'person' => $person,
+        'logs' => $logs,
+        'logs_count' => count($logs),
+    ));
+    exit();
+}
+
+// Fetch data from database via model
+$people = $trackerModel->getAllPeople();
+$total_people = count($people);
+
+// Load the Tracker View
+require_once __DIR__ . "/../views/tracker/tracker.php";
+
+// Close connection after rendering
+$conn->close();
+
 ?>

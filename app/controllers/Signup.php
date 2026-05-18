@@ -89,6 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }  
 
-signupview()
+signupview();
 
 ?>

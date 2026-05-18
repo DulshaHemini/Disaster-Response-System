@@ -82,4 +82,7 @@ $router->add('home', 'HomeController', 'index');
 // Define affected people dashboard route
 $router->add('affected-people', 'AffectedPeople', 'index');
 
+// Define tracker route
+$router->add('tracker', 'TrackerController', 'index');
+
 ?>

@@ -34,10 +34,9 @@ function loadPersonData(personId) {
     receivePersonData(fallbackPerson, [], 0);
   }
 
-  var apiUrl = "index.php?page=tracker&action=getPersonData&id=" + encodeURIComponent(personId) + "&_ts=" + Date.now();
-  if (window.location.pathname.indexOf("/tracker/") !== -1) {
-    apiUrl = "../" + apiUrl;
-  }
+  // Build API URL - TrackerController.php handles ?action=getPersonData
+  var baseUrl = window.location.origin + window.location.pathname.split('/').slice(0, -2).join('/');
+  var apiUrl = baseUrl + "/app/controllers/TrackerController.php?action=getPersonData&id=" + encodeURIComponent(personId) + "&_ts=" + Date.now();
 
   fetch(apiUrl)
     .then(function (response) {

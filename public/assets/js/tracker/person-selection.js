@@ -65,5 +65,5 @@ function focusPerson(personId) {
 
   // Load detail data in background for when user clicks Details button
   // NOTE: Panel does NOT open on focus - only on explicit Details click
-  loadPersonData(personId);
+  // loadPersonData(personId);
 }

@@ -1,7 +1,16 @@
 <?php 
-// Data passed from TrackerController via extract()
+// Data passed from TrackerController
 // $people - array of all affected people
 // $total_people - total count of people
+
+// Define paths if not already defined
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+}
+if (!defined('APP_PATH')) {
+    define('APP_PATH', BASE_PATH . '/app');
+}
+
 $tracker_assets_version = filemtime(BASE_PATH . '/public/assets/js/tracker/main.js');
 $tracker_style_version = filemtime(BASE_PATH . '/public/assets/css/tracker.css');
 

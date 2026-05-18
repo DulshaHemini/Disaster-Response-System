@@ -33,34 +33,7 @@ body {
     color: var(--text);
     font-family: var(--font-bd);
     overflow-x: hidden;
-}
-
-/* ========= TICKER / ALERT BAR ========= */
-.ticker-wrap {
-    background: var(--red);
-    overflow: hidden;
-    white-space: nowrap;
-    padding: .4rem 0;
-    margin-top: 64px;
-}
-
-.ticker {
-    display: inline-block;
-    animation: ticker-scroll 32s linear infinite;
-    font-family: var(--font-mn);
-    font-size: .9rem;
-    color: #fff;
-    letter-spacing: .03em;
-}
-
-@keyframes ticker-scroll {
-    from {
-        transform: translateX(100vw);
-    }
-
-    to {
-        transform: translateX(-100%);
-    }
+    padding-top: calc(64px + 40px); /* navbar height + ticker height */
 }
 
 /* ========= MAIN DASHBOARD ========= */

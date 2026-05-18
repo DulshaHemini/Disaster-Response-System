@@ -25,7 +25,7 @@
       <div class="card-label">// INCIDENT MAP — SRI LANKA</div>
       <div class="fake-map-container">
         <div class="fake-map-blur"></div>
-        <a href="tracker/index.php" class="map-center-btn">
+        <a href="../app/controllers/TrackerController.php" class="map-center-btn">
           <span class="map-btn-icon">🗺️</span>
           <span class="map-btn-text">Open Live Tracker</span>
           <span class="map-btn-subtitle">View real-time incident map</span>

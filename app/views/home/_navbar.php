@@ -66,11 +66,11 @@ if ($is_logged_in) {
     <?php if ($is_logged_in): ?>
       <!-- Logged in user navigation -->
       <?php if ($user_role === 'admin'): ?>
-        <button class="btn-outline" onclick="window.location.href='<?= $base_url ?>/public/tracker/'">
+        <button class="btn-outline" onclick="window.location.href='<?= $base_url ?>/app/controllers/TrackerController.php'">
           <i class="fas fa-map-marked-alt"></i> Tracker
         </button>
       <?php elseif ($user_role === 'affected_people' || $user_role === 'volunteer' || $user_role === 'relief_team'): ?>
-        <button class="btn-outline" onclick="window.location.href='<?= $base_url ?>/public/tracker/'">
+        <button class="btn-outline" onclick="window.location.href='<?= $base_url ?>/app/controllers/TrackerController.php'">
           <i class="fas fa-map-marked-alt"></i> Tracker
         </button>
       <?php endif; ?>
