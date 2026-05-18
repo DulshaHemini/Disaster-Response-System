@@ -1,107 +1,85 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    // Database connection
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "DRCS";
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "DRCS";
 
     $conn = new mysqli($servername, $username, $password ,"", 3306);
 
-    // Check connection
-    if($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }
+// Check connection
+if($conn->connect_error){
+    die("Connection failed: " . $conn->connect_error);
+}
 
+//Create database
+$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
+$conn->query($sql);
 
-    //Create database
-    $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-    $conn->query($sql);
+// Select database
+$conn->select_db($dbname);
 
+// Create users table
+$sql = "CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    user_role ENUM('admin', 'affected_people', 'volunteer') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($sql);
+echo "Users People table created successfully!<br>";
 
-    // Select database
-    $conn->select_db($dbname);
+//Create Admin table
+$sql = "CREATE TABLE IF NOT EXISTS admin (
+    user_id INT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    age INT,
+    email VARCHAR(100),
+    contact_no VARCHAR(15),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Admin table created successfully!<br>";
 
+//Create Affected people table
+$sql = "CREATE TABLE IF NOT EXISTS affected_people (
+    user_id INT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL, 
+    last_name VARCHAR(100) NOT NULL, 
+    age INT,
+    no_of_family_members INT,
+    gender ENUM('Male', 'Female') NOT NULL,
+    priority_level ENUM('low', 'medium', 'high'),
+    nic VARCHAR(20),
+    contact_no VARCHAR(15),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Affected People table created successfully!<br>";
 
-    // Create users table
-    $sql = "CREATE TABLE IF NOT EXISTS users (
-        user_id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
-        user_role ENUM('admin', 'affected_people', 'volunteer', 'relief_team', 'guest') NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )";
-    $conn->query($sql);
-    echo "Users People table created successfully!<br>";
-
-
-    //Create Admin table
-    $sql = "CREATE TABLE IF NOT EXISTS admin (
-        user_id INT PRIMARY KEY,
-        first_name VARCHAR(100) NOT NULL,
-        last_name VARCHAR(100) NOT NULL,
-        gender ENUM('Male', 'Female') NOT NULL,
-        age INT,
-        email VARCHAR(100),
-        contact_no VARCHAR(15),
-        FOREIGN KEY (user_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
-    )";
-    $conn->query($sql);
-    echo "Admin table created successfully!<br>";
-
-
-    //Create Affected people table
-    $sql = "CREATE TABLE IF NOT EXISTS affected_people (
-        affected_people_id INT PRIMARY KEY,
-        first_name VARCHAR(100) NOT NULL, 
-        last_name VARCHAR(100) NOT NULL, 
-        age INT,
-        no_of_family_members INT,
-        gender ENUM('Male', 'Female') NOT NULL,
-        nic VARCHAR(20),
-        contact_no VARCHAR(15),
-        FOREIGN KEY (affected_people_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
-    )";
-    $conn->query($sql);
-    echo "Affected People table created successfully!<br>";
-
-
-    //Create Volunteers table
-    $sql = "CREATE TABLE IF NOT EXISTS volunteer (
-        volunteer_id INT PRIMARY KEY,
-        first_name VARCHAR(100) NOT NULL,
-        last_name VARCHAR(100) NOT NULL,
-        nic VARCHAR(20),
-        gender ENUM('Male', 'Female') NOT NULL,
-        contact_no VARCHAR(15),
-        age int(2),
-        availability_status ENUM('available', 'busy') DEFAULT 'available',
-        organization_name VARCHAR(100),
-        FOREIGN KEY (volunteer_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
-    )";
-    $conn->query($sql);
-    echo "Volunteer table created successfully!<br>";
-
-
-    //Create Relief Team table 
-    $sql = "CREATE TABLE IF NOT EXISTS relief_team ( 
-        relief_team_id INT PRIMARY KEY, 
-        team_name VARCHAR(100) NOT NULL, 
-        email VARCHAR(100), 
-        contact_no VARCHAR(15), 
-        specialization ENUM( 'Medical', 'Flood Rescue', 'Food Distribution', 'Transport', 'Animal Rescue', 'Emergency Response'),
-        no_of_members INT DEFAULT 1, 
-        vehicle_type VARCHAR(100), 
-        vehicle_number VARCHAR(50), 
-        availability_status ENUM('available', 'busy', 'offline') DEFAULT 'available', 
-        FOREIGN KEY (relief_team_id) REFERENCES users(user_id) ON DELETE CASCADE
-    )";
-    $conn->query($sql);
-    echo "Relief Team table created successfully!<br>";
-
+//Create Volunteers table
+$sql = "CREATE TABLE IF NOT EXISTS volunteer (
+    user_id INT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    nic VARCHAR(20),
+    gender ENUM('Male', 'Female') NOT NULL,
+    contact_no VARCHAR(15),
+    availability_status ENUM('available', 'busy') DEFAULT 'available',
+    organization_name VARCHAR(100),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+)";
+$conn->query($sql);
+echo "Volunteer table created successfully!<br>";
 
     //Create location table
     $sql = "CREATE TABLE IF NOT EXISTS Location(

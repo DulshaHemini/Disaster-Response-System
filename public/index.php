@@ -3,12 +3,12 @@
  * Disaster Response System - Main Entry Point
  */
 
-// Define paths
+// 1. Define paths
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('CONFIG_PATH', BASE_PATH . '/config');
 
-// Load configuration
+// 2. Load Core Files
 require_once CONFIG_PATH . '/config.php';
 
 // Simple routing based on URL parameters
