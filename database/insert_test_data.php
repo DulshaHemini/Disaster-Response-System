@@ -9,6 +9,7 @@ $port = 3306;
 // Create connection
 $conn = new mysqli($servername, $username, $password, "", $port);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -57,7 +58,7 @@ echo "Admin inserted successfully.\n";
 // 3. AFFECTED PEOPLE (10 people)
 $affected_people = [
     [2, 'Kamal', 'Perera', 45, 4, 'Male', '801234567V', '0771112223'],
-    [4, 'Samantha', 'Weerasinghe', 38, 5, 'Male', '831456789V', '0772223334'],
+    [4, 'Samantha', 'Weerasinghe', 38, 5, 'Female', '831456789V', '0772223334'],
     [5, 'Priyani', 'Jayawardena', 52, 3, 'Female', '751234568V', '0773334445'],
     [6, 'Sunil', 'Rathnayake', 29, 2, 'Male', '921234569V', '0774445556'],
     [7, 'Kusum', 'Dissanayake', 61, 6, 'Female', '621234560V', '0775556667'],
@@ -270,10 +271,26 @@ echo "Tracker activity logs inserted successfully!<br>";
 // Re-enable foreign key checks
 $conn->query("SET FOREIGN_KEY_CHECKS = 1");
 
-echo "\nAll data inserted successfully!\n";
-echo "Admin Login: admin_main\n";
-echo "Admin Password: admin123\n";
-echo "User Password for all other accounts: user123 (or team123 for relief teams)\n";
+echo "<br><b>All test data inserted successfully!</b><br>";
+
+echo "<hr>";
+echo "<b>Test Login Credentials</b><br><br>";
+
+echo "Admin:<br>";
+echo "Username: admin_main<br>";
+echo "Password: admin123<br><br>";
+
+echo "Volunteer:<br>";
+echo "Username: nimal_v<br>";
+echo "Password: user123<br><br>";
+
+echo "Affected Person:<br>";
+echo "Username: kamal_p<br>";
+echo "Password: user123<br><br>";
+
+echo "Relief Team:<br>";
+echo "Username: galle_navy<br>";
+echo "Password: team123<br>";
 
 $conn->close();
 ?>

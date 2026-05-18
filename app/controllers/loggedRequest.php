@@ -16,8 +16,6 @@ $user_id = 2; // replace later with session user id
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    
-
     $row = [];
     
     $row['user_id'] = $user_id; // replace later with session user id
@@ -51,7 +49,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }  
 
 loggedRequestForm();
-
-
 
 ?>

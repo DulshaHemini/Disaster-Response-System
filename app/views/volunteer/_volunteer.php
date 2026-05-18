@@ -682,7 +682,7 @@
     <!-- Alert ticker -->
     <div class="ticker-wrap">
         <div class="ticker">
-            ⚠️ WARNING – Landslide Risk: Ratnapura District &nbsp;&nbsp;|&nbsp;&nbsp; ✅ RESOLVED – Cyclone Watch lifted: Eastern Coast &nbsp;&nbsp;|&nbsp;&nbsp; 🚨 ACTIVE – Search & Rescue teams deployed: Galle
+            ⚠️ WARNING - Landslide Risk: Ratnapura District &nbsp;&nbsp;|&nbsp;&nbsp; ✅ RESOLVED - Cyclone Watch lifted: Eastern Coast &nbsp;&nbsp;|&nbsp;&nbsp; 🚨 ACTIVE - Search & Rescue teams deployed: Galle
         </div>
     </div>
 
