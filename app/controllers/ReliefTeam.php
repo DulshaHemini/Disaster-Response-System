@@ -8,14 +8,14 @@ if (session_status() === PHP_SESSION_NONE) {
 // Check if the user is logged in (session must have user_id and user_role)
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
     // Not logged in → redirect to login page
-    header("Location: ../../public/signin.php");
+    header("Location: Signin.php");
     exit();
 }
 
 // Check if the logged-in user is a relief_team
 if ($_SESSION['user_role'] !== 'relief_team') {
     // Wrong role → redirect to login page
-    header("Location: ../../public/signin.php");
+    header("Location: Signin.php");
     exit();
 }
 

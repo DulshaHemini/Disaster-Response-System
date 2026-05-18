@@ -7,13 +7,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
-    header("Location: ../../public/signin.php");
+    header("Location: Signin.php");
     exit();
 }
 
 // Check if the logged-in user is a volunteer
 if (strtolower($_SESSION['user_role']) !== 'volunteer') {
-    header("Location: ../../public/signin.php");
+    header("Location: Signin.php");
     exit();
 }
 

@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
 
 // Security Check: Verify if the logged-in user is a volunteer
 if (strtolower($_SESSION['user_role']) !== 'volunteer') {
-    header("Location: ../../public/signin.php");
+    header("Location: Signin.php");
     exit();
 }
 

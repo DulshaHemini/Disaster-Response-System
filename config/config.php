@@ -7,7 +7,7 @@ $host = "localhost";
 $username = "root";
 $password = "";
 $database = "DRCS";
-$port = 3308;
+$port = 3306;
 
 $conn = new mysqli($host, $username, $password, $database, $port);
 
