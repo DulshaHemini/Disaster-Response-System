@@ -329,6 +329,76 @@ class DashboardModel
         ];
     }
     
+    /**
+     * Get map data for home page mini map
+     * Returns affected people with location data for map markers
+     */
+    public function getMapPeople(): array
+    {
+        $sql = "SELECT 
+                    ap.affected_people_id as id,
+                    CONCAT(ap.first_name, ' ', ap.last_name) as full_name,
+                    l.latitude,
+                    l.longitude,
+                    l.district,
+                    l.city,
+                    lr.req_type as disaster_type,
+                    lr.status
+                FROM affected_people ap
+                LEFT JOIN Location l ON l.user_id = ap.affected_people_id
+                LEFT JOIN (
+                    SELECT lr1.*
+                    FROM Logged_Request lr1
+                    INNER JOIN (
+                        SELECT affected_people_id, MAX(req_id) as latest_req_id
+                        FROM Logged_Request
+                        GROUP BY affected_people_id
+                    ) latest ON latest.latest_req_id = lr1.req_id
+                ) lr ON lr.affected_people_id = ap.affected_people_id
+                WHERE l.latitude IS NOT NULL 
+                    AND l.longitude IS NOT NULL
+                    AND l.latitude != 0 
+                    AND l.longitude != 0
+                ORDER BY lr.created_at DESC
+                LIMIT 50";
+        
+        $result = $this->conn->query($sql);
+        $people = [];
+        
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $people[] = [
+                    'id' => (int)$row['id'],
+                    'full_name' => $row['full_name'],
+                    'latitude' => (float)$row['latitude'],
+                    'longitude' => (float)$row['longitude'],
+                    'district' => $row['district'] ?? 'Unknown',
+                    'city' => $row['city'] ?? '',
+                    'disaster_type' => $row['disaster_type'] ?? 'other',
+                    'status' => $this->mapStatusToTracker($row['status'])
+                ];
+            }
+        }
+        
+        return $people;
+    }
+    
+    /**
+     * Map database status to tracker status format
+     */
+    private function mapStatusToTracker($status): string
+    {
+        $statusMap = [
+            'Pending' => 'needs_aid',
+            'Assigned' => 'team_sent',
+            'Doing' => 'arrived',
+            'Done' => 'rescued',
+            'Completed' => 'rescued'
+        ];
+        
+        return $statusMap[$status] ?? 'needs_aid';
+    }
+    
     // ==================== PRIVATE HELPER METHODS ====================
     
     private function getActiveIncidentsCount(): array
