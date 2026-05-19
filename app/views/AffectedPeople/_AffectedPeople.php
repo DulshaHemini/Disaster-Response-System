@@ -210,54 +210,7 @@
         </footer>
     </div>
 
-    <!-- PROFILE MODAL POPUP -->
-    <div id="profileModal" class="profile-modal-backdrop" onclick="handleProfileBackdropClick(event)">
-        <div class="profile-modal-card">
-            <div class="profile-modal-header">
-                <h3><i class="fas fa-id-card"></i> My Profile</h3>
-                <button class="profile-modal-close" onclick="closeProfileModal()">&times;</button>
-            </div>
-            <div class="profile-modal-body">
-                <div class="profile-avatar-sec">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h4><?= htmlspecialchars(($profile['first_name'] ?? '') . ' ' . ($profile['last_name'] ?? '')) ?></h4>
-                    <span class="profile-badge">AFFECTED PERSON</span>
-                </div>
-                <div class="profile-grid">
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-id-badge"></i> NIC</span>
-                        <span class="profile-val"><?= htmlspecialchars($profile['nic'] ?? 'N/A') ?></span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-phone-alt"></i> Contact No</span>
-                        <span class="profile-val"><?= htmlspecialchars($profile['contact_no'] ?? 'N/A') ?></span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-birthday-cake"></i> Age</span>
-                        <span class="profile-val"><?= htmlspecialchars($profile['age'] ?? 'N/A') ?> years</span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-venus-mars"></i> Gender</span>
-                        <span class="profile-val"><?= htmlspecialchars($profile['gender'] ?? 'N/A') ?></span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-users"></i> Family Members</span>
-                        <span class="profile-val"><?= htmlspecialchars($profile['no_of_family_members'] ?? '0') ?> Members</span>
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label"><i class="fas fa-map-marked-alt"></i> District / City</span>
-                        <span class="profile-val"><?= htmlspecialchars(($profile['district'] ?? '') . ', ' . ($profile['city'] ?? '')) ?></span>
-                    </div>
-                </div>
-                <div class="profile-address-full">
-                    <span class="profile-label"><i class="fas fa-home"></i> Address</span>
-                    <span class="profile-val"><?= htmlspecialchars(($profile['home_no'] ?? '') . ' ' . ($profile['street'] ?? '') . ', ' . ($profile['city'] ?? '')) ?></span>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Custom JavaScript -->
     <script src="/disaster-Response-System/app/views/AffectedPeople/assets/js/affected-people.js"></script>

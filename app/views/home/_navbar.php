@@ -73,6 +73,12 @@ if ($is_logged_in) {
         </button>
       <?php endif; ?>
       
+      <?php if ($user_role === 'affected_people'): ?>
+        <button class="btn-fill" style="background-color: #dc3545; border-color: #dc3545;" onclick="window.location.href='<?= $base_url ?>/app/controllers/loggedRequest.php'">
+          <i class="fas fa-plus-circle"></i> New Request
+        </button>
+      <?php endif; ?>
+      
       <button class="btn-outline" onclick="window.location.href='<?= $base_url ?>/app/controllers/logout.php'">
         <i class="fas fa-sign-out-alt"></i> Logout
       </button>
