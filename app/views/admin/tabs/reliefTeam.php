@@ -1,4 +1,4 @@
-<div id="locationsTab" class="tab-content">
+<div id="reliefTeamTab" class="tab-content">
     <div class="admin-container" style="padding:0; margin:0; max-width:none;">
         <div class="section-header">
             <h2><i class="fa-solid fa-hands-holding-child"></i> Relief Teams</h2>
@@ -20,8 +20,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (count($locations) > 0): ?>
-                        <?php foreach ($locations as $row): ?>
+                    <?php if (count($reliefTeams) > 0): ?>
+                        <?php foreach ($reliefTeams as $row): ?>
                             <?php
                                 $statusClass = match(strtolower($row['status'] ?? 'inactive')) {
                                     'active'   => 'badge-active',

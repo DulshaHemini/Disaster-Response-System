@@ -290,9 +290,9 @@ function getResources($conn) {
 }
 
 /**
- * Fetch location details
+ * Fetch relief team details
  */
-function getLocations($conn) {
+function getReliefTeams($conn) {
     $sql = "
         SELECT *
         FROM relief_team
