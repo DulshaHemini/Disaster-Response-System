@@ -1,0 +1,36 @@
+/* ============================================================
+   DRCS – Ticker Component Styles
+   ============================================================
+   NOTE: Import theme.css before this file for colors & common styles
+   ============================================================ */
+
+/* ── TICKER ── */
+.ticker-wrap {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--red);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.4rem 0;
+}
+
+.ticker {
+  display: inline-block;
+  animation: ticker-scroll 32s linear infinite;
+  font-family: var(--font-mn);
+  font-size: 0.99rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

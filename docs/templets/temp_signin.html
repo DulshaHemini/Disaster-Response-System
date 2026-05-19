@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRCS · Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --white: #ffffff;
+      --off: #f8f5f2;
+      --surface: #f2ede8;
+      --red: #c8102e;
+      --red-dk: #9b0b21;
+      --red-lt: #fbeaec;
+      --red-m: #f5c0c7;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --border: #e2ddd8;
+      --font-hd: 'Playfair Display', serif;
+      --font-bd: 'Outfit', sans-serif;
+      --font-mn: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background: var(--off);
+      font-family: var(--font-bd);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* back link */
+    .back-home {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 20;
+      font-family: var(--font-mn);
+      font-size: 0.75rem;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      color: var(--text);
+      transition: 0.2s;
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.9);
+    }
+    .back-home:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .auth-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 460px;
+      padding: 2.4rem 2rem 2.8rem 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .brand-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.8rem;
+    }
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg {
+      width: 22px;
+      fill: white;
+    }
+    .brand-text {
+      font-family: var(--font-hd);
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+    .brand-text em {
+      color: var(--red);
+      font-style: normal;
+    }
+
+    h1 {
+      font-family: var(--font-hd);
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.8rem;
+      border-left: 3px solid var(--red);
+      padding-left: 0.75rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .input-group input {
+      width: 100%;
+      background: var(--off);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-bd);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      outline: none;
+    }
+    .input-group input:focus {
+      border-color: var(--red);
+      background: white;
+    }
+
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.5rem 0 1.5rem;
+      font-size: 0.8rem;
+    }
+    .flex-row a {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .btn-auth {
+      width: 100%;
+      background: var(--red);
+      border: none;
+      border-radius: 40px;
+      padding: 0.9rem;
+      font-family: var(--font-bd);
+      font-weight: 700;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 1.2rem;
+    }
+    .btn-auth:hover {
+      background: var(--red-dk);
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin: 1.2rem 0;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .signup-cta {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .signup-cta a {
+      color: var(--red);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .demo-badge {
+      margin-top: 1.5rem;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 0.75rem;
+      font-family: var(--font-mn);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<a href="#" class="back-home" onclick="window.history.back();return false;">← BACK TO DRCS</a>
+<div class="auth-card">
+  <div class="brand-icon">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
+    </div>
+    <span class="brand-text">DR<em>CS</em></span>
+  </div>
+  <h1>Welcome back</h1>
+  <div class="sub">Sign in to access the coordination dashboard</div>
+
+  <div class="input-group">
+    <label>EMAIL / USERNAME</label>
+    <input type="text" id="loginEmail" placeholder="firstresponder@drcs.lk">
+  </div>
+  <div class="input-group">
+    <label>PASSWORD</label>
+    <input type="password" id="loginPassword" placeholder="········">
+  </div>
+  <div class="flex-row">
+    <label style="display:flex; gap:6px;"><input type="checkbox"> Remember me</label>
+    <a href="#">Forgot password?</a>
+  </div>
+  <button class="btn-auth" onclick="handleSignIn()">→ SIGN IN</button>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span>new to DRCS?</span>
+    <span class="divider-line"></span>
+  </div>
+  <div class="signup-cta">
+    Don't have an account? <a href="../../auth/signup.php" id="goToSignupLink">Create an account</a>
+  </div>
+
+    
+
+</div>
+🔐 Demo credentials: responder@drcs.lk / pass123
+<script>
+  function handleSignIn() {
+    const email = document.getElementById('loginEmail').value;
+    const pwd = document.getElementById('loginPassword').value;
+    if(!email || !pwd) {
+      alert("Please fill in both fields.");
+      return;
+    }
+    alert(`Signed in as ${email} — redirecting to dashboard (simulated).`);
+    // In real implementation, redirect to dashboard
+  }
+  document.getElementById('goToSignupLink')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '../../auth/signup.php';
+  });
+  
+</script>
+</body>
+</html>
