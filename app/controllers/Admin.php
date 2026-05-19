@@ -87,7 +87,7 @@ $volunteers = getVolunteers($conn);
 $assignmentsMap = getAssignmentsMap($conn);
 $openRequests = getOpenRequests($conn);
 $resources = getResources($conn);
-$locations = getLocations($conn);
+$reliefTeams = getReliefTeams($conn);
 
 // Load the View template
 require_once __DIR__ . '/../views/admin/index.php';
